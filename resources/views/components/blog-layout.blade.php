@@ -1,10 +1,123 @@
 @props(['post'])
 
-<x-layout>
-    <x-slot name="title">{{ $post['title'] ?? 'Blog Post' }} - Dale Hurley</x-slot>
+@php
+    $title = ($post['title'] ?? 'Blog Post') . ' - Dale Hurley';
+    $description = $post['description'] ?? 'Thoughts on AI, technology, and entrepreneurship by Dale Hurley';
+    $canonical = $post['canonical'] ?? url()->current();
+    $ogImage = isset($post['image']) ? asset($post['image']) : asset('images/dale-hurley-og.jpg');
+    $keywords = isset($post['tags']) ? implode(', ', array_merge($post['tags'], ['Dale Hurley', 'AI', 'technology', 'entrepreneurship'])) : 'Dale Hurley, AI, technology, entrepreneurship';
+    $publishedTime = isset($post['date']) ? \Carbon\Carbon::parse($post['date'])->toISOString() : null;
+    $modifiedTime = $publishedTime; // You can implement a separate modified time field if needed
+    $tags = $post['tags'] ?? [];
+@endphp
+
+<x-layout 
+    :title="$title"
+    :description="$description"
+    :canonical="$canonical"
+    :og-image="$ogImage"
+    og-type="article"
+    :keywords="$keywords"
+    :author="$post['author'] ?? 'Dale Hurley'"
+    :published-time="$publishedTime"
+    :modified-time="$modifiedTime"
+    article-section="Blog"
+    :tags="$tags"
+>
+    @push('meta')
+        <!-- Article structured data -->
+        <script type="application/ld+json">
+        {
+            "@@context": "https://schema.org",
+            "@@type": "BlogPosting",
+            "headline": "{{ $post['title'] ?? 'Blog Post' }}",
+            "description": "{{ $post['description'] ?? '' }}",
+            "image": "{{ $ogImage }}",
+            "author": {
+                "@@type": "Person",
+                "name": "{{ $post['author'] ?? 'Dale Hurley' }}",
+                "url": "{{ url('/') }}",
+                "sameAs": [
+                    "https://twitter.com/dalehurley",
+                    "https://linkedin.com/in/dalehurley",
+                    "https://github.com/dalehurley"
+                ]
+            },
+            "publisher": {
+                "@@type": "Organization",
+                "name": "Dale Hurley",
+                "logo": {
+                    "@@type": "ImageObject",
+                    "url": "{{ asset('images/dale-hurley-logo.png') }}"
+                }
+            },
+            @if($publishedTime)
+            "datePublished": "{{ $publishedTime }}",
+            "dateModified": "{{ $modifiedTime }}",
+            @endif
+            "mainEntityOfPage": {
+                "@@type": "WebPage",
+                "@@id": "{{ $canonical }}"
+            },
+            @if(isset($post['tags']) && count($post['tags']) > 0)
+            "keywords": "{{ implode(', ', $post['tags']) }}",
+            @endif
+            "url": "{{ $canonical }}"
+        }
+        </script>
+        
+        <!-- Breadcrumb structured data -->
+        <script type="application/ld+json">
+        {
+            "@@context": "https://schema.org",
+            "@@type": "BreadcrumbList",
+            "itemListElement": [
+                {
+                    "@@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "{{ url('/') }}"
+                },
+                {
+                    "@@type": "ListItem",
+                    "position": 2,
+                    "name": "Blog",
+                    "item": "{{ url('/posts') }}"
+                },
+                {
+                    "@@type": "ListItem",
+                    "position": 3,
+                    "name": "{{ $post['title'] ?? 'Blog Post' }}",
+                    "item": "{{ $canonical }}"
+                }
+            ]
+        }
+        </script>
+    @endpush
 
     <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <!-- Breadcrumbs -->
+        <nav class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-4" aria-label="Breadcrumb">
+            <ol class="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
+                <li>
+                    <a href="{{ url('/') }}" class="hover:text-orange-600 transition-colors">Home</a>
+                </li>
+                <li class="flex items-center">
+                    <svg class="w-4 h-4 mx-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                    </svg>
+                    <a href="{{ url('/posts') }}" class="hover:text-orange-600 transition-colors">Blog</a>
+                </li>
+                <li class="flex items-center">
+                    <svg class="w-4 h-4 mx-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                    </svg>
+                    <span class="text-gray-900 dark:text-white">{{ Str::limit($post['title'] ?? 'Blog Post', 50) }}</span>
+                </li>
+            </ol>
+        </nav>
+        
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
             <!-- Post Header -->
             <header class="mb-12">
@@ -29,6 +142,15 @@
                             </svg>
                             {{ Carbon\Carbon::parse($post['date'])->format('F j, Y') }}
                         </time>
+                    @endif
+                    
+                    @if (isset($post['reading_time']))
+                        <div class="flex items-center">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            {{ $post['reading_time'] }} min read
+                        </div>
                     @endif
                 </div>
 

@@ -1,5 +1,32 @@
-<x-layout>
-    <x-slot name="title">Blog Posts - Dale Hurley</x-slot>
+<x-layout title="Blog Posts - Dale Hurley"
+    description="Explore insights on AI, technology, and entrepreneurship from Dale Hurley. Learn about fintech innovation, AI automation, and startup building strategies."
+    keywords="Dale Hurley blog, AI insights, fintech blog, technology entrepreneurship, banking innovation, startup advice"
+    og-type="website">
+    @push('meta')
+        <!-- Blog listing structured data -->
+        <script type="application/ld+json">
+        {
+            "@@context": "https://schema.org",
+            "@@type": "Blog",
+            "name": "Dale Hurley Blog",
+            "description": "Insights on AI, technology, and entrepreneurship",
+            "url": "{{ url('/posts') }}",
+            "author": {
+                "@@type": "Person",
+                "name": "Dale Hurley",
+                "url": "{{ url('/') }}"
+            },
+            "publisher": {
+                "@@type": "Organization",
+                "name": "Dale Hurley",
+                "logo": {
+                    "@@type": "ImageObject",
+                    "url": "{{ asset('images/dale-hurley-logo.png') }}"
+                }
+            }
+        }
+        </script>
+    @endpush
 
     <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

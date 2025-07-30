@@ -1,12 +1,14 @@
 /* Import highlight.js theme */
-@import 'highlight.js/styles/github-dark.css';
+@import "highlight.js/styles/github-dark.css";
 
 /* Custom code block styling */
 .hljs {
     background: #0d1117 !important;
     color: #f0f6fc !important;
     border-radius: 6px;
-    font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+    font-family:
+        ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono",
+        Menlo, monospace;
     font-size: 14px;
     line-height: 1.45;
     padding: 1rem 1rem 1rem 4.5rem !important;
@@ -43,7 +45,9 @@
     text-align: right;
     padding-right: 1rem;
     font-size: 14px;
-    font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+    font-family:
+        ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono",
+        Menlo, monospace;
     min-height: 1.45em;
 }
 
@@ -64,7 +68,9 @@
     align-items: center;
     gap: 0.25rem;
     font-size: 12px;
-    font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+    font-family:
+        ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono",
+        Menlo, monospace;
     z-index: 3;
 }
 
@@ -94,7 +100,9 @@ pre:hover .copy-button {
     color: #8b949e;
     padding: 8px 16px;
     font-size: 12px;
-    font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+    font-family:
+        ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono",
+        Menlo, monospace;
     border-bottom: 1px solid #21262d;
     border-radius: 6px 6px 0 0;
 }
@@ -242,10 +250,25 @@ pre:hover .copy-button {
 
 .prose code:not(.hljs) {
     background: rgba(110, 118, 129, 0.4) !important;
-    color: #f0f6fc !important;
+    color: #000 !important;
     padding: 2px 4px !important;
     border-radius: 3px !important;
     font-size: 0.875em !important;
+}
+
+/* Light mode inline code styling */
+@media (prefers-color-scheme: light) {
+    .prose code:not(.hljs) {
+        background: rgba(175, 184, 193, 0.2) !important;
+        color: #24292f !important;
+    }
+}
+
+/* Dark mode inline code styling */
+@media (prefers-color-scheme: dark) {
+    .prose code:not(.hljs) {
+        color: #f0f6fc !important;
+    }
 }
 
 /* Line clamp utilities for truncating text */

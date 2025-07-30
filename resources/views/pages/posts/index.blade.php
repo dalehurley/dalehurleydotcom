@@ -9,8 +9,59 @@ $regularPosts = array_slice($posts, 1);
 
 ?>
 
-<x-layout>
-    <x-slot name="title">Blog - Dale Hurley</x-slot>
+<x-layout 
+    title="Blog - Dale Hurley" 
+    description="Explore insights on AI, fintech innovation, entrepreneurship, and building technology that drives real business value from Dale Hurley."
+    keywords="Dale Hurley blog, AI insights, fintech innovation, entrepreneurship, technology, banking innovation, startup building"
+    og-type="website"
+>
+        @push('meta')
+        <!-- Blog listing structured data -->
+        <script type="application/ld+json">
+        {
+            "@@context": "https://schema.org",
+            "@@type": "Blog",
+            "name": "Dale Hurley Blog",
+            "description": "Thoughts on AI, fintech innovation, entrepreneurship, and building technology that drives real business value",
+            "url": "{{ url('/posts') }}",
+            "author": {
+                "@@type": "Person",
+                "name": "Dale Hurley",
+                "url": "{{ url('/') }}"
+            },
+            "publisher": {
+                "@@type": "Organization",
+                "name": "Dale Hurley",
+                "logo": {
+                    "@@type": "ImageObject",
+                    "url": "{{ asset('images/dale-hurley-logo.png') }}"
+                }
+            }
+        }
+        </script>
+        
+        <!-- Breadcrumb structured data -->
+        <script type="application/ld+json">
+        {
+            "@@context": "https://schema.org",
+            "@@type": "BreadcrumbList",
+            "itemListElement": [
+                {
+                    "@@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "{{ url('/') }}"
+                },
+                {
+                    "@@type": "ListItem",
+                    "position": 2,
+                    "name": "Blog",
+                    "item": "{{ url('/posts') }}"
+                }
+            ]
+        }
+        </script>
+    @endpush
 
     <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

@@ -1,2 +1,27 @@
 User-agent: *
-Disallow:
+Allow: /
+
+# Sitemaps
+Sitemap: https://dale-hurley.com/sitemap.xml
+
+# Block admin and private areas
+Disallow: /admin/
+Disallow: /private/
+Disallow: /_debugbar/
+Disallow: /telescope/
+
+# Allow specific bots
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: TwitterBot
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /
+
+# Crawl delay for other bots
+Crawl-delay: 1

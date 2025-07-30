@@ -85,6 +85,8 @@ class BlogService
             'slug' => $slug,
             'content' => $body,
             'url' => '/posts/' . $slug,
+            'reading_time' => $this->calculateReadingTime($body),
+            'word_count' => str_word_count(strip_tags($body)),
         ]);
     }
 
@@ -344,5 +346,54 @@ class BlogService
         }
 
         return implode("\n", $processedSteps);
+    }
+
+    /**
+     * Calculate estimated reading time for content
+     */
+    protected function calculateReadingTime(string $content): int
+    {
+        $wordCount = str_word_count(strip_tags($content));
+        $wordsPerMinute = 200; // Average reading speed
+        
+        return max(1, ceil($wordCount / $wordsPerMinute));
+    }
+
+    /**
+     * Generate keywords from post content
+     */
+    protected function generateKeywords(array $post): string
+    {
+        $baseKeywords = ['Dale Hurley'];
+        
+        // Add tags if available
+        if (isset($post['tags']) && is_array($post['tags'])) {
+            $baseKeywords = array_merge($baseKeywords, $post['tags']);
+        }
+        
+        // Add category-specific keywords based on content
+        $content = strtolower($post['content'] ?? '');
+        
+        if (str_contains($content, 'ai') || str_contains($content, 'artificial intelligence')) {
+            $baseKeywords[] = 'AI';
+            $baseKeywords[] = 'artificial intelligence';
+        }
+        
+        if (str_contains($content, 'fintech') || str_contains($content, 'banking')) {
+            $baseKeywords[] = 'fintech';
+            $baseKeywords[] = 'banking innovation';
+        }
+        
+        if (str_contains($content, 'entrepreneur') || str_contains($content, 'startup')) {
+            $baseKeywords[] = 'entrepreneurship';
+            $baseKeywords[] = 'startup';
+        }
+        
+        if (str_contains($content, 'laravel') || str_contains($content, 'php')) {
+            $baseKeywords[] = 'Laravel';
+            $baseKeywords[] = 'PHP';
+        }
+        
+        return implode(', ', array_unique($baseKeywords));
     }
 }

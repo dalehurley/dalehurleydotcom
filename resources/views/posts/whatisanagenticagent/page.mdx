@@ -7,6 +7,7 @@ author: "Dale Hurley"
 image: images/whatisanagenticagent.webp
 thumbnail: images/whatisanagenticagent-thumbnail.webp
 ---
+
 ## What is an Agentic AI Agent?
 
 When I think of an AI agent, I think of a system that uses Natural Language Processing (NLP) to understand a user's request and complete a task.
@@ -39,17 +40,6 @@ For example, you might want an agent to create a blog post based on a user reque
 6. Review the blog post using OpenAI
 7. Publish the blog post to the database
 
-```mermaid
-flowchart LR;
-A[User request] --> B[Analyze user request using OpenAI]
-B --> C[Retrieve target audience from the database]
-C --> D[Identify key points to cover using OpenAI]
-D --> E[Create a blog post outline using OpenAI]
-E --> F[Write the blog post using OpenAI]
-F --> G[Review the blog post using OpenAI]
-G --> H[Publish the blog post to the database]
-```
-
 ### Agentic agents
 
 Agentic agents are **non-deterministic** agents that can analyze user requests, create execution plans, and use custom tools to get work done.
@@ -61,14 +51,6 @@ You only want to use an agentic AI agent if the flow is not predictable. The age
 Given the nature of the agentic AI agent, you will need to build the agent to handle the unpredictable nature of the user request.
 
 In our example, we will be building an agentic agent that can analyze a user request, create an execution plan, and loop through the steps in the plan using custom tools to get work done.
-
-```mermaid
-flowchart LR;
-A[User request] --> B[Analyze user request using OpenAI]
-B --> C[Create execution plan using OpenAI]
-C --> D[Loop through the steps in the plan using custom tools]
-D --> E[Get work done]
-```
 
 **Building an Agentic AI Agent**: In the Building an AI Agent using Laravel series we will be building an agentic agent that can analyze a user request, create an execution plan, and loop through the steps in the plan using custom tools to get work done.
 
