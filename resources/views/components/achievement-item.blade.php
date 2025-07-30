@@ -1,6 +1,6 @@
 @props(['text', 'icon' => true])
 
-<p class="flex items-center text-lg text-gray-700">
+<p class="flex items-center text-lg text-gray-700 dark:text-gray-300">
     @if ($icon)
         <svg class="h-5 w-5 text-[#FF750F] mr-2" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd"

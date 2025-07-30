@@ -10,7 +10,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="bg-white">
+<body class="bg-white dark:bg-gray-900">
     <header class="absolute inset-x-0 top-0 z-50">
         <nav aria-label="Global" class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
             <div class="flex lg:flex-1">
@@ -21,7 +21,7 @@
             </div>
             <div class="flex lg:hidden">
                 <button type="button" command="show-modal" commandfor="mobile-menu"
-                    class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
+                    class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700 dark:text-gray-300">
                     <span class="sr-only">Open menu</span>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon"
                         aria-hidden="true" class="size-6">
@@ -31,11 +31,11 @@
                 </button>
             </div>
             <div class="hidden lg:flex lg:gap-x-12">
-                <a href="/posts" class="text-sm/6 font-semibold text-gray-900">Posts</a>
-                <a href="#track-record" class="text-sm/6 font-semibold text-gray-900">Track Record</a>
-                <a href="#ai-solutions" class="text-sm/6 font-semibold text-gray-900">AI Solutions</a>
-                <a href="#projects" class="text-sm/6 font-semibold text-gray-900">Projects</a>
-                <a href="#contact" class="text-sm/6 font-semibold text-gray-900">Contact</a>
+                <a href="/posts" class="text-sm/6 font-semibold text-gray-900 dark:text-white">Posts</a>
+                <a href="#track-record" class="text-sm/6 font-semibold text-gray-900 dark:text-white">Track Record</a>
+                <a href="#ai-solutions" class="text-sm/6 font-semibold text-gray-900 dark:text-white">AI Solutions</a>
+                <a href="#projects" class="text-sm/6 font-semibold text-gray-900 dark:text-white">Projects</a>
+                <a href="#contact" class="text-sm/6 font-semibold text-gray-900 dark:text-white">Contact</a>
             </div>
             <div class="hidden lg:flex lg:flex-1 lg:justify-end">
                 <a href="#contact" class="text-sm/6 font-semibold text-[#FF750F]">Let's Connect <span
@@ -46,13 +46,13 @@
             <dialog id="mobile-menu" class="backdrop:bg-transparent lg:hidden">
                 <div tabindex="0" class="fixed inset-0 focus:outline-none">
                     <el-dialog-panel
-                        class="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white p-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+                        class="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white dark:bg-gray-800 p-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 dark:ring-white/10">
                         <div class="flex items-center justify-between">
                             <a href="#" class="-m-1.5 p-1.5">
                                 <span class="text-xl font-bold text-[#FF750F]">DaleHurley.com</span>
                             </a>
                             <button type="button" command="close" commandfor="mobile-menu"
-                                class="-m-2.5 rounded-md p-2.5 text-gray-700">
+                                class="-m-2.5 rounded-md p-2.5 text-gray-700 dark:text-gray-300">
                                 <span class="sr-only">Close menu</span>
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
                                     data-slot="icon" aria-hidden="true" class="size-6">
@@ -61,22 +61,22 @@
                             </button>
                         </div>
                         <div class="mt-6 flow-root">
-                            <div class="-my-6 divide-y divide-gray-500/10">
+                            <div class="-my-6 divide-y divide-gray-500/10 dark:divide-gray-400/10">
                                 <div class="space-y-2 py-6">
                                     <a href="#track-record"
-                                        class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Track
+                                        class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700">Track
                                         Record</a>
                                     <a href="#ai-solutions"
-                                        class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">AI
+                                        class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700">AI
                                         Solutions</a>
                                     <a href="#projects"
-                                        class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Projects</a>
+                                        class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700">Projects</a>
                                     <a href="#contact"
-                                        class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Contact</a>
+                                        class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700">Contact</a>
                                 </div>
                                 <div class="py-6">
                                     <a href="#contact"
-                                        class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-[#FF750F] hover:bg-gray-50">Let's
+                                        class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-[#FF750F] hover:bg-gray-50 dark:hover:bg-gray-700">Let's
                                         Connect</a>
                                 </div>
                             </div>
@@ -88,15 +88,17 @@
     </header>
 
     <!-- Hero Section -->
-    <div class="relative isolate overflow-hidden bg-gradient-to-b from-[#FF750F]/20 to-white pt-14">
+    <div
+        class="relative isolate overflow-hidden bg-gradient-to-b from-[#FF750F]/20 via-[#FF750F]/10 to-white dark:from-[#FF750F]/10 dark:via-[#FF750F]/5 dark:to-gray-900 pt-14">
         <div class="mx-auto max-w-7xl px-6 py-32 sm:py-40 lg:px-8">
             <div
                 class="mx-auto max-w-3xl lg:mx-0 lg:grid lg:max-w-none lg:grid-cols-2 lg:gap-x-16 lg:gap-y-8 xl:grid-cols-1 xl:grid-rows-1 xl:gap-x-8">
                 <div class="lg:col-span-2 xl:col-auto">
-                    <h1 class="max-w-3xl text-4xl font-bold tracking-tight text-balance text-gray-900 sm:text-6xl">
+                    <h1
+                        class="max-w-3xl text-4xl font-bold tracking-tight text-balance text-gray-900 dark:text-white sm:text-6xl">
                         Building the AI future
                     </h1>
-                    <p class="mt-6 text-xl font-semibold text-[#4B0600]">
+                    <p class="mt-6 text-xl font-semibold text-[#4B0600] dark:text-[#FF750F]">
                         AI-Driven Tech Entrepreneur & Banking Innovation Leader
                     </p>
                     <div class="mt-6 space-y-4">
@@ -117,7 +119,7 @@
                             class="rounded-md bg-[#FF750F] px-5 py-3 text-base font-semibold text-white shadow-sm hover:bg-[#E5670D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FF750F]">
                             Get in Touch
                         </a>
-                        <a href="#track-record" class="text-base/6 font-semibold text-gray-900">
+                        <a href="#track-record" class="text-base/6 font-semibold text-gray-900 dark:text-white">
                             View Track Record <span aria-hidden="true">→</span>
                         </a>
                     </div>
@@ -127,11 +129,12 @@
     </div>
 
     <!-- Track Record Section -->
-    <section id="track-record" class="py-24 sm:py-32 bg-[#FDFDFC]">
+    <section id="track-record" class="py-24 sm:py-32 bg-[#FDFDFC] dark:bg-gray-800">
         <div class="mx-auto max-w-7xl px-6 lg:px-8">
             <div class="mx-auto max-w-2xl text-center">
-                <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Proven Track Record</h2>
-                <p class="mt-6 text-lg leading-8 text-gray-600">
+                <h2 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">Proven Track
+                    Record</h2>
+                <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">
                     Building successful fintech companies and AI solutions
                 </p>
             </div>
@@ -156,11 +159,13 @@
     </section>
 
     <!-- AI Solutions Section -->
-    <section id="ai-solutions" class="py-24 sm:py-32 bg-gradient-to-br from-[#FF750F]/10 to-white">
+    <section id="ai-solutions"
+        class="py-24 sm:py-32 bg-gradient-to-br from-[#FF750F]/10 via-[#FF750F]/5 to-white dark:from-[#FF750F]/5 dark:via-gray-900/50 dark:to-gray-900">
         <div class="mx-auto max-w-7xl px-6 lg:px-8">
             <div class="mx-auto max-w-2xl lg:mx-0">
-                <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">AI-Powered Solutions</h2>
-                <p class="mt-6 text-lg leading-8 text-gray-600">
+                <h2 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">AI-Powered
+                    Solutions</h2>
+                <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">
                     I build AI systems that dramatically accelerate business processes
                 </p>
             </div>
@@ -182,11 +187,12 @@
     </section>
 
     <!-- Projects Section -->
-    <section id="projects" class="py-24 sm:py-32 bg-white">
+    <section id="projects" class="py-24 sm:py-32 bg-white dark:bg-gray-800">
         <div class="mx-auto max-w-7xl px-6 lg:px-8">
             <div class="mx-auto max-w-2xl text-center">
-                <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Current Projects</h2>
-                <p class="mt-6 text-lg leading-8 text-gray-600">
+                <h2 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">Current
+                    Projects</h2>
+                <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">
                     Innovative solutions transforming industries through AI
                 </p>
             </div>
@@ -210,37 +216,39 @@
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="py-24 sm:py-32 bg-[#4B0600]/5">
+    <section id="contact" class="py-24 sm:py-32 bg-[#4B0600]/5 dark:bg-gray-800/50">
         <div class="mx-auto max-w-7xl px-6 lg:px-8">
             <div class="mx-auto max-w-2xl text-center">
-                <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Let's Connect</h2>
-                <p class="mt-6 text-lg leading-8 text-gray-600">
+                <h2 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">Let's Connect
+                </h2>
+                <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">
                     Interested in AI solutions for your business? Reach out to discuss how we can work together.
                 </p>
             </div>
             <div class="mx-auto mt-16 max-w-xl sm:mt-20">
                 <form action="#" method="POST" class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
                     <div class="sm:col-span-2">
-                        <label for="name" class="block text-sm font-semibold leading-6 text-gray-900">Name</label>
+                        <label for="name"
+                            class="block text-sm font-semibold leading-6 text-gray-900 dark:text-white">Name</label>
                         <div class="mt-2.5">
                             <input type="text" name="name" id="name" autocomplete="name"
-                                class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#FF750F] sm:text-sm sm:leading-6">
+                                class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 dark:text-white dark:bg-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 placeholder:text-gray-400 dark:placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-[#FF750F] sm:text-sm sm:leading-6">
                         </div>
                     </div>
                     <div class="sm:col-span-2">
                         <label for="email"
-                            class="block text-sm font-semibold leading-6 text-gray-900">Email</label>
+                            class="block text-sm font-semibold leading-6 text-gray-900 dark:text-white">Email</label>
                         <div class="mt-2.5">
                             <input type="email" name="email" id="email" autocomplete="email"
-                                class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#FF750F] sm:text-sm sm:leading-6">
+                                class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 dark:text-white dark:bg-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 placeholder:text-gray-400 dark:placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-[#FF750F] sm:text-sm sm:leading-6">
                         </div>
                     </div>
                     <div class="sm:col-span-2">
                         <label for="message"
-                            class="block text-sm font-semibold leading-6 text-gray-900">Message</label>
+                            class="block text-sm font-semibold leading-6 text-gray-900 dark:text-white">Message</label>
                         <div class="mt-2.5">
                             <textarea name="message" id="message" rows="4"
-                                class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#FF750F] sm:text-sm sm:leading-6"></textarea>
+                                class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 dark:text-white dark:bg-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 placeholder:text-gray-400 dark:placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-[#FF750F] sm:text-sm sm:leading-6"></textarea>
                         </div>
                     </div>
                     <div class="sm:col-span-2">
@@ -255,23 +263,23 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-gray-800">
+    <footer class="bg-gray-800 dark:bg-gray-900">
         <div class="mx-auto max-w-7xl px-6 pt-16 pb-8 sm:pt-24 lg:px-8 lg:pt-32">
             <div class="xl:grid xl:grid-cols-3 xl:gap-8">
                 <div class="space-y-8">
                     <div>
                         <span class="text-2xl font-bold text-[#FF750F]">DaleHurley.com</span>
                     </div>
-                    <p class="text-sm/6 text-balance text-gray-300">
+                    <p class="text-sm/6 text-balance text-gray-300 dark:text-gray-400">
                         Building the future with AI and banking innovation
                     </p>
                     <div class="flex gap-x-6">
-                        <x-social-link href="#" name="Twitter"
+                        <x-social-link href="https://x.com/dalehurley" name="Twitter"
                             svgPath="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
-                        <x-social-link href="#" name="GitHub"
+                        <x-social-link href="https://github.com/dalehurley" name="GitHub"
                             svgPath="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
                             clip-rule="evenodd" />
-                        <x-social-link href="#" name="LinkedIn"
+                        <x-social-link href="https://www.linkedin.com/in/dalehurley/" name="LinkedIn"
                             svgPath="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
                     </div>
                 </div>
@@ -286,8 +294,8 @@
                         <div class="mt-10 md:mt-0">
                             <x-footer-section title="Connect" :links="[
                                 ['href' => '#contact', 'text' => 'Contact Form'],
-                                ['href' => '#', 'text' => 'LinkedIn'],
-                                ['href' => '#', 'text' => 'Twitter'],
+                                ['href' => 'https://www.linkedin.com/in/dalehurley/', 'text' => 'LinkedIn'],
+                                ['href' => 'https://x.com/dalehurley', 'text' => 'Twitter'],
                             ]" />
                         </div>
                     </div>
@@ -295,19 +303,21 @@
                         <x-footer-section title="About" :links="[
                             ['href' => '#track-record', 'text' => 'Track Record'],
                             ['href' => '#projects', 'text' => 'Projects'],
-                            ['href' => '#', 'text' => 'Blog'],
+                            ['href' => '/posts', 'text' => 'Blog'],
                         ]" />
                         <div class="mt-10 md:mt-0">
-                            <x-footer-section title="Legal" :links="[
-                                ['href' => '#', 'text' => 'Privacy Policy'],
-                                ['href' => '#', 'text' => 'Terms of Service'],
+                            <x-footer-section title="Projects" :links="[
+                                ['href' => 'https://full.cx', 'text' => 'Full.CX'],
+                                ['href' => 'https://doccheetah.com', 'text' => 'DocCheetah'],
+                                ['href' => 'https://spotfillr.com', 'text' => 'Spotfillr'],
                             ]" />
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="mt-16 border-t border-white/10 pt-8">
-                <p class="text-sm/6 text-gray-300 text-center">&copy; {{ date('Y') }} Dale Hurley. All rights
+            <div class="mt-16 border-t border-white/10 dark:border-gray-600/10 pt-8">
+                <p class="text-sm/6 text-gray-300 dark:text-gray-400 text-center">&copy; {{ date('Y') }} Dale
+                    Hurley. All rights
                     reserved. Made with ❤️ in Australia 🐨 🦘.</p>
             </div>
         </div>
