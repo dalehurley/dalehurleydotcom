@@ -225,14 +225,16 @@
                     Interested in AI solutions for your business? Reach out to discuss how we can work together.
                 </p>
             </div>
-            
+
             @if (session('success'))
                 <div class="mx-auto mt-8 max-w-xl">
                     <div class="rounded-md bg-green-50 dark:bg-green-900/20 p-4">
                         <div class="flex">
                             <div class="flex-shrink-0">
                                 <svg class="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.236 4.53L7.53 10.53a.75.75 0 00-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.236 4.53L7.53 10.53a.75.75 0 00-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+                                        clip-rule="evenodd" />
                                 </svg>
                             </div>
                             <div class="ml-3">
@@ -251,7 +253,9 @@
                         <div class="flex">
                             <div class="flex-shrink-0">
                                 <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd" />
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z"
+                                        clip-rule="evenodd" />
                                 </svg>
                             </div>
                             <div class="ml-3">
@@ -265,13 +269,15 @@
             @endif
 
             <div class="mx-auto mt-16 max-w-xl sm:mt-20">
-                <form action="{{ route('contact.submit') }}" method="POST" class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
+                <form action="{{ route('contact.submit') }}" method="POST"
+                    class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
                     @csrf
                     <div class="sm:col-span-2">
                         <label for="name"
                             class="block text-sm font-semibold leading-6 text-gray-900 dark:text-white">Name</label>
                         <div class="mt-2.5">
-                            <input type="text" name="name" id="name" autocomplete="name" value="{{ old('name') }}" required
+                            <input type="text" name="name" id="name" autocomplete="name"
+                                value="{{ old('name') }}" required
                                 class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 dark:text-white dark:bg-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 placeholder:text-gray-400 dark:placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-[#FF750F] sm:text-sm sm:leading-6 @error('name') ring-red-500 dark:ring-red-400 @enderror">
                             @error('name')
                                 <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
@@ -282,7 +288,8 @@
                         <label for="email"
                             class="block text-sm font-semibold leading-6 text-gray-900 dark:text-white">Email</label>
                         <div class="mt-2.5">
-                            <input type="email" name="email" id="email" autocomplete="email" value="{{ old('email') }}" required
+                            <input type="email" name="email" id="email" autocomplete="email"
+                                value="{{ old('email') }}" required
                                 class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 dark:text-white dark:bg-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 placeholder:text-gray-400 dark:placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-[#FF750F] sm:text-sm sm:leading-6 @error('email') ring-red-500 dark:ring-red-400 @enderror">
                             @error('email')
                                 <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>

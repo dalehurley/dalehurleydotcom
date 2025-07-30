@@ -18,7 +18,7 @@ class ContactController extends Controller
 
         try {
             Mail::to('dale.hurley@full.cx')->send(new ContactFormSubmission($validated));
-            
+
             return back()->with('success', 'Thank you for your message! I\'ll get back to you soon.');
         } catch (\Exception $e) {
             return back()->with('error', 'Sorry, there was an error sending your message. Please try again or contact me directly at dale.hurley@full.cx.');
