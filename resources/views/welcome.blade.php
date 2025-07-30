@@ -1,92 +1,7 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Dale Hurley - AI-Driven Tech Entrepreneur & Banking Innovation Leader</title>
-
-    <!-- Styles / Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-
-<body class="bg-white dark:bg-gray-900">
-    <header class="absolute inset-x-0 top-0 z-50">
-        <nav aria-label="Global" class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
-            <div class="flex lg:flex-1">
-                <a href="#" class="-m-1.5 p-1.5">
-                    <span class="sr-only">Dale Hurley</span>
-                    <span class="text-xl font-bold text-[#FF750F]">DaleHurley.com</span>
-                </a>
-            </div>
-            <div class="flex lg:hidden">
-                <button type="button" command="show-modal" commandfor="mobile-menu"
-                    class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700 dark:text-gray-300">
-                    <span class="sr-only">Open menu</span>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon"
-                        aria-hidden="true" class="size-6">
-                        <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                    </svg>
-                </button>
-            </div>
-            <div class="hidden lg:flex lg:gap-x-12">
-                <a href="/posts" class="text-sm/6 font-semibold text-gray-900 dark:text-white">Posts</a>
-                <a href="#track-record" class="text-sm/6 font-semibold text-gray-900 dark:text-white">Track Record</a>
-                <a href="#ai-solutions" class="text-sm/6 font-semibold text-gray-900 dark:text-white">AI Solutions</a>
-                <a href="#projects" class="text-sm/6 font-semibold text-gray-900 dark:text-white">Projects</a>
-                <a href="#contact" class="text-sm/6 font-semibold text-gray-900 dark:text-white">Contact</a>
-            </div>
-            <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-                <a href="#contact" class="text-sm/6 font-semibold text-[#FF750F]">Let's Connect <span
-                        aria-hidden="true">&rarr;</span></a>
-            </div>
-        </nav>
-        <el-dialog>
-            <dialog id="mobile-menu" class="backdrop:bg-transparent lg:hidden">
-                <div tabindex="0" class="fixed inset-0 focus:outline-none">
-                    <el-dialog-panel
-                        class="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white dark:bg-gray-800 p-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 dark:ring-white/10">
-                        <div class="flex items-center justify-between">
-                            <a href="#" class="-m-1.5 p-1.5">
-                                <span class="text-xl font-bold text-[#FF750F]">DaleHurley.com</span>
-                            </a>
-                            <button type="button" command="close" commandfor="mobile-menu"
-                                class="-m-2.5 rounded-md p-2.5 text-gray-700 dark:text-gray-300">
-                                <span class="sr-only">Close menu</span>
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
-                                    data-slot="icon" aria-hidden="true" class="size-6">
-                                    <path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-                            </button>
-                        </div>
-                        <div class="mt-6 flow-root">
-                            <div class="-my-6 divide-y divide-gray-500/10 dark:divide-gray-400/10">
-                                <div class="space-y-2 py-6">
-                                    <a href="#track-record"
-                                        class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700">Track
-                                        Record</a>
-                                    <a href="#ai-solutions"
-                                        class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700">AI
-                                        Solutions</a>
-                                    <a href="#projects"
-                                        class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700">Projects</a>
-                                    <a href="#contact"
-                                        class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700">Contact</a>
-                                </div>
-                                <div class="py-6">
-                                    <a href="#contact"
-                                        class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-[#FF750F] hover:bg-gray-50 dark:hover:bg-gray-700">Let's
-                                        Connect</a>
-                                </div>
-                            </div>
-                        </div>
-                    </el-dialog-panel>
-                </div>
-            </dialog>
-        </el-dialog>
-    </header>
-
+<x-layout title="Dale Hurley - AI-Driven Tech Entrepreneur & Banking Innovation Leader"
+    description="AI-driven tech entrepreneur, banking innovation leader, and co-founder of Avenue Bank. Expert in fintech solutions, AI automation, and startup development."
+    keywords="Dale Hurley, AI entrepreneur, fintech, banking innovation, Avenue Bank, CreditorWatch, AI automation, LEAP Legal Software, tech entrepreneur, startup founder"
+    ogType="website" ogImage="{{ asset('images/dale-hurley-og.jpg') }}" canonical="{{ url('/') }}">
     <!-- Hero Section -->
     <div
         class="relative isolate overflow-hidden bg-gradient-to-b from-[#FF750F]/20 via-[#FF750F]/10 to-white dark:from-[#FF750F]/10 dark:via-[#FF750F]/5 dark:to-gray-900 pt-14">
@@ -196,8 +111,7 @@
                     Innovative solutions transforming industries through AI
                 </p>
             </div>
-            <div
-                class="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-4">
+            <div class="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-4">
                 @foreach ([
         ['name' => 'DocCheetah', 'desc' => 'AI-powered document processing and analysis', 'url' => 'https://doccheetah.com/', 'image' => 'doc-cheetah-logo.png'],
         ['name' => 'Spotfillr', 'desc' => 'Intelligent parking space optimisation', 'url' => 'https://spotfillr.com/', 'image' => 'spotfill-logo.png'],
@@ -318,7 +232,43 @@
         </div>
     </section>
 
-    <x-footer />
-</body>
+    @push('scripts')
+        <script type="application/ld+json">
+    {
+        "@@context": "https://schema.org",
+        "@@type": "Person",
+        "name": "Dale Hurley",
+        "jobTitle": "AI-Driven Tech Entrepreneur & Banking Innovation Leader",
+        "description": "AI-driven tech entrepreneur, banking innovation leader, and co-founder of Avenue Bank. Expert in fintech solutions, AI automation, and startup development.",
+        "url": "{{ url('/') }}",
+        "image": "{{ asset('images/dale-hurley.jpg') }}",
+        "sameAs": [
+            "https://www.linkedin.com/in/dalehurley/",
+            "https://github.com/dalehurley",
+            "https://twitter.com/dalehurley"
+        ],
+        "worksFor": [
+            {
+                "@@type": "Organization",
+                "name": "LEAP Legal Software",
+                "description": "AI Practice Management Engineering Lead"
+            }
+        ],
+        "knowsAbout": [
+            "Artificial Intelligence",
+            "Fintech",
+            "Banking Innovation",
+            "Startup Development",
+            "AI Automation",
+            "Software Engineering"
+        ],
+        "alumniOf": {
+            "@@type": "Organization",
+            "name": "CreditorWatch",
+            "description": "Former CTO & Innovation Director"
+        }
+    }
+    </script>
+    @endpush
 
-</html>
+</x-layout>
