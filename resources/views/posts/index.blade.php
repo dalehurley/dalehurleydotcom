@@ -15,7 +15,7 @@
             <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
                 @forelse ($posts as $post)
                     <a href="{{ $post['url'] }}"
-                        class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+                        class="bg-white justify-between dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
 
                         @if (isset($post['thumbnail']))
                             <div class="aspect-[3/2] overflow-hidden">
