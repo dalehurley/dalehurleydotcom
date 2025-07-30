@@ -7,9 +7,7 @@
     <title>Dale Hurley - AI-Driven Tech Entrepreneur & Banking Innovation Leader</title>
 
     <!-- Styles / Scripts -->
-    @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    @endif
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body class="bg-white">
