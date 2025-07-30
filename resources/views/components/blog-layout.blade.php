@@ -5,25 +5,16 @@
     $description = $post['description'] ?? 'Thoughts on AI, technology, and entrepreneurship by Dale Hurley';
     $canonical = $post['canonical'] ?? url()->current();
     $ogImage = isset($post['image']) ? asset($post['image']) : asset('images/dale-hurley-og.jpg');
-    $keywords = isset($post['tags']) ? implode(', ', array_merge($post['tags'], ['Dale Hurley', 'AI', 'technology', 'entrepreneurship'])) : 'Dale Hurley, AI, technology, entrepreneurship';
+    $keywords = isset($post['tags'])
+        ? implode(', ', array_merge($post['tags'], ['Dale Hurley', 'AI', 'technology', 'entrepreneurship']))
+        : 'Dale Hurley, AI, technology, entrepreneurship';
     $publishedTime = isset($post['date']) ? \Carbon\Carbon::parse($post['date'])->toISOString() : null;
     $modifiedTime = $publishedTime; // You can implement a separate modified time field if needed
     $tags = $post['tags'] ?? [];
 @endphp
 
-<x-layout 
-    :title="$title"
-    :description="$description"
-    :canonical="$canonical"
-    :og-image="$ogImage"
-    og-type="article"
-    :keywords="$keywords"
-    :author="$post['author'] ?? 'Dale Hurley'"
-    :published-time="$publishedTime"
-    :modified-time="$modifiedTime"
-    article-section="Blog"
-    :tags="$tags"
->
+<x-layout :title="$title" :description="$description" :canonical="$canonical" :og-image="$ogImage" og-type="article" :keywords="$keywords"
+    :author="$post['author'] ?? 'Dale Hurley'" :published-time="$publishedTime" :modified-time="$modifiedTime" article-section="Blog" :tags="$tags">
     @push('meta')
         <!-- Article structured data -->
         <script type="application/ld+json">
@@ -65,7 +56,7 @@
             "url": "{{ $canonical }}"
         }
         </script>
-        
+
         <!-- Breadcrumb structured data -->
         <script type="application/ld+json">
         {
@@ -104,19 +95,24 @@
                 </li>
                 <li class="flex items-center">
                     <svg class="w-4 h-4 mx-2" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                        <path fill-rule="evenodd"
+                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                            clip-rule="evenodd"></path>
                     </svg>
                     <a href="{{ url('/posts') }}" class="hover:text-orange-600 transition-colors">Blog</a>
                 </li>
                 <li class="flex items-center">
                     <svg class="w-4 h-4 mx-2" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                        <path fill-rule="evenodd"
+                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                            clip-rule="evenodd"></path>
                     </svg>
-                    <span class="text-gray-900 dark:text-white">{{ Str::limit($post['title'] ?? 'Blog Post', 50) }}</span>
+                    <span
+                        class="text-gray-900 dark:text-white">{{ Str::limit($post['title'] ?? 'Blog Post', 50) }}</span>
                 </li>
             </ol>
         </nav>
-        
+
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
             <!-- Post Header -->
@@ -143,11 +139,12 @@
                             {{ Carbon\Carbon::parse($post['date'])->format('F j, Y') }}
                         </time>
                     @endif
-                    
+
                     @if (isset($post['reading_time']))
                         <div class="flex items-center">
                             <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                             {{ $post['reading_time'] }} min read
                         </div>

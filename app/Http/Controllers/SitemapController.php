@@ -22,19 +22,19 @@ class SitemapController extends Controller
     {
         $xml = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
         $xml .= '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
-        
+
         // Main sitemap
         $xml .= '  <sitemap>' . "\n";
         $xml .= '    <loc>' . url('/sitemap-main.xml') . '</loc>' . "\n";
         $xml .= '    <lastmod>' . Carbon::now()->toISOString() . '</lastmod>' . "\n";
         $xml .= '  </sitemap>' . "\n";
-        
+
         // Blog sitemap
         $xml .= '  <sitemap>' . "\n";
         $xml .= '    <loc>' . url('/sitemap-posts.xml') . '</loc>' . "\n";
         $xml .= '    <lastmod>' . Carbon::now()->toISOString() . '</lastmod>' . "\n";
         $xml .= '  </sitemap>' . "\n";
-        
+
         $xml .= '</sitemapindex>';
 
         return response($xml, 200)
@@ -85,19 +85,19 @@ class SitemapController extends Controller
         foreach ($urls as $url) {
             $xml .= '  <url>' . "\n";
             $xml .= '    <loc>' . htmlspecialchars($url['url']) . '</loc>' . "\n";
-            
+
             if (isset($url['lastmod'])) {
                 $xml .= '    <lastmod>' . $url['lastmod'] . '</lastmod>' . "\n";
             }
-            
+
             if (isset($url['changefreq'])) {
                 $xml .= '    <changefreq>' . $url['changefreq'] . '</changefreq>' . "\n";
             }
-            
+
             if (isset($url['priority'])) {
                 $xml .= '    <priority>' . $url['priority'] . '</priority>' . "\n";
             }
-            
+
             $xml .= '  </url>' . "\n";
         }
 

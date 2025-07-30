@@ -9,13 +9,11 @@ $regularPosts = array_slice($posts, 1);
 
 ?>
 
-<x-layout 
-    title="Blog - Dale Hurley" 
+<x-layout title="Blog - Dale Hurley"
     description="Explore insights on AI, fintech innovation, entrepreneurship, and building technology that drives real business value from Dale Hurley."
     keywords="Dale Hurley blog, AI insights, fintech innovation, entrepreneurship, technology, banking innovation, startup building"
-    og-type="website"
->
-        @push('meta')
+    og-type="website">
+    @push('meta')
         <!-- Blog listing structured data -->
         <script type="application/ld+json">
         {
@@ -39,7 +37,7 @@ $regularPosts = array_slice($posts, 1);
             }
         }
         </script>
-        
+
         <!-- Breadcrumb structured data -->
         <script type="application/ld+json">
         {
@@ -144,7 +142,7 @@ $regularPosts = array_slice($posts, 1);
                         .toLowerCase()).join(' ');
 
                     const matches = title.includes(query) || description.includes(query) || tags.includes(
-                    query);
+                        query);
                     post.style.display = matches ? 'block' : 'none';
                 });
             });
