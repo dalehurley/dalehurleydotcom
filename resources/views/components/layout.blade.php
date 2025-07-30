@@ -118,15 +118,7 @@
         {{ $slot }}
     </main>
 
-    <footer class="bg-gray-900 text-white py-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center">
-                <p class="text-gray-400">
-                    © {{ date('Y') }} Dale Hurley. All rights reserved.
-                </p>
-            </div>
-        </div>
-    </footer>
+    <x-footer :showDetailedFooter="true" class="bg-gray-900 text-white py-12" />
 
     @stack('scripts')
 </body>
