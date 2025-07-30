@@ -83,46 +83,54 @@ The finished artwork must feel like a 1950s comic-style poster while representin
 ### Creative Vision Framework
 1. **Bold Statement Banner (Top)** – Craft an attention-grabbing headline (≤ 8 words) that captures the blog's essence. Think provocative, memorable, action-oriented:
     • "Revolutionize Everything You Know About [Topic]"
-    • "The Secret Weapon Smart Businesses Use"
-    • "Why Everyone's Talking About [Key Concept]"
-    • "The Future Is Here and It's [Adjective]"
-    • Or invent something completely original that stops scrollers dead
+    • "The Secret AI Weapon Nobody Talks About"
+    • "Why Everyone's Obsessed With [Key Concept]"
+    • "The Game-Changer That Breaks All Rules"
+    • "Welcome to the [Topic] Revolution"
+    • "This Changes Everything About [Subject]"
+    • "The Underground Secret Smart Businesses Use"
+    • Or create something completely original that demands attention
 
-2. **Hero Visual (Center Stage)** – Create a dynamic, story-driven scene that embodies the blog's core message. Break free from tech clichés with unexpected approaches:
-    • A confident figure surfing a tsunami of glowing data particles
-    • Vintage pin-up style character wielding futuristic tools like they're magic wands
-    • Retro diner scene where AI solutions are served like the special of the day
-    • Mad scientist laboratory meets sleek boardroom aesthetic
-    • Time-traveler from the 50s marveling at today's AI capabilities
-    • Office worker transforming into a superhero via technology
-    • Think film noir meets sci-fi meets advertising golden age
+2. **Hero Visual (Center Stage)** – Create a dynamic, story-driven scene that embodies the blog's core message. Break free from predictable tech visuals with unexpected creative approaches:
+    • A vintage pin-up scientist mixing glowing AI potions in test tubes that sparkle with code
+    • Retro space explorer planting a flag on a digital planet made of flowing data streams
+    • 1950s housewife casually commanding an army of helpful AI robots like kitchen appliances
+    • Mad scientist's laboratory where beakers bubble with colorful algorithms and lightning bolts of innovation
+    • Vintage superhero bursting through a wall of traditional business limitations
+    • Time-traveling inventor from the 50s riding a rocket-powered computer through cyber-space
+    • Noir detective solving mysteries with AI magnifying glasses that reveal hidden patterns
+    • Retro diner where AI solutions are served as glowing milkshakes and electric burgers
+    • Comic book hero transforming mundane office work into explosive productivity superpowers
+    • Vintage pilot navigating through storm clouds of data with AI as their co-pilot
+    • 1950s factory worker operating incredible AI-powered machinery that creates digital magic
 
-    Visual requirements: Thick comic-book ink lines, dramatic lighting, halftone dot patterns, paper texture overlay, dynamic angles, burst effects. Characters should be diverse, attractive, and exude confidence and competence.
+    Visual requirements: Bold comic-book ink lines, dramatic shadows and highlights, Ben-Day dot patterns, dynamic action poses, explosion effects, speed lines, dramatic perspectives.
 
 3. **Power Tagline (Bottom Banner)** – Deliver the transformation promise in ≤ 8 punchy words:
-    • "Where Innovation Meets Unstoppable Results"
-    • "Turning Tomorrow's Dreams Into Today's Reality"
-    • "Your Competitive Edge Starts Right Here"
-    • "Making the Impossible Look Effortless"
-    • Focus on outcomes, emotions, and aspirational transformation
+    • "Where Wild Ideas Become Winning Reality"
+    • "Turning Chaos Into Your Competitive Advantage"
+    • "Making Magic Out of Monday Morning"
+    • "Your Secret Weapon for Impossible Results"
+    • "Where the Future Meets Your Ambition"
+    • "Transforming Problems Into Profit Machines"
 
 ### Creative License
-Feel completely free to reimagine these frameworks. The goal is creating scroll-stopping art that makes viewers think "I NEED to read this." Blend nostalgia with future-forward thinking. Make it irresistible.
+Go wild! The goal is creating scroll-stopping art that makes viewers think "I absolutely MUST read this." Blend nostalgic charm with explosive innovation. Make it absolutely irresistible and unforgettable.
 
 ### Art Direction Checklist
-• **Style**: Mid-century comic / pin-up / advertisement, halftone shading, slight distress texture.
-• **Color palette**: Mustard yellow, teal, deep red, cream, charcoal accents.
-• **Mood**: Fun, empowering, innovation-focused, future-forward.
-• **Avoid**: Modern stock-photo aesthetics, clichés like generic computers/robots unless subverted, any content that diminishes the power of AI innovation.
-• **Aspect Ratio**: Landscape (3:2) optimized for hero images and wide displays.
+• **Style**: Mid-century comic book advertisement with halftone shading, vintage poster aesthetic, slight paper texture overlay.
+• **Color palette**: Electric blue, vibrant coral, bright lime green, deep purple, golden yellow, crisp white highlights.
+• **Mood**: Explosive energy, empowering transformation, playful innovation, confident optimism.
+• **Avoid**: Generic stock photography, boring corporate aesthetics, predictable tech clichés unless completely reimagined.
+• **Aspect Ratio**: Landscape (3:2) optimized for hero images with dynamic composition.
 
 ### Prompt Output Rules
-• Start with a direct instruction to the generator (e.g. "Create a retro 1950s comic poster…").
+• Start with a direct instruction to the generator (e.g. "Create a vibrant retro 1950s comic poster…").
 • Include all stylistic directives above in concise, generator-friendly syntax.
 • **Do NOT wrap your prompt in back-ticks or markdown.**
 • Return ONLY the prompt—no commentary, pre-amble, or closing remarks.
 • The image is landscape format, so ensure the composition works well in a 3:2 aspect ratio with room for text placement.
-• Make sure the image represents the blog post content effectively, capturing its essence and themes.
+• Make sure the image represents the blog post content effectively, capturing its essence and themes with maximum visual impact.
 
 Generate the image prompt now.
 PROMPT;
