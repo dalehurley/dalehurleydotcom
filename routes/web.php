@@ -15,6 +15,17 @@ Route::get('/posts', function (BlogService $blogService) {
 });
 
 Route::get('/posts/{slug}', function (string $slug, BlogService $blogService) {
+    // Check if slug contains uppercase letters
+    $lowercaseSlug = strtolower($slug);
+    if ($slug !== $lowercaseSlug) {
+        // Check if the lowercase version exists
+        $post = $blogService->getPostContentForRender($lowercaseSlug);
+        if ($post) {
+            // Redirect to canonical lowercase URL
+            return redirect('/posts/' . $lowercaseSlug, 301);
+        }
+    }
+
     $post = $blogService->getPostContentForRender($slug);
 
     if (!$post) {
