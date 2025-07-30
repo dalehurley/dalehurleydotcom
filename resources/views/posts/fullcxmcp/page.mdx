@@ -3,11 +3,12 @@ title: I built an MCP server so Cursor can pull full product requirements
 date: 2025/06/17
 description: Full.CX MCP + Cursor is a game-changing combo for devs. Seamless integration, instant productivity boost, and a whole new level of AI-powered workflow.
 canonical: https://dale-hurley.com/posts/fullcx-mcp
-tag: generative ai, ai, product management, mcp, laravel, cursor
+tags: [generative ai, ai, product management, mcp, laravel, cursor]
 author: Dale Hurley
 image: images/fullcxmcp.webp
 thumbnail: images/fullcxmcp-thumbnail.webp
 ---
+
 tl;dr: Using [Full.CX](https://full.cx) MCP with Cursor is extremely powerful.
 
 > _I'm the **solo developer** behind Full.CX._ Wiring its brand-new **Model Context Protocol (MCP)** into Cursor let me ship a complete marketing site **in 15 minutes**. Here's the play-by-play so you can replicate—and improve on—it.
@@ -74,79 +75,78 @@ I experimented with integrating Full.CX via MCP into Cursor, and the results hav
 
 Ready to see how Full.CX, MCP, and Cursor can supercharge your workflow? Here's how I dove in—and how you can, too!
 
-1. **Pick a Product**  
+1. **Pick a Product**
    I started by choosing a [Full.CX Daily Product Drop](https://full.cx/daily-drops) called [PulseSync](https://full.cx/daily-drop/9f2a1bba-f398-4957-817a-0d38690c2c0d). You can easily create your own using Full.CX AI.
 
-2. **Generate Full.CX API Token**  
+2. **Generate Full.CX API Token**
    Next, I created an API token in Full.CX.
 
-3. **Configure Cursor's MCP Server**  
+3. **Configure Cursor's MCP Server**
    In Cursor, I set up the MCP server, swapping in my API token where it says `FULL_CX_API_TOKEN`:
 
-   ```
-   {
-     "mcpServers": {
-       "fullcx": {
-         "type": "streamable-http",
-         "url": "https://full.cx/mcp",
-         "headers": {
-           "Authorization": "Bearer FULL_CX_API_TOKEN"
-         }
-       }
-     }
-   }
-   ```
+    ```
+    {
+      "mcpServers": {
+        "fullcx": {
+          "type": "streamable-http",
+          "url": "https://full.cx/mcp",
+          "headers": {
+            "Authorization": "Bearer FULL_CX_API_TOKEN"
+          }
+        }
+      }
+    }
+    ```
 
-4. **Set Up Your Stack**  
+4. **Set Up Your Stack**
    I installed Laravel with the Livewire StarterKit. I'm a huge fan of Laravel—it's one of the most complete, "batteries-included" frameworks out there, and its excellent documentation makes it a fantastic choice for Agentic Coders. That said, you should use whatever framework you're most comfortable with. Personally, I've found that Cursor works especially well with Laravel, but the most important thing is to pick the tools that fit your workflow best!
 
-5. **Document Your Tech**  
+5. **Document Your Tech**
    I made sure Cursor had documentation for:
+    - Laravel
+    - Livewire
+    - TailwindCSS
+    - Flux
 
-   - Laravel
-   - Livewire
-   - TailwindCSS
-   - Flux
-
-6. **Generate Cursor Rules**  
+6. **Generate Cursor Rules**
    I asked Cursor to generate rules with this prompt:
 
-   ```
-   /GenerateCursorRules  the app uses Laravel 12, Livewire and tailwindcss @composer.json  @package.json
+    ```
+    /GenerateCursorRules  the app uses Laravel 12, Livewire and tailwindcss @composer.json  @package.json
 
-   Make sure the rules include to interact with FullCX to get the product details, ideas, features, requirements and acceptance criteria and update the status of each as you build the code for the product.
+    Make sure the rules include to interact with FullCX to get the product details, ideas, features, requirements and acceptance criteria and update the status of each as you build the code for the product.
 
-   The product is called PulseSync, the product id is 9f2a1bba-f398-4957-817a-0d38690c2c0d
+    The product is called PulseSync, the product id is 9f2a1bba-f398-4957-817a-0d38690c2c0d
 
-   You will use laravel 12 with Livewire and TailwindCSS
+    You will use laravel 12 with Livewire and TailwindCSS
 
-   When receiving a request make a plan, create the code and test the code
+    When receiving a request make a plan, create the code and test the code
 
-   Keep all files small and testable focusing on single responsibility and reusability.
+    Keep all files small and testable focusing on single responsibility and reusability.
 
-   Follow the Laravel way and best practices
-   ```
+    Follow the Laravel way and best practices
+    ```
 
-7. **Set the Rules to "Always"**  
+7. **Set the Rules to "Always"**
    This ensures Cursor always follows your custom workflow.
 
-8. **Kick Off Your Project Plan**  
+8. **Kick Off Your Project Plan**
    I started a new chat with this planning prompt:
 
-   ```
-   Plan: Based off the features work out all of the homepages, product pages, feature pages, benefits pages, FAQ, contact us, about us etc pages that need to be created to drive customer attention, desire, interest and action (signing up).
-   ```
+    ```
+    Plan: Based off the features work out all of the homepages, product pages, feature pages, benefits pages, FAQ, contact us, about us etc pages that need to be created to drive customer attention, desire, interest and action (signing up).
+    ```
 
-   After about two minutes, I simply told Cursor to `proceed with implementing this plan`. In about 15 minutes, I had a fantastic marketing site! I just needed to nudge Cursor with a `continue` prompt and a few quick requests for any missing pages.
+    After about two minutes, I simply told Cursor to `proceed with implementing this plan`. In about 15 minutes, I had a fantastic marketing site! I just needed to nudge Cursor with a `continue` prompt and a few quick requests for any missing pages.
 
-9. **Plan and Build Features (repeat)**  
+9. **Plan and Build Features (repeat)**
    To get started on features, I asked:
 
-   ```
-   Please plan how to build the fullcx feature 01977cd2-2e82-70c0-bfc8-fd414533bde7
-   ```
+    ```
+    Please plan how to build the fullcx feature 01977cd2-2e82-70c0-bfc8-fd414533bde7
+    ```
 
-   With a little guidance here and there, Cursor powered through the requirements and updated Full.CX as it went.
+    With a little guidance here and there, Cursor powered through the requirements and updated Full.CX as it went.
 
 **Pro tip:** Cursor still benefits from a bit of supervision and guidance, but it's now building features faster and more accurately than ever before. Give it a try—you might be surprised at how much you can accomplish!
 

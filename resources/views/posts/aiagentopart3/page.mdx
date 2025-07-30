@@ -2,21 +2,12 @@
 title: "Tutorial: Building Agentic AI Agents using OpenAI with Laravel 12 and React - Part 3: Building Custom AI Tools in Laravel & React"
 date: 2025-07-17
 description: "Create an AI Agent with Laravel and OpenAI"
-tags:
-    [
-        "AI",
-        "Technology",
-        "Automation",
-        "Laravel",
-        "OpenAI",
-        "Agent",
-        "Agentic",
-        "Tutorial",
-    ]
+tags: [AI, Technology, Automation, Laravel, OpenAI, Agent, Agentic, Tutorial]
 author: "Dale Hurley"
 image: images/aiagentopart3.webp
 thumbnail: images/aiagentopart3-thumbnail.webp
 ---
+
 ## Part 3: Building Custom AI Tools in Laravel & React
 
 Here's where things get really interesting. Instead of just chatting, we're going to give our AI agent actual tools it can use to interact with our application.
@@ -35,17 +26,13 @@ We are following on from [Part 2: Streaming Responses with Laravel Stream React]
 
 The tool infrastructure is the foundation of our AI agent, by definding how tools are structured to best to communicate with the AI and the user. We will be using the [OpenAI Function Calling](https://platform.openai.com/docs/guides/function-calling) feature to call our tools.
 
-
 ### Create the Tool Interface (Optional)
 
 Our first step is to create a consistent structure for our tools. This interface defines how tools communicate with the AI.
 
-
-  **Why use an interface?**
+**Why use an interface?**
 
 While interfaces are optional in PHP, using one here ensures all our tools have the same methods and helps catch errors early. It also makes our code more maintainable—when someone creates a new tool, they'll know exactly what methods to implement. Plus, if we decide to add new properties or methods to our tools in the future, we can update the interface and all implementing classes will be forced to adopt the changes.
-
-
 
 Run the following command to create the tool interface:
 
@@ -115,12 +102,9 @@ interface ToolInterface
 
 Create the abstract tool base class to provide a default implementation for all tools.
 
-
-  **Why use an abstract class?**
+**Why use an abstract class?**
 
 Abstract classes are a great way to enforce a consistent structure for our tools. They provide a base class that concrete tools can extend, and they can override the methods to provide their own implementation. In our examples we are not using the using the full power of the abstract class, but it's a good practice to use it. For example we might add a new method to the abstract class which then provides a default implementation for all tools.
-
-
 
 Run the following command to create the abstract tool base class:
 
@@ -258,12 +242,9 @@ class ToolRegistry implements \IteratorAggregate
 
 ```
 
-
-
 ## Creating the Tools
 
 Now the basic tool infrastructure is created, we can start creating our tools.
-
 
 ### Create the User Creation Tool
 
@@ -664,8 +645,6 @@ class ToolUserFind extends AbstractTool
 }
 ```
 
-
-
 ## Wire the tools into the ChatController
 
 Now for the magic—connecting everything together. This is where our tool registry pattern and OpenAI's function calling capabilities merge to create a dynamic AI agent system.
@@ -673,7 +652,6 @@ Now for the magic—connecting everything together. This is where our tool regis
 The ChatController serves as the orchestrator, instantiating our ToolRegistry and registering each tool we've built. When a user sends a message, OpenAI analyzes the intent and automatically selects the appropriate tool(s) to fulfill the request. If the AI determines it needs to create a user, it calls our ToolUserCreate; if it needs to find a user, it uses ToolUserFind; and if it needs to list users, it leverages ToolUsersList.
 
 The beauty of this architecture is its extensibility—adding new capabilities is as simple as creating a new tool class and registering it. The AI agent can chain multiple tool calls together, handle errors gracefully, and provide meaningful responses back to the user, all while maintaining a clean separation of concerns between the AI orchestration layer and our business logic.
-
 
 ### Update the ChatController to use the tools
 
@@ -827,8 +805,6 @@ Run the following command to seed the database:
 php artisan db:seed
 ```
 
-
-
 **Now for the magic moment.** Visit [http://localhost:8000/](http://localhost:8000/) and try these commands:
 
 - "Create a new user with random details"
@@ -851,13 +827,11 @@ The final solution for Part 3 is available in the [ai-agent-tutorial repository 
 
 Let's move on to [Part 4: Adding Stateful Context to Your Agent](/posts/aiagentopart4)
 
-
 **Building an Agentic AI Agent Series**
 
 - [Preface](/posts/aiagentopart0)
-- [Part 1 - Getting Started with Laravel OpenAI Calls](/posts/aiagentopart1)    
+- [Part 1 - Getting Started with Laravel OpenAI Calls](/posts/aiagentopart1)
 - [Part 2 - Creating a Basic AI Chat App with Laravel Stream React](/posts/aiagentopart2)
 - [Part 3 - Building Custom AI Tools in Laravel & React](/posts/aiagentopart3) 👈 You are here
 - [Part 4 - Adding Stateful Context to Your Agent](/posts/aiagentopart4) Next Post 👍
 - [Part 5 - Implementing Automated Planning](/posts/aiagentopart5)
-  

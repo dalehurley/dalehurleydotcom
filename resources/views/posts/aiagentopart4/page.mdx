@@ -2,21 +2,12 @@
 title: "Tutorial: Building Agentic AI Agents using OpenAI with Laravel 12 and React - Part 4: Adding Stateful Context to Your Agent"
 date: 2025-07-17
 description: "Create an AI Agent with Laravel and OpenAI"
-tags:
-    [
-        "AI",
-        "Technology",
-        "Automation",
-        "Laravel",
-        "OpenAI",
-        "Agent",
-        "Agentic",
-        "Tutorial",
-    ]
+tags: [AI, Technology, Automation, Laravel, OpenAI, Agent, Agentic, Tutorial]
 author: "Dale Hurley"
 image: images/aiagentopart4.webp
 thumbnail: images/aiagentopart4-thumbnail.webp
 ---
+
 ## Part 4: Adding Stateful Context to Your Agent
 
 Our current system has one major limitation: it's memoryless / stateless. Each conversation starts fresh, which means the AI can't build on previous interactions or maintain context across multiple exchanges. Let's fix that.
@@ -42,7 +33,6 @@ The Context model serves as our agent's memory system, storing conversation hist
 Here's how it works: Each conversation gets assigned a unique UUID that groups related messages together. When a user sends a message, we'll either create a new context (for new conversations) or append to an existing one. The AI can then see the full conversation history, including previous tool calls and their results, enabling much more sophisticated multi-step interactions.
 
 For example, a user could say "Create a user named Alice", followed by "Now find that user", and the AI will remember the context from the first interaction to understand what "that user" refers to.
-
 
 ### Create the Context model
 
@@ -122,8 +112,6 @@ return new class extends Migration
 php artisan migrate
 ```
 
-
-
 ## Updating the ChatController to support persistent contexts
 
 The updated ChatController introduces several important capabilities:
@@ -135,7 +123,6 @@ The updated ChatController introduces several important capabilities:
 3. **Contextual Awareness**: The AI can now reference previous parts of the conversation, remember what it has already told the user, and build upon earlier tool executions.
 
 4. **Session Management**: Each chat session is isolated, allowing users to have multiple conversations without cross-contamination of context.
-
 
 ### Update the ChatController to support persistent contexts
 
@@ -538,8 +525,6 @@ function Chat() {
 export default Chat;
 ```
 
-
-
 <div class="centered">
     <img
         src="/images/chatSessionWithAgent.png"
@@ -562,7 +547,6 @@ The final solution for Part 4 is available in the [ai-agent-tutorial repository 
 
 Let's move on to [Part 5: Implementing Automated Planning](/posts/aiagentopart5)
 
-
 **Building an Agentic AI Agent Series**
 
 - [Preface](/posts/aiagentopart0)
@@ -571,4 +555,3 @@ Let's move on to [Part 5: Implementing Automated Planning](/posts/aiagentopart5)
 - [Part 3 - Building Custom AI Tools in Laravel & React](/posts/aiagentopart3)
 - [Part 4 - Adding Stateful Context to Your Agent](/posts/aiagentopart4) 👈 You are here
 - [Part 5 - Implementing Automated Planning](/posts/aiagentopart5) Next Post 👍
-  

@@ -2,21 +2,12 @@
 title: "Tutorial: Building Agentic AI Agents using OpenAI with Laravel 12 and React - Part 1: Getting Started with Laravel OpenAI Calls"
 date: 2025-07-17
 description: "Create an AI Agent with Laravel and OpenAI"
-tags:
-    [
-        "AI",
-        "Technology",
-        "Automation",
-        "Laravel",
-        "OpenAI",
-        "Agent",
-        "Agentic",
-        "Tutorial",
-    ]
+tags: [AI, Technology, Automation, Laravel, OpenAI, Agent, Agentic, Tutorial]
 author: "Dale Hurley"
 image: images/aiagentopart1.webp
 thumbnail: images/aiagentopart1-thumbnail.webp
 ---
+
 ## Part 1: Getting Started with Laravel & OpenAI
 
 In this first installment, you’ll spin up a fresh Laravel project and implement your very first “Hello, World!” OpenAI call. By the end, your app will send a prompt to OpenAI and render the AI’s response in the browser.
@@ -39,10 +30,8 @@ Before diving in, you'll need the basics covered:
 - Basic command line comfort
 - An understanding of Laravel fundamentals
 
-
     If you're missing any of these, the [Laravel installation
     guide](https://laravel.com/docs/12.x/installation) is your friend.
-
 
 ### Quick Installation (Mac with Homebrew)
 
@@ -71,7 +60,6 @@ You'll need an OpenAI API account and key from [OpenAI's platform](https://platf
 ## Initialize your Laravel project
 
 Let's build the project step by step, starting in the terminal.
-
 
 ### Create a new Laravel project
 
@@ -110,12 +98,10 @@ This creates a `config/openai.php` file and adds environment variables to your `
 
 Add your OpenAI credentials to `.env`:
 
-
 The request timeout is set to 300 seconds because OpenAI API calls can take
 longer than the default 30-second HTTP timeout, especially for complex
 requests or when the API is under heavy load. This prevents your application
 from timing out during longer LLM operations.
-
 
 ```bash
 # .env
@@ -125,7 +111,6 @@ OPENAI_ORGANIZATION=org-... # https://platform.openai.com/settings/organization/
 OPENAI_REQUEST_TIMEOUT=300 # default is 30 seconds, set to 300 seconds for longer requests
 ```
 
-
 **Important Security Note**: Never commit your `OPENAI_API_KEY` to version
 control! Your `.env` file should already be in your `.gitignore`. For
 production environments, consider using Laravel's encrypted environment
@@ -133,7 +118,6 @@ files or your hosting provider's secret management system. See [Laravel's
 documentation on
 configuration](https://laravel.com/docs/configuration#hiding-environment-variables-from-debug-pages)
 for best practices.
-
 
 ### Install streaming and markdown dependencies
 
@@ -151,8 +135,6 @@ This will start the Laravel development server and open the application in your 
 ```bash
 composer run dev
 ```
-
-
 
 You now have a Laravel application with OpenAI integration running at [`http://localhost:8000`](http://localhost:8000). It does not do anything yet, but we're getting there.
 
@@ -201,7 +183,6 @@ Let's move on to [Part 2 - Creating a Basic AI Chat App with Laravel Stream Reac
     />
 </div>
 
-
 **Building an Agentic AI Agent Series**
 
 - [Preface](/posts/aiagentopart0)
@@ -210,4 +191,3 @@ Let's move on to [Part 2 - Creating a Basic AI Chat App with Laravel Stream Reac
 - [Part 3 - Building Custom AI Tools in Laravel & React](/posts/aiagentopart3)
 - [Part 4 - Adding Stateful Context to Your Agent](/posts/aiagentopart4)
 - [Part 5 - Implementing Automated Planning](/posts/aiagentopart5)
-      

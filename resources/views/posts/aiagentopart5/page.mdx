@@ -2,21 +2,12 @@
 title: "Tutorial: Building Agentic AI Agents using OpenAI with Laravel 12 and React - Part 5: Implementing Automated Planning"
 date: 2025-07-17
 description: "Create an AI Agent with Laravel and OpenAI"
-tags:
-    [
-        "AI",
-        "Technology",
-        "Automation",
-        "Laravel",
-        "OpenAI",
-        "Agent",
-        "Agentic",
-        "Tutorial",
-    ]
+tags: [AI, Technology, Automation, Laravel, OpenAI, Agent, Agentic, Tutorial]
 author: "Dale Hurley"
 image: images/aiagentopart5.webp
 thumbnail: images/aiagentopart5-thumbnail.webp
 ---
+
 ## Part 5: Implementing Automated Planning
 
 In this part we will be adding a planning capability to our AI agent. This will allow the AI to analyze complex requests, break them down into logical steps, and execute those steps in order.
@@ -48,7 +39,6 @@ We're going to extract these concerns into dedicated action classes:
 This refactoring sets us up perfectly for adding planning capabilities, as we'll need robust message management and clear tool execution flows to handle multi-step planning and execution cycles.
 
 Let's clean up our controller with some helpful action classes:
-
 
 #### Create the Messages action class
 
@@ -283,10 +273,7 @@ class ChatController extends Controller
 
 ```
 
-
-
 ## Now, Let's Add the Planning Tool
-
 
 ### Create the Planning Tool
 
@@ -750,8 +737,6 @@ class ChatController extends Controller
 
 ```
 
-
-
 **You now have a fully agentic AI system!** Try some complex requests:
 
 - "Create 5 users with random but realistic details"
@@ -804,7 +789,6 @@ This architecture is production-ready with some additional work around authentic
 - [React Documentation](https://react.dev)
 - [Inertia.js Documentation](https://inertiajs.com)
 
-
 **Building an Agentic AI Agent Series**
 
 - [Preface](/posts/aiagentopart0)
@@ -813,4 +797,3 @@ This architecture is production-ready with some additional work around authentic
 - [Part 3 - Building Custom AI Tools in Laravel & React](/posts/aiagentopart3)
 - [Part 4 - Adding Stateful Context to Your Agent](/posts/aiagentopart4)
 - [Part 5 - Implementing Automated Planning](/posts/aiagentopart5) 👈 You are here and the end!
-      

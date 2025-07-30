@@ -18,9 +18,9 @@
                         class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
 
                         @if (isset($post['thumbnail']))
-                            <div class="aspect-video overflow-hidden">
+                            <div class="aspect-[3/2] overflow-hidden">
                                 <img src="{{ $post['thumbnail'] }}" alt="{{ $post['title'] ?? 'Blog post image' }}"
-                                    class="w-full aspect-[3/2] object-cover hover:scale-105 transition-transform duration-300">
+                                    class="w-full aspect-[3/2] object-cover hover:scale-103 transition-transform duration-300">
                             </div>
                         @endif
 
