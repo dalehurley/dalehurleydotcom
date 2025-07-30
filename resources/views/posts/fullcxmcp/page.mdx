@@ -1,0 +1,155 @@
+---
+title: I built an MCP server so Cursor can pull full product requirements
+date: 2025/06/17
+description: Full.CX MCP + Cursor is a game-changing combo for devs. Seamless integration, instant productivity boost, and a whole new level of AI-powered workflow.
+canonical: https://dale-hurley.com/posts/fullcx-mcp
+tag: generative ai, ai, product management, mcp, laravel, cursor
+author: Dale Hurley
+image: images/fullcxmcp.webp
+thumbnail: images/fullcxmcp-thumbnail.webp
+---
+tl;dr: Using [Full.CX](https://full.cx) MCP with Cursor is extremely powerful.
+
+> _I'm the **solo developer** behind Full.CX._ Wiring its brand-new **Model Context Protocol (MCP)** into Cursor let me ship a complete marketing site **in 15 minutes**. Here's the play-by-play so you can replicate—and improve on—it.
+
+Steps:
+
+1. Sign-up to Full.cx
+2. Use Full.CX AI to create a product
+3. Create an API token
+4. Configure Cursor to use the Full.CX MCP
+
+```
+{
+  "mcpServers": {
+    "fullcx": {
+      "type": "streamable-http",
+      "url": "https://full.cx/mcp",
+      "headers": {
+        "Authorization": "Bearer FULL_CX_API_TOKEN"
+      }
+    }
+  }
+}
+```
+
+## Me
+
+Since the release of GPT-3.5 in 2022, I've been deeply immersed in Generative AI, building products like [Full.CX](https://full.cx), [DocCheetah](https://doccheetah.com), and several other innovative projects. Currently, I'm at LEAP Legal Software, where I focus on developing AI solutions tailored for the legal industry. I started programming over 30 years ago, starting as a kid writing QBasic BAS files. Over the decades, I've witnessed the evolution of web and software development—from the early days of HTML, JavaScript, and CSS, through the rise of jQuery, CSS resets, Twitter Bootstrap, Sass, Angular, React, and Vue, and now into the era of Agentic Coding.
+
+## What is Full.CX?
+
+[Full.CX](https://full.cx) is an AI-powered product management platform designed to streamline the entire product specification process. Full.CX transforms a simple idea into comprehensive, detailed product specs—covering everything from high-level concepts down to granular acceptance criteria. Its AI-driven approach makes creating and managing product requirements faster, easier, and more thorough than ever before.
+
+## Cursor
+
+[Cursor](https://www.cursor.com) is an incredible tool for accelerating software development. With its AI-powered coding capabilities, ideas that were just concepts a few hours ago can quickly become working code. Routine and repetitive tasks are handled efficiently, allowing you to focus on higher-level problem solving and move much faster. However, to truly unlock Cursor's potential, it's important to have an experienced developer guiding the process—AI is most effective when paired with human expertise and direction.
+
+## Detailed Requirements
+
+One of the most effective ways to maximize your productivity with Cursor is to provide it with comprehensive, well-structured requirements. Rather than relying on a vague user story or a single-sentence feature request, you should aim to supply detailed documentation that includes clear descriptions of the feature or functionality, specific user stories that outline the intended user experience, and thorough acceptance criteria that define what "done" looks like.
+
+### Example: Breaking Down a Feature
+
+For example, instead of simply stating "Add user authentication," you would break this down into multiple user stories (e.g., "As a user, I want to register with my email and password so that I can create an account," "As a user, I want to reset my password if I forget it," etc.), and then list acceptance criteria for each story (e.g., "Registration form validates email format," "Password must be at least 8 characters," "User receives a confirmation email," etc.).
+
+By providing this level of detail, you enable Cursor's AI to generate code, tests, and documentation that are much more closely aligned with your actual needs. This approach reduces ambiguity, minimizes the need for back-and-forth clarification, and helps ensure that the resulting implementation matches your expectations. In short, the more context and specificity you give Cursor, the more powerful and accurate its output will be.
+
+## MCP (Model Context Protocol)
+
+[MCP (Model Context Protocol)](https://modelcontextprotocol.io/introduction) is an open standard that's transforming how apps deliver context to large language models (LLMs). Instead of piecing together custom integrations or dealing with closed-off APIs, MCP provides a single, flexible way to connect LLMs to all kinds of data sources, tools, and workflows.
+
+## Full.CX + MCP + Cursor
+
+I experimented with integrating Full.CX via MCP into Cursor, and the results have been nothing short of amazing. This setup gives Cursor every detail it needs to generate high-quality software, seamlessly bridging the gap between product requirements and implementation. The synergy between Full.CX and Cursor is remarkable—Full.CX acts as the Agentic Product Manager, providing exhaustive specs, while Cursor serves as the Agentic Software Developer, turning those specs into working code. Together, they create a workflow where nothing falls through the cracks and productivity reaches a whole new level.
+
+### What This Means for You
+
+- **Speed:** Go from idea to working code in minutes instead of days.
+- **Clarity:** Cursor ingests every feature, requirement, and acceptance criterion—no more copy-pasting tickets.
+- **Quality:** Fewer blind spots and tighter feedback loops mean fewer bugs.
+- **Focus:** Spend your time on product vision while the tools handle boilerplate.
+
+## Getting Started
+
+Ready to see how Full.CX, MCP, and Cursor can supercharge your workflow? Here's how I dove in—and how you can, too!
+
+1. **Pick a Product**  
+   I started by choosing a [Full.CX Daily Product Drop](https://full.cx/daily-drops) called [PulseSync](https://full.cx/daily-drop/9f2a1bba-f398-4957-817a-0d38690c2c0d). You can easily create your own using Full.CX AI.
+
+2. **Generate Full.CX API Token**  
+   Next, I created an API token in Full.CX.
+
+3. **Configure Cursor's MCP Server**  
+   In Cursor, I set up the MCP server, swapping in my API token where it says `FULL_CX_API_TOKEN`:
+
+   ```
+   {
+     "mcpServers": {
+       "fullcx": {
+         "type": "streamable-http",
+         "url": "https://full.cx/mcp",
+         "headers": {
+           "Authorization": "Bearer FULL_CX_API_TOKEN"
+         }
+       }
+     }
+   }
+   ```
+
+4. **Set Up Your Stack**  
+   I installed Laravel with the Livewire StarterKit. I'm a huge fan of Laravel—it's one of the most complete, "batteries-included" frameworks out there, and its excellent documentation makes it a fantastic choice for Agentic Coders. That said, you should use whatever framework you're most comfortable with. Personally, I've found that Cursor works especially well with Laravel, but the most important thing is to pick the tools that fit your workflow best!
+
+5. **Document Your Tech**  
+   I made sure Cursor had documentation for:
+
+   - Laravel
+   - Livewire
+   - TailwindCSS
+   - Flux
+
+6. **Generate Cursor Rules**  
+   I asked Cursor to generate rules with this prompt:
+
+   ```
+   /GenerateCursorRules  the app uses Laravel 12, Livewire and tailwindcss @composer.json  @package.json
+
+   Make sure the rules include to interact with FullCX to get the product details, ideas, features, requirements and acceptance criteria and update the status of each as you build the code for the product.
+
+   The product is called PulseSync, the product id is 9f2a1bba-f398-4957-817a-0d38690c2c0d
+
+   You will use laravel 12 with Livewire and TailwindCSS
+
+   When receiving a request make a plan, create the code and test the code
+
+   Keep all files small and testable focusing on single responsibility and reusability.
+
+   Follow the Laravel way and best practices
+   ```
+
+7. **Set the Rules to "Always"**  
+   This ensures Cursor always follows your custom workflow.
+
+8. **Kick Off Your Project Plan**  
+   I started a new chat with this planning prompt:
+
+   ```
+   Plan: Based off the features work out all of the homepages, product pages, feature pages, benefits pages, FAQ, contact us, about us etc pages that need to be created to drive customer attention, desire, interest and action (signing up).
+   ```
+
+   After about two minutes, I simply told Cursor to `proceed with implementing this plan`. In about 15 minutes, I had a fantastic marketing site! I just needed to nudge Cursor with a `continue` prompt and a few quick requests for any missing pages.
+
+9. **Plan and Build Features (repeat)**  
+   To get started on features, I asked:
+
+   ```
+   Please plan how to build the fullcx feature 01977cd2-2e82-70c0-bfc8-fd414533bde7
+   ```
+
+   With a little guidance here and there, Cursor powered through the requirements and updated Full.CX as it went.
+
+**Pro tip:** Cursor still benefits from a bit of supervision and guidance, but it's now building features faster and more accurately than ever before. Give it a try—you might be surprised at how much you can accomplish!
+
+## What to Do Next
+
+If you wire up MCP in Cursor, I'd love to hear what you build. I'm always looking for feedback (and friendly PRs) as a solo founder—hit me up on X [@dalehurley](https://x.com/dalehurley) or drop a note in the Full.CX Contact Us.

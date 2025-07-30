@@ -1,0 +1,32 @@
+---
+alwaysApply: true
+---
+
+# Laravel Project Structure
+
+This is a Laravel 11 application for DaleHurley.com, a personal website showcasing AI-driven tech entrepreneurship and banking innovation.
+
+## Key Directories
+
+-   `app/Models/` - Eloquent models (currently just User.php)
+-   `app/Http/Controllers/` - Web controllers
+-   `app/Providers/` - Service providers including FolioServiceProvider for Laravel Folio
+-   `resources/views/` - Blade templates and pages
+    -   `resources/views/pages/` - Laravel Folio pages (auto-routed)
+    -   `resources/views/components/` - Reusable Blade components
+-   `routes/web.php` - Traditional web routes (fallback to Folio)
+-   `public/` - Public assets and entry point
+
+## Laravel Folio Setup
+
+This project uses [Laravel Folio](https://laravel.com/docs/folio) for automatic page-based routing:
+
+-   Pages in `resources/views/pages/` are automatically routed
+-   File structure maps to URL structure
+-   No manual route definitions needed for pages
+
+## Key Configuration Files
+
+-   [config/app.php](mdc:config/app.php) - Application configuration
+-   [vite.config.js](mdc:vite.config.js) - Vite build configuration for assets
+-   [tailwind.config.js](mdc:tailwind.config.js) - Tailwind CSS configuration

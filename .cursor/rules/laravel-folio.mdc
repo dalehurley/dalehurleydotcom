@@ -1,0 +1,50 @@
+---
+globs: "resources/views/pages/*.blade.php"
+description: "Laravel Folio page conventions and routing patterns"
+---
+
+# Laravel Folio Usage Guide
+
+## Page-Based Routing
+
+This project uses Laravel Folio for automatic page-based routing. Files in `resources/views/pages/` are automatically mapped to URLs based on their file structure.
+
+## URL Mapping Examples
+
+```
+File Structure → URL
+resources/views/pages/index.blade.php → /
+resources/views/pages/about.blade.php → /about
+resources/views/pages/projects/index.blade.php → /projects
+resources/views/pages/projects/[id].blade.php → /projects/123
+```
+
+## Page Conventions
+
+### File Naming
+- Use kebab-case for file names: `about-me.blade.php`
+- Index pages: `index.blade.php` for directory roots
+- Dynamic segments: `[id].blade.php`, `[slug].blade.php`
+
+### Page Structure
+Each page should include:
+1. Proper HTML5 doctype and meta tags
+2. Consistent header/navigation
+3. Main content area
+4. Footer
+
+### Example Page Template
+```blade
+<x-layout>
+    <x-slot name="title">Page Title</x-slot>
+    
+    <div class="min-h-screen">
+        <!-- Hero Section -->
+        <section class="py-20">
+            <div class="container mx-auto px-4">
+                <h1 class="text-4xl font-bold">Page Heading</h1>
+            </div>
+        </section>
+    </div>
+</x-layout>
+```

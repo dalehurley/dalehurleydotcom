@@ -1,0 +1,45 @@
+---
+globs: "*.blade.php"
+description: "Tailwind CSS styling conventions for DaleHurley.com"
+---
+
+# Tailwind CSS Styling Guide
+
+## Design System
+
+The website uses a modern, professional design system with:
+- **Primary Colors**: Orange (#FF750F) and dark red (#4B0600) accents
+- **Background**: Light and dark mode support
+- **Typography**: Clean, modern sans-serif fonts
+- **Spacing**: Consistent spacing scale
+
+## Common Patterns
+
+### Hero Sections
+```blade
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <!-- Content -->
+    </div>
+</div>
+```
+
+### Card Components
+```blade
+<div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+    <!-- Card content -->
+</div>
+```
+
+### Gradient Text
+```blade
+<span class="bg-gradient-to-r from-orange-500 to-red-600 bg-clip-text text-transparent">
+    AI-Driven Solutions
+</span>
+```
+
+## Responsive Design
+
+- Mobile-first approach
+- Breakpoints: sm, md, lg, xl, 2xl
+- Grid layouts using Tailwind's grid system

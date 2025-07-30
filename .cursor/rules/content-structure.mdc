@@ -1,0 +1,63 @@
+---
+alwaysApply: true
+---
+
+# Content Structure & Personal Brand
+
+## Website Purpose
+
+DaleHurley.com is a personal website showcasing Dale Hurley's expertise as an AI-driven tech entrepreneur and banking innovation leader. The site highlights his track record of building successful fintech companies and AI solutions.
+
+## Key Content Sections
+
+### 1. Hero Section
+
+-   **Headline**: "Building the future with AI • Let's connect"
+-   **Subheadline**: "AI-Driven Tech Entrepreneur & Banking Innovation Leader"
+-   **Key Achievements**: Co-founded Avenue Bank, $70M+ funding, full banking license (2024)
+
+### 2. Track Record Section
+
+Structured chronologically with three major companies:
+
+#### 🤖 LEAP Legal Software (2024-Present)
+
+-   **Role**: AI Practice Management Engineering Lead
+-   **Achievement**: Created no-code AI agentic platform for legal firms
+
+#### 🏦 Avenue Bank (2018-2024)
+
+-   **Role**: Co-founder & Executive Leader
+-   **Achievements**: $70M funding, full banking license, 24-hour processing
+
+#### 📊 CreditorWatch (2010-2018)
+
+-   **Role**: CTO & Innovation Director
+-   **Achievements**: Startup to exit, risk score innovation, user-centric design
+
+### 3. AI-Powered Solutions
+
+-   **Core Message**: "I build AI systems that dramatically accelerate business processes"
+-   **Services**: Rapid prototyping, intelligent automation, strategic innovation
+-   **Technical Leadership**: Creator of Claude-3 PHP SDK
+
+### 4. Current Projects Portfolio
+
+Grid layout showcasing 8 active projects:
+
+-   DocCheetah, Spotfillr, Full.CX, Custom Homework Maker
+-   1 to 5 App, RapidReportCard, Risks.io, SpeedBrain
+-   Claude 3 API PHP Package
+
+## Brand Voice & Tone
+
+-   **Professional**: Demonstrates deep expertise and proven results
+-   **Innovative**: Emphasizes cutting-edge AI and fintech solutions
+-   **Results-focused**: Quantifiable achievements and measurable outcomes
+-   **Collaborative**: "Let's connect" and "Let's talk" messaging
+
+## Visual Identity
+
+-   **Color Scheme**: Orange (#FF750F) and dark red (#4B0600) accents
+-   **Typography**: Modern, clean sans-serif
+-   **Layout**: Professional grid-based design with smooth animations

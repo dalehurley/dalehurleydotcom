@@ -1,0 +1,62 @@
+---
+alwaysApply: true
+description: Development setup and deployment configuration
+---
+
+# Development & Deployment Guide
+
+## Development Setup
+
+### Prerequisites
+- PHP 8.2+
+- Composer
+- Node.js 18+
+- NPM
+
+### Installation
+```bash
+# Install PHP dependencies
+composer install
+
+# Install Node.js dependencies
+npm install
+
+# Build assets
+npm run build
+
+# Start development server
+php artisan serve
+```
+
+### Asset Management
+- Build Tool: Vite
+- CSS Framework: Tailwind CSS
+- Hot Module Replacement: Available during development
+
+### Commands
+```bash
+# Development
+npm run dev          # Start Vite dev server
+npm run build        # Build for production
+
+# Laravel
+php artisan serve    # Start Laravel development server
+php artisan route:list  # View all routes
+```
+
+## Production Deployment
+
+### Build Process
+```bash
+# Install production dependencies
+composer install --optimize-autoloader --no-dev
+npm ci --only=production
+
+# Build optimized assets
+npm run build
+
+# Laravel optimizations
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+```

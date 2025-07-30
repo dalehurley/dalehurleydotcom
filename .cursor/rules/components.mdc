@@ -1,0 +1,53 @@
+---
+globs: "resources/views/components/*.blade.php"
+description: "Blade components and reusable UI patterns"
+---
+
+# Blade Components Guide
+
+## Available Components
+
+### Layout Component (x-layout)
+Main application layout wrapper that provides:
+- Responsive navigation bar
+- Dark mode toggle
+- Consistent meta tags
+- Footer with social links
+- Smooth page transitions
+
+Usage:
+```blade
+<x-layout>
+    <x-slot name="title">Page Title</x-slot>
+    <x-slot name="description">Page meta description</x-slot>
+    
+    <!-- Page content -->
+</x-layout>
+```
+
+### Card Component (x-card)
+Reusable card component for consistent content presentation:
+- White background with shadow
+- Rounded corners
+- Responsive padding
+- Dark mode support
+
+Usage:
+```blade
+<x-card>
+    <h3 class="text-xl font-semibold mb-2">Card Title</h3>
+    <p>Card content goes here</p>
+</x-card>
+```
+
+## Component Conventions
+
+### Props
+- Use kebab-case for prop names in Blade templates
+- Provide sensible defaults for all props
+- Document props with clear descriptions
+
+### Styling
+- Use Tailwind CSS classes exclusively
+- Ensure responsive design
+- Support dark mode variants
