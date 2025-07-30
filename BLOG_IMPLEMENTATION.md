@@ -128,7 +128,7 @@ resources/css/
 ```mdx
 ---
 title: "Blog Post Title"
-date: 2025-07-25
+date: 2025-07-31
 description: "Post description"
 tags: ["AI", "Technology"]
 author: "Dale Hurley"
