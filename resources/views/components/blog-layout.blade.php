@@ -11,6 +11,10 @@
     $publishedTime = isset($post['date']) ? \Carbon\Carbon::parse($post['date'])->toISOString() : null;
     $modifiedTime = $publishedTime; // You can implement a separate modified time field if needed
     $tags = $post['tags'] ?? [];
+    
+    // Calculate reading time (approximate)
+    $wordCount = isset($post['content']) ? str_word_count(strip_tags($post['content'])) : 0;
+    $readingTime = $wordCount > 0 ? ceil($wordCount / 200) : 5; // 200 words per minute average
 @endphp
 
 <x-layout :title="$title" :description="$description" :canonical="$canonical" :og-image="$ogImage" og-type="article" :keywords="$keywords"
@@ -23,7 +27,12 @@
             "@@type": "BlogPosting",
             "headline": "{{ $post['title'] ?? 'Blog Post' }}",
             "description": "{{ $post['description'] ?? '' }}",
-            "image": "{{ $ogImage }}",
+            "image": {
+                "@@type": "ImageObject",
+                "url": "{{ $ogImage }}",
+                "width": 1200,
+                "height": 630
+            },
             "author": {
                 "@@type": "Person",
                 "name": "{{ $post['author'] ?? 'Dale Hurley' }}",
@@ -45,6 +54,10 @@
             @if($publishedTime)
             "datePublished": "{{ $publishedTime }}",
             "dateModified": "{{ $modifiedTime }}",
+            @endif
+            @if($wordCount > 0)
+            "wordCount": {{ $wordCount }},
+            "timeRequired": "PT{{ $readingTime }}M",
             @endif
             "mainEntityOfPage": {
                 "@@type": "WebPage",
