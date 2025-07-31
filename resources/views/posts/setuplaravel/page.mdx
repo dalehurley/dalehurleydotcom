@@ -1,0 +1,77 @@
+---
+title: "Install Laravel on your Mac"
+date: 2025-07-31
+description: "Install Laravel on your Mac in a few minutes"
+tags: [Laravel, Tutorial]
+author: "Dale Hurley"
+image: images/setuplaravel.webp
+thumbnail: images/setuplaravel-thumbnail.webp
+---
+**Development Environment:**
+
+Using Terminal, we will install [Homebrew](https://brew.sh/), [PHP](https://www.php.net/), [Composer](https://getcomposer.org/), [Node](https://nodejs.org/) and [Laravel Installer](https://laravel.com/docs/12.x/installation).
+
+## Setting Up Your Dev Environment
+
+We are assuming you are starting on a fresh machine.
+
+**Install [Homebrew](https://brew.sh/)**. Homebrew is the package manager for MacOS.
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+**Install [PHP](https://www.php.net/)** using Homebrew.
+
+```bash
+brew install php
+```
+
+**Install [Composer](https://getcomposer)** using Homebrew. Composer is the package manager for PHP.
+
+```bash
+brew install composer
+```
+
+**Install [Node](https://nodejs.org/)** using Homebrew. Node will provide you with NPM (Node Package Manager) and Yarn.
+
+```bash
+brew install node
+```
+
+**Install [Laravel Installer](https://laravel.com/)** using Composer.
+
+```bash
+composer global require laravel/installer
+```
+
+## Initialize your Laravel project
+
+Let's build the project step by step, starting in the terminal.
+
+### Create a new Laravel project
+
+```bash
+laravel new app
+```
+
+- Select React as the starter kit
+- Choose "Laravel's built-in authentication" for the authentication provider
+- Select "PEST" for the testing framework
+- Select "Yes" to "run npm install and npm run build"
+
+### Navigate to your new project
+
+```bash
+cd app
+```
+
+### Fire it up
+
+This will start the Laravel development server and open the application in your default browser.
+
+```bash
+composer run dev
+```
+
+You now have a Laravel applicationrunning at [`http://localhost:8000`](http://localhost:8000).

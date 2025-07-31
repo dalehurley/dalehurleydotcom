@@ -3,9 +3,10 @@
 namespace App\Services\Agents;
 
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use OpenAI\Laravel\Facades\OpenAI;
+use App\Services\ImageProcessor;
+use App\Services\ImageCompressionService;
 
 class ImageAgent
 {
@@ -48,9 +49,48 @@ class ImageAgent
         // Save original image
         file_put_contents($publicImagePath, $contents);
 
-        // Create thumbnail (300x200) using native PHP
+        // Compress the main image using CLI tools
         try {
-            self::createThumbnail($publicImagePath, $publicThumbnailPath, 300, 200);
+            $compressor = app(ImageCompressionService::class);
+            $optimized = $compressor->compress($publicImagePath, 'webp');
+            file_put_contents($publicImagePath, $optimized['binary']);
+            
+            Log::info("Main image compressed", [
+                'slug' => $blogPost['slug'],
+                'original_kb' => $optimized['original_kb'],
+                'compressed_kb' => $optimized['compressed_kb'],
+                'savings_pct' => $optimized['savings_pct']
+            ]);
+        } catch (\Exception $e) {
+            Log::warning("Failed to compress main image for {$blogPost['slug']}, falling back to ImageProcessor: " . $e->getMessage());
+            // Fallback to ImageProcessor optimization
+            try {
+                ImageProcessor::optimizeImage($publicImagePath, $publicImagePath, 90, 1920, 1080);
+            } catch (\Exception $fallbackError) {
+                Log::warning("ImageProcessor fallback also failed for {$blogPost['slug']}: " . $fallbackError->getMessage());
+            }
+        }
+
+        // Create thumbnail using ImageProcessor
+        try {
+            ImageProcessor::createThumbnail($publicImagePath, $publicThumbnailPath, 300, 200, 85);
+            
+            // Compress the thumbnail using CLI tools
+            try {
+                $compressor = app(ImageCompressionService::class);
+                $thumbnailOptimized = $compressor->compress($publicThumbnailPath, 'webp');
+                file_put_contents($publicThumbnailPath, $thumbnailOptimized['binary']);
+                
+                Log::info("Thumbnail compressed", [
+                    'slug' => $blogPost['slug'],
+                    'original_kb' => $thumbnailOptimized['original_kb'],
+                    'compressed_kb' => $thumbnailOptimized['compressed_kb'],
+                    'savings_pct' => $thumbnailOptimized['savings_pct']
+                ]);
+            } catch (\Exception $e) {
+                Log::warning("Failed to compress thumbnail for {$blogPost['slug']}: " . $e->getMessage());
+                // Continue with uncompressed thumbnail
+            }
         } catch (\Exception $e) {
             Log::warning("Failed to create thumbnail for {$blogPost['slug']}: " . $e->getMessage());
             // Continue without thumbnail - we still have the main image
@@ -145,84 +185,5 @@ PROMPT;
         Log::info('Response: ' . json_encode($response->choices[0]->message->content));
 
         return $response->choices[0]->message->content;
-    }
-
-    /**
-     * Create a thumbnail from an image using native PHP
-     */
-    private static function createThumbnail(string $sourcePath, string $thumbnailPath, int $width, int $height): void
-    {
-        // Get image info
-        $imageInfo = getimagesize($sourcePath);
-        if (!$imageInfo) {
-            throw new \Exception("Could not get image information for: {$sourcePath}");
-        }
-
-        $sourceWidth = $imageInfo[0];
-        $sourceHeight = $imageInfo[1];
-        $mimeType = $imageInfo['mime'];
-
-        // Create source image resource based on mime type
-        switch ($mimeType) {
-            case 'image/jpeg':
-                $sourceImage = imagecreatefromjpeg($sourcePath);
-                break;
-            case 'image/png':
-                $sourceImage = imagecreatefrompng($sourcePath);
-                break;
-            case 'image/webp':
-                $sourceImage = imagecreatefromwebp($sourcePath);
-                break;
-            default:
-                throw new \Exception("Unsupported image type: {$mimeType}");
-        }
-
-        if (!$sourceImage) {
-            throw new \Exception("Could not create image resource from: {$sourcePath}");
-        }
-
-        // Calculate thumbnail dimensions maintaining aspect ratio
-        $aspectRatio = $sourceWidth / $sourceHeight;
-        if ($aspectRatio > 1) {
-            // Landscape
-            $thumbnailWidth = $width;
-            $thumbnailHeight = (int) ($width / $aspectRatio);
-        } else {
-            // Portrait or square
-            $thumbnailHeight = $height;
-            $thumbnailWidth = (int) ($height * $aspectRatio);
-        }
-
-        // Create thumbnail image
-        $thumbnail = imagecreatetruecolor($thumbnailWidth, $thumbnailHeight);
-
-        // Preserve transparency for PNG and WebP
-        if ($mimeType === 'image/png' || $mimeType === 'image/webp') {
-            imagealphablending($thumbnail, false);
-            imagesavealpha($thumbnail, true);
-            $transparent = imagecolorallocatealpha($thumbnail, 255, 255, 255, 127);
-            imagefill($thumbnail, 0, 0, $transparent);
-        }
-
-        // Resize image
-        imagecopyresampled(
-            $thumbnail,
-            $sourceImage,
-            0,
-            0,
-            0,
-            0,
-            $thumbnailWidth,
-            $thumbnailHeight,
-            $sourceWidth,
-            $sourceHeight
-        );
-
-        // Save thumbnail as WebP
-        imagewebp($thumbnail, $thumbnailPath, 90);
-
-        // Clean up memory
-        imagedestroy($sourceImage);
-        imagedestroy($thumbnail);
     }
 }
