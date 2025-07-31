@@ -54,7 +54,7 @@ class ImageAgent
             $compressor = app(ImageCompressionService::class);
             $optimized = $compressor->compress($publicImagePath, 'webp');
             file_put_contents($publicImagePath, $optimized['binary']);
-            
+
             Log::info("Main image compressed", [
                 'slug' => $blogPost['slug'],
                 'original_kb' => $optimized['original_kb'],
@@ -74,13 +74,13 @@ class ImageAgent
         // Create thumbnail using ImageProcessor
         try {
             ImageProcessor::createThumbnail($publicImagePath, $publicThumbnailPath, 300, 200, 85);
-            
+
             // Compress the thumbnail using CLI tools
             try {
                 $compressor = app(ImageCompressionService::class);
                 $thumbnailOptimized = $compressor->compress($publicThumbnailPath, 'webp');
                 file_put_contents($publicThumbnailPath, $thumbnailOptimized['binary']);
-                
+
                 Log::info("Thumbnail compressed", [
                     'slug' => $blogPost['slug'],
                     'original_kb' => $thumbnailOptimized['original_kb'],

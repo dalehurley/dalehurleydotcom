@@ -35,24 +35,23 @@ class CompressImageJob implements ShouldQueue
     {
         try {
             $result = $compressor->compress($this->sourcePath, $this->targetFormat);
-            
+
             // Store the compressed image
             Storage::disk($this->disk)->put($this->outputPath, $result['binary']);
-            
+
             Log::info("Image compression job completed", [
                 'source' => $this->sourcePath,
                 'output' => $this->outputPath,
                 'savings_pct' => $result['savings_pct'],
                 'format' => $result['format']
             ]);
-
         } catch (\Exception $e) {
             Log::error("Image compression job failed", [
                 'source' => $this->sourcePath,
                 'output' => $this->outputPath,
                 'error' => $e->getMessage()
             ]);
-            
+
             throw $e;
         }
     }

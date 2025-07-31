@@ -39,7 +39,7 @@ class InstallCompressionTools extends Command
 
         // Check current installation status
         $currentPaths = $this->checkCurrentInstallation();
-        
+
         if ($this->option('check-only')) {
             return $this->showCurrentStatus($currentPaths);
         }
@@ -79,16 +79,15 @@ class InstallCompressionTools extends Command
             $this->line('');
             $this->info('✅ Installation completed successfully!');
             $this->line('');
-            
+
             // Show final status
             $finalPaths = $this->checkCurrentInstallation();
             $this->showCurrentStatus($finalPaths);
-            
+
             $this->line('');
             $this->outputEnvironmentVariables($finalPaths);
-            
-            return 0;
 
+            return 0;
         } catch (\Exception $e) {
             $this->error('❌ Installation failed: ' . $e->getMessage());
             $this->line('');
@@ -100,11 +99,11 @@ class InstallCompressionTools extends Command
     private function detectOS(): string
     {
         $uname = trim(shell_exec('uname -s') ?? '');
-        
+
         if ($uname === 'Darwin') {
             return 'macOS';
         }
-        
+
         if ($uname === 'Linux') {
             // Check for specific distributions
             if (file_exists('/etc/os-release')) {
@@ -118,7 +117,7 @@ class InstallCompressionTools extends Command
             }
             return 'Linux';
         }
-        
+
         return 'Unknown';
     }
 
@@ -161,7 +160,7 @@ class InstallCompressionTools extends Command
         // Try using 'which' command
         $which = $tool === 'mozjpeg' ? 'cjpeg' : $tool;
         $result = trim(shell_exec("which {$which} 2>/dev/null") ?? '');
-        
+
         if (!empty($result) && is_executable($result)) {
             return $result;
         }
@@ -172,14 +171,14 @@ class InstallCompressionTools extends Command
     private function installOnMacOS(): array
     {
         $this->info('📦 Installing tools on macOS using Homebrew...');
-        
+
         // Check if Homebrew is installed
         if (!$this->isBrewInstalled()) {
             throw new \Exception('Homebrew is not installed. Please install Homebrew first: https://brew.sh/');
         }
 
         $this->info('✅ Homebrew detected');
-        
+
         // Update Homebrew
         $this->info('🔄 Updating Homebrew...');
         $this->executeCommand(['brew', 'update']);
@@ -187,7 +186,7 @@ class InstallCompressionTools extends Command
         // Install tools
         $tools = [
             'pngquant' => 'pngquant',
-            'mozjpeg' => 'mozjpeg', 
+            'mozjpeg' => 'mozjpeg',
             'webp' => 'cwebp',
             'libavif' => 'avifenc'
         ];
@@ -208,21 +207,21 @@ class InstallCompressionTools extends Command
     private function installOnUbuntu(): array
     {
         $this->info('📦 Installing tools on Ubuntu/Debian using apt...');
-        
+
         // Update package list
         $this->info('🔄 Updating package list...');
         $this->executeCommand(['sudo', 'apt-get', 'update']);
 
         // Install tools
         $packages = ['pngquant', 'mozjpeg-tools', 'webp', 'libavif-bin'];
-        
+
         $this->info('📦 Installing packages: ' . implode(', ', $packages));
         $this->executeCommand(['sudo', 'apt-get', 'install', '-y', ...$packages]);
 
         // Create symlink for mozjpeg if needed
         $cjpegPath = '/usr/bin/cjpeg';
         $mozjpegPath = '/usr/local/bin/mozjpeg';
-        
+
         if (file_exists($cjpegPath) && !file_exists($mozjpegPath)) {
             $this->info('🔗 Creating mozjpeg symlink...');
             $this->executeCommand(['sudo', 'ln', '-sf', $cjpegPath, $mozjpegPath]);
@@ -245,11 +244,11 @@ class InstallCompressionTools extends Command
     {
         $process = new Process($command);
         $process->setTimeout(300); // 5 minutes timeout
-        
+
         if ($showOutput) {
             $this->line('Running: ' . implode(' ', $command));
         }
-        
+
         $process->run(function ($type, $buffer) use ($showOutput) {
             if ($showOutput && Process::OUT === $type) {
                 $this->line($buffer);
@@ -289,7 +288,7 @@ class InstallCompressionTools extends Command
         $this->info('📝 Environment Variables for .env file:');
         $this->line('');
         $this->line('# Image Compression Tool Paths');
-        
+
         foreach ($paths as $tool => $path) {
             $envVar = 'IMG_COMP_' . strtoupper($tool) . '_PATH';
             $value = $path ?: '';
@@ -307,23 +306,23 @@ class InstallCompressionTools extends Command
     {
         $this->info('📖 Manual Installation Instructions:');
         $this->line('');
-        
+
         $this->info('🍎 macOS (Homebrew):');
         $this->line('  brew install pngquant mozjpeg webp libavif');
         $this->line('');
-        
+
         $this->info('🐧 Ubuntu/Debian:');
         $this->line('  sudo apt-get update');
         $this->line('  sudo apt-get install pngquant mozjpeg-tools webp libavif-bin');
         $this->line('  sudo ln -sf /usr/bin/cjpeg /usr/local/bin/mozjpeg');
         $this->line('');
-        
+
         $this->info('🐳 Docker:');
         $this->line('  RUN apt-get update && apt-get install -y \\');
         $this->line('      pngquant mozjpeg-tools webp libavif-bin \\');
         $this->line('      && ln -sf /usr/bin/cjpeg /usr/local/bin/mozjpeg');
         $this->line('');
-        
+
         $this->info('After manual installation, run:');
         $this->line('  php artisan image:install-tools --output-env');
     }

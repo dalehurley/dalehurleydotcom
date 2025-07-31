@@ -16,6 +16,7 @@ A high-performance Laravel service for compressing and optimizing images using l
 ### 1. Install CLI Tools
 
 #### Ubuntu/Debian
+
 ```bash
 sudo apt-get update
 sudo apt-get install -y pngquant mozjpeg-tools webp libavif-bin
@@ -25,11 +26,13 @@ sudo ln -sf /usr/bin/cjpeg /usr/local/bin/mozjpeg
 ```
 
 #### macOS (Homebrew)
+
 ```bash
 brew install pngquant mozjpeg webp libavif
 ```
 
 #### Docker
+
 ```dockerfile
 RUN apt-get update && apt-get install -y \
     pngquant \
@@ -52,23 +55,23 @@ The service uses `config/image-compression.php`:
 ```php
 return [
     'preset' => env('IMG_COMP_PRESET', 'default'),
-    
+
     'cli' => [
         'pngquant' => null,  // Auto-discover via `which`
         'mozjpeg'  => null,
         'cwebp'    => null,
         'avifenc'  => null,
     ],
-    
+
     'quality' => [
         'png'  => '65-80',   // pngquant quality range
         'jpeg' => 80,        // mozjpeg quality
         'webp' => 80,        // cwebp quality
         'avif' => 60,        // avifenc quality
     ],
-    
+
     'timeout' => 60,         // CLI process timeout
-    
+
     'fallback' => [
         'enabled' => true,   // Fall back to GD if CLI fails
         'log_failures' => true,
@@ -77,6 +80,7 @@ return [
 ```
 
 Add to your `.env`:
+
 ```
 IMG_COMP_PRESET=default
 ```
@@ -93,13 +97,13 @@ class ImageController extends Controller
     public function store(Request $request, ImageCompressionService $compressor)
     {
         $uploadedFile = $request->file('photo');
-        
+
         // Compress and convert to WebP
         $result = $compressor->compress($uploadedFile, 'webp');
-        
+
         // Store the compressed image
         Storage::put('images/photo.webp', $result['binary']);
-        
+
         return response()->json([
             'original_size' => $result['original_kb'] . 'KB',
             'compressed_size' => $result['compressed_kb'] . 'KB',
@@ -172,28 +176,28 @@ class ImageAgent
     public static function generateImage(array $blogPost): array
     {
         // ... existing image generation code ...
-        
+
         // Compress the generated image
         $compressor = app(ImageCompressionService::class);
-        
+
         // Optimize main image
         $optimized = $compressor->compress($publicImagePath, 'webp');
         file_put_contents($publicImagePath, $optimized['binary']);
-        
+
         // Create compressed thumbnail
         $thumbnail = $compressor->compress($publicImagePath);
         ImageProcessor::createThumbnail(
-            $publicImagePath, 
-            $publicThumbnailPath, 
-            300, 
-            200, 
+            $publicImagePath,
+            $publicThumbnailPath,
+            300,
+            200,
             85
         );
-        
+
         // Further compress thumbnail
         $thumbnailOptimized = $compressor->compress($publicThumbnailPath, 'webp');
         file_put_contents($publicThumbnailPath, $thumbnailOptimized['binary']);
-        
+
         return [
             'image_path' => $imagePath,
             'thumbnail_path' => $thumbnailPath
@@ -217,6 +221,7 @@ vendor/bin/pest tests/Feature
 ### CI Setup
 
 The service includes GitHub Actions workflow that:
+
 - Installs all compression tools
 - Runs comprehensive tests
 - Validates actual compression ratios
@@ -226,13 +231,13 @@ The service includes GitHub Actions workflow that:
 
 Typical compression results with default settings:
 
-| Format | Original | Compressed | Savings |
-|--------|----------|------------|---------|
-| JPEG → JPEG (mozjpeg) | 1.2MB | 800KB | 33% |
-| PNG → PNG (pngquant) | 2.1MB | 950KB | 55% |
-| JPEG → WebP | 1.2MB | 480KB | 60% |
-| PNG → WebP | 2.1MB | 420KB | 80% |
-| JPEG → AVIF | 1.2MB | 320KB | 73% |
+| Format                | Original | Compressed | Savings |
+| --------------------- | -------- | ---------- | ------- |
+| JPEG → JPEG (mozjpeg) | 1.2MB    | 800KB      | 33%     |
+| PNG → PNG (pngquant)  | 2.1MB    | 950KB      | 55%     |
+| JPEG → WebP           | 1.2MB    | 480KB      | 60%     |
+| PNG → WebP            | 2.1MB    | 420KB      | 80%     |
+| JPEG → AVIF           | 1.2MB    | 320KB      | 73%     |
 
 ## Configuration Options
 

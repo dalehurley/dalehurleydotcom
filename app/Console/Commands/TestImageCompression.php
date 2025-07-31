@@ -12,7 +12,7 @@ class TestImageCompression extends Command
      *
      * @var string
      */
-    protected $signature = 'image:test-compression 
+    protected $signature = 'image:test-compression
                           {image? : Path to test image (optional, will download one if not provided)}
                           {--format= : Target format (png, jpeg, webp, avif)}
                           {--check-tools : Only check available tools}
@@ -82,7 +82,7 @@ class TestImageCompression extends Command
     private function checkTools(ImageCompressionService $compressor): int
     {
         $this->info('Checking available compression tools...');
-        
+
         $tools = $compressor->checkTools();
         $formats = $compressor->getAvailableFormats();
 
@@ -110,7 +110,7 @@ class TestImageCompression extends Command
             ],
             'png' => [
                 'url' => 'https://httpbin.org/image/png',
-                'filename' => 'test_sample.png', 
+                'filename' => 'test_sample.png',
                 'description' => 'PNG test image'
             ],
             'webp' => [
@@ -127,7 +127,7 @@ class TestImageCompression extends Command
 
         // Default to JPEG if no format specified
         $format = $targetFormat ?? 'jpeg';
-        
+
         // Use JPEG for unknown formats
         if (!isset($testImages[$format])) {
             $format = 'jpeg';
@@ -139,22 +139,22 @@ class TestImageCompression extends Command
         // Download if file doesn't exist or if forced download
         if (!file_exists($cachePath) || $this->option('download')) {
             $this->info("Downloading {$imageInfo['description']}...");
-            
+
             try {
                 $imageData = file_get_contents($imageInfo['url']);
-                
+
                 if ($imageData === false) {
                     $this->warn("Failed to download {$format} image, creating fallback...");
                     return $this->createFallbackImage($format);
                 }
-                
+
                 if (file_put_contents($cachePath, $imageData) === false) {
                     $this->error("Failed to save downloaded image");
                     return $this->createFallbackImage($format);
                 }
-                
+
                 $this->info("Downloaded: {$cachePath} (" . number_format(strlen($imageData) / 1024, 1) . " KB)");
-                
+
             } catch (\Exception $e) {
                 $this->warn("Download failed ({$e->getMessage()}), creating fallback...");
                 return $this->createFallbackImage($format);
@@ -168,27 +168,27 @@ class TestImageCompression extends Command
     {
         $extension = $format === 'jpeg' ? 'jpg' : $format;
         $path = storage_path("app/fallback_test_{$format}_" . time() . ".{$extension}");
-        
+
         $image = imagecreatetruecolor(800, 600);
-        
+
         // Create a colorful gradient pattern
         for ($y = 0; $y < 600; $y++) {
             for ($x = 0; $x < 800; $x++) {
                 $red = (int) (128 + 127 * sin($x / 100) * cos($y / 100));
                 $green = (int) (128 + 127 * sin($x / 80) * sin($y / 80));
                 $blue = (int) (128 + 127 * cos($x / 120) * cos($y / 60));
-                
+
                 $color = imagecolorallocate($image, $red, $green, $blue);
                 imagesetpixel($image, $x, $y, $color);
             }
         }
-        
+
         // Add format-specific text
         $white = imagecolorallocate($image, 255, 255, 255);
         $black = imagecolorallocate($image, 0, 0, 0);
         imagestring($image, 5, 250, 250, "FALLBACK {$format} TEST", $white);
         imagestring($image, 3, 300, 300, 'Generated locally', $black);
-        
+
         // Save in the appropriate format
         switch ($format) {
             case 'png':
@@ -201,7 +201,7 @@ class TestImageCompression extends Command
                 imagejpeg($image, $path, 95);
                 break;
         }
-        
+
         imagedestroy($image);
         return $path;
     }

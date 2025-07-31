@@ -22,7 +22,7 @@ class ImageCompressionService
         $path = $this->getSourcePath($source);
         $originalSize = filesize($path);
         $originalMime = mime_content_type($path);
-        
+
         if (!$originalMime) {
             throw new RuntimeException("Could not determine mime type for: {$path}");
         }
@@ -48,15 +48,14 @@ class ImageCompressionService
             ];
 
             $this->logCompressionResult($path, $result);
-            
-            return $result;
 
+            return $result;
         } catch (\Exception $e) {
             if ($this->config['fallback']['enabled']) {
                 Log::warning("CLI compression failed, falling back to GD: " . $e->getMessage());
                 return $this->fallbackToGd($path, $format, $originalSize);
             }
-            
+
             throw new RuntimeException("Image compression failed: " . $e->getMessage(), 0, $e);
         }
     }
@@ -129,7 +128,7 @@ class ImageCompressionService
 
         $process->setTimeout($this->config['timeout']);
         $process->mustRun();
-        
+
         $output = $process->getOutput();
         if (empty($output)) {
             throw new RuntimeException("No output from {$format} encoder");
@@ -141,23 +140,22 @@ class ImageCompressionService
     protected function runAvifEncoder(string $path): string
     {
         $tempFile = tempnam(sys_get_temp_dir(), 'avif_') . '.avif';
-        
+
         try {
             $process = $this->buildAvifenc($path, $tempFile);
             $process->setTimeout($this->config['timeout']);
             $process->mustRun();
-            
+
             if (!file_exists($tempFile)) {
                 throw new RuntimeException("AVIF encoder did not create output file");
             }
-            
+
             $content = file_get_contents($tempFile);
             if ($content === false) {
                 throw new RuntimeException("Failed to read AVIF output file");
             }
-            
+
             return $content;
-            
         } finally {
             if (file_exists($tempFile)) {
                 unlink($tempFile);
@@ -171,7 +169,8 @@ class ImageCompressionService
             $this->bin('pngquant'),
             "--quality={$this->config['quality']['png']}",
             '--strip',
-            '--output', '-',
+            '--output',
+            '-',
             $path
         ]);
     }
@@ -190,19 +189,22 @@ class ImageCompressionService
     {
         return new Process([
             $this->bin('cwebp'),
-            '-q', (string) $this->config['quality']['webp'],
+            '-q',
+            (string) $this->config['quality']['webp'],
             $path,
-            '-o', '-'
+            '-o',
+            '-'
         ]);
     }
 
     protected function buildAvifenc(string $path, string $outputPath): Process
     {
         $quality = $this->config['quality']['avif'] ?? 60;
-        
+
         return new Process([
             $this->bin('avifenc'),
-            '-q', (string) $quality,
+            '-q',
+            (string) $quality,
             $path,
             $outputPath
         ]);
@@ -219,7 +221,7 @@ class ImageCompressionService
 
         $binaryName = $key === 'mozjpeg' ? 'cjpeg' : $key;
         $result = trim(shell_exec("which {$binaryName} 2>/dev/null") ?: '');
-        
+
         if (empty($result) || !is_executable($result)) {
             throw new RuntimeException("{$key} binary not found in PATH or config");
         }
@@ -230,10 +232,10 @@ class ImageCompressionService
     protected function fallbackToGd(string $path, string $format, int $originalSize): array
     {
         $tempOutput = tempnam(sys_get_temp_dir(), 'img_fallback_') . '.webp';
-        
+
         try {
             if ($format === 'webp' || $format === 'avif') {
-                $quality = is_numeric($this->config['quality']['webp']) ? 
+                $quality = is_numeric($this->config['quality']['webp']) ?
                     (int) $this->config['quality']['webp'] : 80;
                 ImageProcessor::convertToWebP($path, $tempOutput, $quality);
             } else {
@@ -246,7 +248,7 @@ class ImageCompressionService
                         $quality = (int) $quality;
                     }
                 }
-                
+
                 ImageProcessor::optimizeImage($path, $tempOutput, $quality);
             }
 
@@ -261,7 +263,6 @@ class ImageCompressionService
                 'format' => 'webp',
                 'compression_method' => 'gd_fallback'
             ];
-
         } finally {
             if (file_exists($tempOutput)) {
                 unlink($tempOutput);

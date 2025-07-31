@@ -28,17 +28,17 @@ class ImageUploadController extends Controller
 
         $uploadedFile = $request->file('image');
         $targetFormat = $request->input('format');
-        
+
         try {
             // Compress the image
             $result = $this->compressor->compress($uploadedFile, $targetFormat);
-            
+
             // Generate filename
             $filename = $this->generateFilename($uploadedFile->getClientOriginalName(), $result['format']);
-            
+
             // Store compressed image
             $path = Storage::put('images/' . $filename, $result['binary']);
-            
+
             return response()->json([
                 'success' => true,
                 'path' => $path,
@@ -51,7 +51,6 @@ class ImageUploadController extends Controller
                     'method' => $result['compression_method'] ?? 'cli'
                 ]
             ]);
-            
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
@@ -72,18 +71,18 @@ class ImageUploadController extends Controller
 
         $uploadedFile = $request->file('image');
         $targetFormat = $request->input('format', 'webp');
-        
+
         // Store original image temporarily
         $tempPath = $uploadedFile->store('temp/uploads');
         $absolutePath = Storage::path($tempPath);
-        
+
         // Generate final path
         $filename = $this->generateFilename($uploadedFile->getClientOriginalName(), $targetFormat);
         $finalPath = 'images/' . $filename;
-        
+
         // Dispatch compression job
         CompressImageJob::dispatch($absolutePath, $finalPath, $targetFormat);
-        
+
         return response()->json([
             'success' => true,
             'message' => 'Image uploaded and queued for compression',
@@ -100,13 +99,13 @@ class ImageUploadController extends Controller
     {
         $tools = $this->compressor->checkTools();
         $formats = $this->compressor->getAvailableFormats();
-        
+
         return response()->json([
             'tools' => $tools,
             'available_formats' => $formats,
             'fallback_enabled' => config('image-compression.fallback.enabled'),
-            'recommended_setup' => empty($formats) ? 
-                'Install CLI tools for optimal compression: pngquant, mozjpeg, cwebp, avifenc' : 
+            'recommended_setup' => empty($formats) ?
+                'Install CLI tools for optimal compression: pngquant, mozjpeg, cwebp, avifenc' :
                 'Compression tools properly configured'
         ]);
     }
@@ -124,13 +123,13 @@ class ImageUploadController extends Controller
 
         $results = [];
         $targetFormat = $request->input('format', 'webp');
-        
+
         foreach ($request->file('images') as $index => $file) {
             try {
                 $result = $this->compressor->compress($file, $targetFormat);
                 $filename = $this->generateFilename($file->getClientOriginalName(), $result['format']);
                 $path = Storage::put('images/' . $filename, $result['binary']);
-                
+
                 $results[] = [
                     'index' => $index,
                     'success' => true,
@@ -139,7 +138,6 @@ class ImageUploadController extends Controller
                     'savings_percent' => $result['savings_pct'],
                     'format' => $result['format']
                 ];
-                
             } catch (\Exception $e) {
                 $results[] = [
                     'index' => $index,
@@ -148,9 +146,9 @@ class ImageUploadController extends Controller
                 ];
             }
         }
-        
+
         $successful = count(array_filter($results, fn($r) => $r['success']));
-        
+
         return response()->json([
             'total' => count($results),
             'successful' => $successful,
@@ -164,7 +162,7 @@ class ImageUploadController extends Controller
         $name = pathinfo($originalName, PATHINFO_FILENAME);
         $safeName = Str::slug($name);
         $timestamp = time();
-        
+
         return "{$safeName}_{$timestamp}.{$format}";
     }
 }
