@@ -7,7 +7,8 @@
         <div class="flex items-center">
             @if ($image)
                 <img src="{{ asset('images/' . $image) }}" alt="{{ $title }} logo"
-                    class="w-10 h-10 mr-3 rounded-full object-cover" />
+                    class="w-10 h-10 mr-3 rounded-full object-cover"
+                    loading="lazy" />
             @endif
             <div class="text-2xl font-bold text-gray-900 dark:text-white"> {{ $title }}</div>
         </div>

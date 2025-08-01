@@ -11,7 +11,6 @@
     $publishedTime = isset($post['date']) ? \Carbon\Carbon::parse($post['date'])->toISOString() : null;
     $modifiedTime = $publishedTime; // You can implement a separate modified time field if needed
     $tags = $post['tags'] ?? [];
-    
     // Calculate reading time (approximate)
     $wordCount = isset($post['content']) ? str_word_count(strip_tags($post['content'])) : 0;
     $readingTime = $wordCount > 0 ? ceil($wordCount / 200) : 5; // 200 words per minute average
@@ -27,12 +26,7 @@
             "@@type": "BlogPosting",
             "headline": "{{ $post['title'] ?? 'Blog Post' }}",
             "description": "{{ $post['description'] ?? '' }}",
-            "image": {
-                "@@type": "ImageObject",
-                "url": "{{ $ogImage }}",
-                "width": 1200,
-                "height": 630
-            },
+            "image": "{{ $ogImage }}",
             "author": {
                 "@@type": "Person",
                 "name": "{{ $post['author'] ?? 'Dale Hurley' }}",
@@ -138,7 +132,8 @@
                     @if (isset($post['author']))
                         <div class="flex items-center">
                             <img src="/images/dale-hurley-1x1.png" alt="{{ $post['author'] }}"
-                                class="w-8 h-8 rounded-full mr-2">
+                                class="w-8 h-8 rounded-full mr-2"
+                                loading="lazy">
                             <span>{{ $post['author'] }}</span>
                         </div>
                     @endif
@@ -186,7 +181,8 @@
             @if (isset($post['image']))
                 <div class="mb-12">
                     <img src="{{ $post['image'] }}" alt="{{ $post['title'] ?? 'Blog post hero image' }}"
-                        class="w-full aspect-[3/2] object-cover rounded-lg shadow-lg">
+                        class="w-full aspect-[3/2] object-cover rounded-lg shadow-lg"
+                        loading="lazy">
                 </div>
             @endif
 

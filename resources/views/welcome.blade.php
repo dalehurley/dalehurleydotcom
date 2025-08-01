@@ -26,7 +26,14 @@
                 <div
                     class="mt-10 aspect-[16/12] w-full overflow-hidden rounded-xl sm:mt-16 lg:mt-0 lg:max-w-none xl:row-span-2 xl:row-end-2">
                     <img src="{{ asset('images/dale-hurley.jpg') }}" alt="Dale Hurley"
-                        class="h-full w-full object-cover object-top" />
+                        class="h-full w-full object-cover object-top" 
+                        loading="eager"
+                        fetchpriority="high"
+                        width="600" 
+                        height="450"
+                        style="opacity: 1 !important; visibility: visible !important;"
+                        onload="this.style.opacity='1'; this.style.visibility='visible';"
+                        onerror="this.style.opacity='1'; this.style.visibility='visible';" />
                 </div>
                 <div class="mt-10 lg:mt-0 xl:col-end-1 xl:row-start-1">
                     <div class="mt-10 flex items-center gap-x-6">

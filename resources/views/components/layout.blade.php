@@ -40,18 +40,28 @@
 
     <!-- Robots -->
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-    
-    <!-- Additional SEO Meta Tags -->
+
+    <!-- Performance & SEO Optimizations -->
     <meta name="theme-color" content="#FF750F">
     <meta name="msapplication-TileColor" content="#FF750F">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    
+
     <!-- Favicon and Icons -->
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
+
+    <!-- Resource Hints for Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="dns-prefetch" href="//dalehurley.com">
+    <link rel="dns-prefetch" href="//www.google-analytics.com">
+
+    <!-- Security Headers -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
 
     <!-- Open Graph Tags -->
     <meta property="og:type" content="{{ $ogType }}">
@@ -108,25 +118,75 @@
 
     @stack('styles')
     @stack('meta')
+
+    <!-- Default JSON-LD Structured Data -->
+    @if ($ogType === 'website')
+        <script type="application/ld+json">
+    {
+        "@@context": "https://schema.org",
+        "@@type": "Person",
+        "name": "Dale Hurley",
+        "jobTitle": "AI-Driven Tech Entrepreneur & Banking Innovation Leader",
+        "description": "{{ $description }}",
+        "url": "{{ url('/') }}",
+        "image": "{{ asset('images/dale-hurley.jpg') }}",
+        "sameAs": [
+            "https://www.linkedin.com/in/dalehurley/",
+            "https://github.com/dalehurley",
+            "https://twitter.com/dalehurley"
+        ],
+        "worksFor": [
+            {
+                "@@type": "Organization",
+                "name": "LEAP Legal Software",
+                "description": "AI Practice Management Engineering Lead"
+            }
+        ],
+        "knowsAbout": [
+            "Artificial Intelligence",
+            "Fintech",
+            "Banking Innovation",
+            "Startup Development",
+            "AI Automation",
+            "Software Engineering"
+        ],
+        "alumniOf": {
+            "@@type": "Organization",
+            "name": "CreditorWatch",
+            "description": "Former CTO & Innovation Director"
+        }
+    }
+    </script>
+    @endif
 </head>
 
 <body class="bg-white dark:bg-gray-900">
+    <!-- Skip to content link for accessibility -->
+    <a href="#main-content"
+        class="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 bg-[#FF750F] text-white px-4 py-2 z-50">
+        Skip to main content
+    </a>
+
     <header class="absolute inset-x-0 top-0 z-50">
-        <nav aria-label="Global" class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
+        <nav aria-label="Main navigation" class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
             <div class="flex lg:flex-1">
-                <a href="/" class="-m-1.5 p-1.5">
+                <a href="/" class="-m-1.5 p-1.5" aria-label="Dale Hurley homepage">
                     <span class="sr-only">Dale Hurley</span>
                     <span class="text-xl font-bold text-[#FF750F]">DaleHurley.com</span>
                 </a>
             </div>
-            <div class="hidden lg:flex lg:gap-x-12">
-                <a href="/" class="text-sm font-semibold leading-6 text-gray-900 dark:text-white">Home</a>
-                <a href="/posts" class="text-sm font-semibold leading-6 text-gray-900 dark:text-white">Blog</a>
+            <div class="hidden lg:flex lg:gap-x-12" role="navigation">
+                <a href="/"
+                    class="text-sm font-semibold leading-6 text-gray-900 dark:text-white hover:text-[#FF750F] transition-colors"
+                    @if (request()->is('/')) aria-current="page" @endif>Home</a>
+                <a href="/posts"
+                    class="text-sm font-semibold leading-6 text-gray-900 dark:text-white hover:text-[#FF750F] transition-colors"
+                    @if (request()->is('posts*')) aria-current="page" @endif>Blog</a>
             </div>
         </nav>
     </header>
 
-    <main class="pt-16">
+    <main id="main-content" class="pt-16" role="main">
         {{ $slot }}
     </main>
 

@@ -47,7 +47,8 @@
                         @if (isset($post['thumbnail']))
                             <div class="aspect-[3/2] overflow-hidden">
                                 <img src="{{ $post['thumbnail'] }}" alt="{{ $post['title'] ?? 'Blog post image' }}"
-                                    class="w-full aspect-[3/2] object-cover hover:scale-103 transition-transform duration-300">
+                                    class="w-full aspect-[3/2] object-cover hover:scale-103 transition-transform duration-300"
+                                    loading="lazy">
                             </div>
                         @endif
 
