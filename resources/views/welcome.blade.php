@@ -60,7 +60,7 @@
                 <!-- LEAP Legal Software -->
                 <x-track-record-item year="2024-Present" title="LEAP Legal Software"
                     role="AI Practice Management Engineering Lead"
-                    description="Created no-code AI agentic platform for legal firms, transforming how legal professionals manage cases and automate workflows."
+                    description="Created no-code AI agentic platform for legal firms, transforming how legal professionals manage matter profitability."
                     image="leap-icon.webp" />
 
                 <!-- Avenue Bank -->
