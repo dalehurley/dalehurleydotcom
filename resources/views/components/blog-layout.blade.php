@@ -91,6 +91,28 @@
             ]
         }
         </script>
+
+        <!-- Fix blog content images -->
+        <style>
+            article img,
+            .prose img {
+                opacity: 1 !important;
+                visibility: visible !important;
+                transition: none !important;
+            }
+
+            .centered {
+                text-align: center;
+                margin: 2rem 0;
+            }
+
+            .centered img {
+                opacity: 1 !important;
+                visibility: visible !important;
+                transition: none !important;
+                display: inline-block !important;
+            }
+        </style>
     @endpush
 
     <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -131,9 +153,8 @@
                 <div class="flex flex-wrap items-center gap-4 text-gray-600 dark:text-gray-400">
                     @if (isset($post['author']))
                         <div class="flex items-center">
-                            <img src="/images/dale-hurley-1x1.png" alt="{{ $post['author'] }}"
-                                class="w-8 h-8 rounded-full mr-2"
-                                loading="lazy">
+                            <img src="/images/dale-hurley-1x1.webp" alt="{{ $post['author'] }}"
+                                class="w-8 h-8 rounded-full mr-2" loading="lazy">
                             <span>{{ $post['author'] }}</span>
                         </div>
                     @endif
@@ -181,8 +202,7 @@
             @if (isset($post['image']))
                 <div class="mb-12">
                     <img src="{{ $post['image'] }}" alt="{{ $post['title'] ?? 'Blog post hero image' }}"
-                        class="w-full aspect-[3/2] object-cover rounded-lg shadow-lg"
-                        loading="lazy">
+                        class="w-full aspect-[3/2] object-cover rounded-lg shadow-lg" loading="lazy">
                 </div>
             @endif
 
@@ -229,6 +249,64 @@
                     alert('URL copied to clipboard!');
                 }
             }
+
+            // Fix images in blog content specifically
+            document.addEventListener('DOMContentLoaded', function() {
+                // Target all images within the article content
+                const articleImages = document.querySelectorAll('article img, .prose img');
+
+                articleImages.forEach(function(img) {
+                    // Force visibility immediately
+                    img.style.setProperty('opacity', '1', 'important');
+                    img.style.setProperty('visibility', 'visible', 'important');
+                    img.style.setProperty('transition', 'none', 'important');
+
+                    // Handle load events
+                    img.addEventListener('load', function() {
+                        this.style.setProperty('opacity', '1', 'important');
+                        this.style.setProperty('visibility', 'visible', 'important');
+                    });
+
+                    img.addEventListener('error', function() {
+                        this.style.setProperty('opacity', '1', 'important');
+                        this.style.setProperty('visibility', 'visible', 'important');
+                    });
+
+                    // If already loaded
+                    if (img.complete) {
+                        img.style.setProperty('opacity', '1', 'important');
+                        img.style.setProperty('visibility', 'visible', 'important');
+                    }
+                });
+
+                // Monitor for new images that might be added
+                const observer = new MutationObserver(function(mutations) {
+                    mutations.forEach(function(mutation) {
+                        mutation.addedNodes.forEach(function(node) {
+                            if (node.nodeType === 1) {
+                                if (node.tagName === 'IMG') {
+                                    node.style.setProperty('opacity', '1', 'important');
+                                    node.style.setProperty('visibility', 'visible',
+                                    'important');
+                                }
+
+                                const newImages = node.querySelectorAll ? node.querySelectorAll(
+                                    'img') : [];
+                                newImages.forEach(function(img) {
+                                    img.style.setProperty('opacity', '1', 'important');
+                                    img.style.setProperty('visibility', 'visible',
+                                        'important');
+                                });
+                            }
+                        });
+                    });
+                });
+
+                observer.observe(document.querySelector('article') || document.body, {
+                    childList: true,
+                    subtree: true
+                });
+            });
         </script>
     @endpush
 </x-layout>

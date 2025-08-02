@@ -6,8 +6,7 @@
             <div
                 class="aspect-square w-full rounded-2xl bg-gray-100 dark:bg-gray-700 flex items-center justify-center overflow-hidden">
                 <img src="{{ asset('images/' . $image) }}" alt="{{ $name }} logo"
-                    class="max-h-full max-w-full object-contain p-4"
-                    loading="lazy">
+                    class="max-h-full max-w-full object-contain p-4" loading="lazy">
             </div>
         </div>
     </a>

@@ -26,12 +26,8 @@
                 <div
                     class="mt-10 aspect-[16/12] w-full overflow-hidden rounded-xl sm:mt-16 lg:mt-0 lg:max-w-none xl:row-span-2 xl:row-end-2">
                     <img src="{{ asset('images/dale-hurley.jpg') }}" alt="Dale Hurley"
-                        class="h-full w-full object-cover object-top" 
-                        loading="eager"
-                        fetchpriority="high"
-                        width="600" 
-                        height="450"
-                        style="opacity: 1 !important; visibility: visible !important;"
+                        class="h-full w-full object-cover object-top" loading="eager" fetchpriority="high"
+                        width="600" height="450" style="opacity: 1 !important; visibility: visible !important;"
                         onload="this.style.opacity='1'; this.style.visibility='visible';"
                         onerror="this.style.opacity='1'; this.style.visibility='visible';" />
                 </div>
@@ -65,17 +61,17 @@
                 <x-track-record-item year="2024-Present" title="LEAP Legal Software"
                     role="AI Practice Management Engineering Lead"
                     description="Created no-code AI agentic platform for legal firms, transforming how legal professionals manage cases and automate workflows."
-                    image="leap-icon.png" />
+                    image="leap-icon.webp" />
 
                 <!-- Avenue Bank -->
                 <x-track-record-item year="2018-2024" title="Avenue Bank" role="Co-founder & Executive Leader"
                     description="Secured $77M+ funding, obtained full banking licence in 2024, and implemented 24-hour processing systems that revolutionised customer experience."
-                    image="avenue-bank-icon.png" />
+                    image="avenue-bank-icon.webp" />
 
                 <!-- CreditorWatch -->
                 <x-track-record-item year="2010-2018" title="CreditorWatch" role="CTO & Innovation Director"
                     description="Led startup to successful exit, pioneered risk score innovation, and implemented user-centric design principles that transformed credit risk assessment."
-                    image="creditorwatch-icon.png" />
+                    image="creditorwatch-icon.webp" />
             </div>
         </div>
     </section>
@@ -120,15 +116,15 @@
             </div>
             <div class="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-4">
                 @foreach ([
-        ['name' => 'DocCheetah', 'desc' => 'AI-powered document processing and analysis', 'url' => 'https://doccheetah.com/', 'image' => 'doc-cheetah-logo.png'],
-        ['name' => 'Spotfillr', 'desc' => 'Intelligent parking space optimisation', 'url' => 'https://spotfillr.com/', 'image' => 'spotfill-logo.png'],
-        ['name' => 'Full.CX', 'desc' => 'Customer experience enhancement platform', 'url' => 'https://full.cx/', 'image' => 'full-cx-logo.png'],
-        ['name' => 'Custom Homework Maker', 'desc' => 'AI-generated personalised learning materials', 'url' => 'https://customhomeworkmaker.com/', 'image' => 'custom-homework-maker-logo.png'],
-        ['name' => '1 to 5 App', 'desc' => 'Simplified rating system for businesses', 'url' => 'https://www.1to5app.com/', 'image' => '1-to-5-app-logo.png'],
-        ['name' => 'RapidReportCard', 'desc' => 'Automated educational assessment tool', 'url' => 'https://rapidreportcard.com/', 'image' => 'rapid-report-card-logo.png'],
-        ['name' => 'Risks.io', 'desc' => 'Enterprise risk management platform', 'url' => 'https://www.risks.io/', 'image' => 'risks-io-logo.png'],
-        ['name' => 'SpeedBrain', 'desc' => 'Cognitive enhancement training system', 'url' => 'https://speedbrain.app/', 'image' => 'speed-brain-app-logo.png'],
-        ['name' => 'Claude 3 API PHP Package', 'desc' => 'Official SDK for Anthropic\'s Claude 3', 'url' => 'https://github.com/claude-php/claude-3-api', 'image' => 'php-claude-logo.png'],
+        ['name' => 'DocCheetah', 'desc' => 'AI-powered document processing and analysis', 'url' => 'https://doccheetah.com/', 'image' => 'doc-cheetah-logo.webp'],
+        ['name' => 'Spotfillr', 'desc' => 'Intelligent parking space optimisation', 'url' => 'https://spotfillr.com/', 'image' => 'spotfill-logo.webp'],
+        ['name' => 'Full.CX', 'desc' => 'Customer experience enhancement platform', 'url' => 'https://full.cx/', 'image' => 'full-cx-logo.webp'],
+        ['name' => 'Custom Homework Maker', 'desc' => 'AI-generated personalised learning materials', 'url' => 'https://customhomeworkmaker.com/', 'image' => 'custom-homework-maker-logo.webp'],
+        ['name' => '1 to 5 App', 'desc' => 'Simplified rating system for businesses', 'url' => 'https://www.1to5app.com/', 'image' => '1-to-5-app-logo.webp'],
+        ['name' => 'RapidReportCard', 'desc' => 'Automated educational assessment tool', 'url' => 'https://rapidreportcard.com/', 'image' => 'rapid-report-card-logo.webp'],
+        ['name' => 'Risks.io', 'desc' => 'Enterprise risk management platform', 'url' => 'https://www.risks.io/', 'image' => 'risks-io-logo.webp'],
+        ['name' => 'SpeedBrain', 'desc' => 'Cognitive enhancement training system', 'url' => 'https://speedbrain.app/', 'image' => 'speed-brain-app-logo.webp'],
+        ['name' => 'Claude 3 API PHP Package', 'desc' => 'Official SDK for Anthropic\'s Claude 3', 'url' => 'https://github.com/claude-php/clwebpaude-3-api', 'image' => 'php-claude-logo.webp'],
     ] as $project)
                     <x-project-item :name="$project['name']" :description="$project['desc']" :url="$project['url']" :image="$project['image']" />
                 @endforeach
