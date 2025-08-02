@@ -124,7 +124,7 @@
         ['name' => 'RapidReportCard', 'desc' => 'Automated educational assessment tool', 'url' => 'https://rapidreportcard.com/', 'image' => 'rapid-report-card-logo.webp'],
         ['name' => 'Risks.io', 'desc' => 'Enterprise risk management platform', 'url' => 'https://www.risks.io/', 'image' => 'risks-io-logo.webp'],
         ['name' => 'SpeedBrain', 'desc' => 'Cognitive enhancement training system', 'url' => 'https://speedbrain.app/', 'image' => 'speed-brain-app-logo.webp'],
-        ['name' => 'Claude 3 API PHP Package', 'desc' => 'Official SDK for Anthropic\'s Claude 3', 'url' => 'https://github.com/claude-php/clwebpaude-3-api', 'image' => 'php-claude-logo.webp'],
+        ['name' => 'Claude 3 API PHP Package', 'desc' => 'Official SDK for Anthropic\'s Claude 3', 'url' => 'https://github.com/claude-php/claude-3-api', 'image' => 'php-claude-logo.webp'],
     ] as $project)
                     <x-project-item :name="$project['name']" :description="$project['desc']" :url="$project['url']" :image="$project['image']" />
                 @endforeach
