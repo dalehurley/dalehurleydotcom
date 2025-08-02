@@ -931,7 +931,7 @@ PROMPT;
 
 **Creative Framework for Maximum Variation:**
 
-{$bannerText}Create a {$selectedComposition} featuring a {$selectedCharacter} wearing {$selectedOutfit} in a {$selectedSetting}, {$selectedAction}. Use color palette of {$selectedColors}. Include {$selectedProps} as key visual elements. {$wildcardText}
+{$bannerText}Create a {$selectedComposition} featuring an extremely good-looking {$selectedCharacter} wearing {$selectedOutfit} in a {$selectedSetting}, {$selectedAction}. Use color palette of {$selectedColors}. Include {$selectedProps} as key visual elements. {$wildcardText}
 
 **Art Direction:**
 • Style: 1950s propaganda/pin-up poster/comic book advertisement with thick black outlines, vintage advertising/poster aesthetic, halftone shading, slight paper texture overlay.
