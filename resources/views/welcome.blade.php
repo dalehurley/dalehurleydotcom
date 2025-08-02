@@ -34,7 +34,7 @@
                 <div class="mt-10 lg:mt-0 xl:col-end-1 xl:row-start-1">
                     <div class="mt-10 flex items-center gap-x-6">
                         <a href="#contact"
-                            class="rounded-md bg-[#FF750F] px-5 py-3 text-base font-semibold text-white shadow-sm hover:bg-[#E5670D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FF750F]">
+                            class="rounded-md bg-[#FF750F] px-5 py-3 text-base font-semibold text-white shadow-sm hover:bg-[#E5670D] focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#FF750F]">
                             Get in Touch
                         </a>
                         <a href="#track-record" class="text-base/6 font-semibold text-gray-900 dark:text-white">
