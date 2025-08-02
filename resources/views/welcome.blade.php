@@ -70,7 +70,7 @@
 
                 <!-- CreditorWatch -->
                 <x-track-record-item year="2010-2018" title="CreditorWatch" role="CTO & Innovation Director"
-                    description="Led startup to successful exit, pioneered risk score innovation, and implemented user-centric design principles that transformed credit risk assessment."
+                    description="Led technology and product from startup to successful exit, pioneered AI risk score innovation, and implemented user-centric design principles that transformed credit risk assessment."
                     image="creditorwatch-icon.webp" />
             </div>
         </div>
