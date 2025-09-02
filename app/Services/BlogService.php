@@ -9,6 +9,7 @@ use Carbon\Carbon;
 class BlogService
 {
     protected $postsPath;
+    protected $iframeProtection = [];
 
     public function __construct()
     {
@@ -228,11 +229,19 @@ class BlogService
             return null;
         }
 
+        // Reset iframe protection for this request
+        $this->iframeProtection = [];
+
         // Convert MDX components to Blade components before markdown conversion
         $processedContent = $this->convertMdxComponentsToBlade($post['content']);
 
         // Convert MDX content to HTML using Str::markdown
         $htmlContent = Str::markdown($processedContent);
+
+        // Restore protected iframe tags
+        foreach ($this->iframeProtection as $placeholder => $iframe) {
+            $htmlContent = str_replace($placeholder, $iframe, $htmlContent);
+        }
 
         return array_merge($post, [
             'html_content' => $htmlContent
@@ -244,6 +253,23 @@ class BlogService
      */
     protected function convertMdxComponentsToBlade(string $content): string
     {
+        // First, protect iframe tags from markdown processing by replacing them with placeholders
+        $iframeProtection = [];
+        $content = preg_replace_callback(
+            '/<iframe[^>]*>.*?<\/iframe>/s',
+            function ($matches) use (&$iframeProtection) {
+                $placeholder = '<!-- IFRAME_PLACEHOLDER_' . count($iframeProtection) . ' -->';
+                // Add responsive wrapper and styling to iframe
+                $iframe = $matches[0];
+                // Add responsive classes to the iframe itself
+                $iframe = preg_replace('/(<iframe[^>]*)(>)/', '$1 class="absolute inset-0 w-full h-full"$2', $iframe);
+                $styledIframe = '<div class="my-8 relative aspect-video overflow-hidden rounded-lg shadow-lg">' . $iframe . '</div>';
+                $iframeProtection[$placeholder] = $styledIframe;
+                return $placeholder;
+            },
+            $content
+        );
+
         // Convert Callout components (handle both self-closing and regular)
         $content = preg_replace_callback(
             '/<Callout(?:\s+type="([^"]*)")?[^>]*>(?:(.*?)<\/Callout>)?/s',
@@ -299,6 +325,9 @@ class BlogService
             },
             $content
         );
+
+        // Store iframe protection for later restoration
+        $this->iframeProtection = $iframeProtection;
 
         return $content;
     }
