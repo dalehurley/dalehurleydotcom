@@ -957,7 +957,7 @@ Generate the image prompt now.
 PROMPT;
 
         $response = OpenAI::chat()->create([
-            'model' => 'o3',
+            'model' => 'gpt-5',
             'messages' => [
                 ['role' => 'user', 'content' => $metaPrompt],
             ],
