@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="CodeWithPHP logo">
+    <rect width="512" height="512" rx="72" fill="#4B0600" />
+    <path d="M120 160h48v24h-48zM120 208h64v24h-64zM120 256h80v24h-80z" fill="#FF750F" opacity=".9" />
+    <path d="M208 336l-40-40 17-17 23 23 49-49 17 17-66 66z" fill="#FFBD80" />
+    <g font-family="Inter, 'Segoe UI', Helvetica, Arial, sans-serif" font-weight="600" font-size="56">
+        <text x="118" y="394" fill="#FFFFFF" letter-spacing=".04em">codewith</text>
+        <text x="118" y="452" fill="#FF750F" letter-spacing=".18em">php</text>
+    </g>
+</svg>
