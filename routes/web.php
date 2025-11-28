@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use App\Services\BlogService;
 use App\Http\Controllers\SitemapController;
-use App\Http\Controllers\ContactController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -34,9 +33,6 @@ Route::get('/posts/{slug}', function (string $slug, BlogService $blogService) {
 
     return view('posts.show', compact('post'));
 });
-
-// Contact form route
-Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
 
 // Sitemap routes
 Route::get('/sitemap.xml', [SitemapController::class, 'index']);
