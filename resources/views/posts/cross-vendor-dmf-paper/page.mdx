@@ -31,12 +31,11 @@ By leveraging the collective intelligence of frontier models, Claude Opus 4.5's 
 1. [Introduction](#1-introduction)
 2. [System Architecture for Cross-Vendor Model Fusion](#2-system-architecture-for-cross-vendor-model-fusion)
 3. [Implementation: Complete Code Examples](#3-implementation-complete-code-examples)
-4. [Real-World Use Cases](#4-real-world-use-cases)
-5. [Advanced Orchestration Patterns](#5-advanced-orchestration-patterns)
-6. [Evaluation and Cost-Benefit Analysis](#6-evaluation-and-cost-benefit-analysis)
-7. [Limitations and Future Work](#7-limitations-and-future-work)
-8. [Conclusion](#8-conclusion)
-9. [References](#references)
+4. [Advanced Orchestration Patterns](#4-advanced-orchestration-patterns)
+5. [Evaluation and Cost-Benefit Analysis](#5-evaluation-and-cost-benefit-analysis)
+6. [Limitations and Future Work](#6-limitations-and-future-work)
+7. [Conclusion](#7-conclusion)
+8. [References](#references)
 
 ## 1. Introduction
 
@@ -76,10 +75,9 @@ This paper makes the following contributions:
 
 1. A comprehensive DMF architecture treating cross-vendor models as callable tools
 2. Complete implementation with production-ready code examples
-3. Real-world use cases demonstrating practical effectiveness
-4. Cost-benefit analysis with empirical metrics
+3. Cost-benefit analysis with empirical metrics
 
-The remainder of this paper is organized as follows: Section 2 presents the DMF system architecture; Section 3 provides complete implementation details; Section 4 demonstrates real-world applications; Section 5 explores advanced orchestration patterns; Section 6 analyzes costs and benefits; Section 7 discusses limitations and future work; and Section 8 concludes with key insights.
+The remainder of this paper is organized as follows: Section 2 presents the DMF system architecture; Section 3 provides complete implementation details; Section 4 explores advanced orchestration patterns; Section 5 analyzes costs and benefits; Section 6 discusses limitations and future work; and Section 7 concludes with key insights.
 
 ## 2. System Architecture for Cross-Vendor Model Fusion
 
@@ -721,31 +719,9 @@ if __name__ == "__main__":
 
 **Key Insight:** DMF enables organizations to use the **best tool for each specific task** without being constrained to a single vendor's ecosystem. Need to analyze a PDF? Use Claude. Need real-time web information? Use OpenAI's web search. Need Google Search grounding? Use Gemini. All from a single, unified interface.
 
-## 4. Real-World Use Cases
+## 4. Advanced Orchestration Patterns
 
-### 4.1 Software Development Assistant
-
-A development team requires AI assistance across the software lifecycle. DMF enables optimal task allocation:
-
-- **Architecture Design:** Claude Opus 4.5 handles complex system design requiring deep reasoning
-- **Code Generation:** GPT-5.1 provides fast, efficient boilerplate generation
-- **Diagram Analysis:** Gemini 3 Pro processes visual documentation and diagrams
-- **Security Auditing:** Multi-vendor validation ensures comprehensive vulnerability detection
-
-**Results:** 65\% cost reduction versus Claude-only approach, 2x faster boilerplate generation, and detection of 3 additional security vulnerabilities through cross-validation.
-
-### 4.2 Financial Services Platform
-
-Investment platforms require high-confidence decision support. DMF enables multi-vendor validation for critical financial calculations:
-
-- **Market Data Processing:** GPT-5.1 handles fast data analysis
-- **Risk Assessment:** Multi-vendor validation ensures robust risk calculations
-- **Compliance Checking:** Claude Opus 4.5 performs thorough regulatory review
-- **News Sentiment Analysis:** Gemini 3 Pro processes multimodal financial content
-
-## 5. Advanced Orchestration Patterns
-
-### 5.1 Agentic Cross-Vendor Workflows
+### 4.1 Agentic Cross-Vendor Workflows
 
 The most powerful DMF pattern is **agentic orchestration**: an AI agent that chains calls across multiple vendors, passing context from one to the next with accumulated results. This enables sophisticated multi-model reasoning chains where each vendor contributes its unique strengths.
 
@@ -897,7 +873,7 @@ context = orchestrator.execute_workflow(
 
 **Key Insight:** The accumulated context enables sophisticated reasoning chains where each vendor builds on previous results. Gemini can reference OpenAI's web search findings, and Claude can synthesize both perspectives into a coherent analysis.
 
-### 5.2 Hierarchical Task Decomposition
+### 4.2 Hierarchical Task Decomposition
 
 Complex projects benefit from decomposition into subtasks routed to specialized models:
 
@@ -924,7 +900,7 @@ class HierarchicalOrchestrator(CrossVendorOrchestrator):
         return decomposition
 ```
 
-### 5.3 Iterative Refinement Pattern
+### 4.3 Iterative Refinement Pattern
 
 Cost-effective quality improvement through draft-and-refine workflows:
 
@@ -954,7 +930,7 @@ def iterative_refinement(orchestrator, task: str) -> str:
 
 **Cost:** ~60\% less than Claude-only; **Quality:** Comparable to Claude-only; **Speed:** Faster than Claude-only.
 
-### 5.4 Multi-Model Validation
+### 4.4 Multi-Model Validation
 
 Critical decisions benefit from cross-vendor consensus:
 
@@ -982,9 +958,9 @@ class ValidationOrchestrator(CrossVendorOrchestrator):
         return self._build_validation_report(results)
 ```
 
-## 6. Evaluation and Cost-Benefit Analysis
+## 5. Evaluation and Cost-Benefit Analysis
 
-### 6.1 Cost Comparison
+### 5.1 Cost Comparison
 
 DMF enables significant cost optimization through intelligent routing:
 
@@ -998,7 +974,7 @@ DMF enables significant cost optimization through intelligent routing:
 - Monthly cost: \$254
 - Savings: \$946/month (79\% reduction)
 
-### 6.2 Quality Metrics
+### 5.2 Quality Metrics
 
 | Metric | Single Model (Claude) | Cross-Vendor DMF | Improvement |
 |--------|----------------------|------------------|-------------|
@@ -1008,16 +984,16 @@ DMF enables significant cost optimization through intelligent routing:
 | User Satisfaction | 4.2/5 | 4.7/5 | +12\% |
 | Uptime (failover) | 99.5\% | 99.95\% | +0.45\% |
 
-### 6.3 Non-Financial Benefits
+### 5.3 Non-Financial Benefits
 
 DMF provides strategic advantages beyond direct cost savings:
 - **Risk Mitigation:** No single points of failure, protection against vendor changes
 - **Strategic Flexibility:** Negotiation leverage, access to latest capabilities
 - **Future-Proofing:** Seamless integration of new models
 
-## 7. Limitations and Future Work
+## 6. Limitations and Future Work
 
-### 7.1 Current Limitations
+### 6.1 Current Limitations
 
 DMF faces several challenges requiring further research:
 
@@ -1029,7 +1005,7 @@ DMF faces several challenges requiring further research:
 
 **Knowledge Inconsistencies:** Models trained on different datasets may produce conflicting information.
 
-### 7.2 Future Directions
+### 6.2 Future Directions
 
 Emerging trends suggest promising research directions:
 
@@ -1041,7 +1017,7 @@ Emerging trends suggest promising research directions:
 
 **Edge Deployment:** Ultra-low latency local-cloud hybrid architectures will mitigate latency concerns.
 
-## 8. Conclusion
+## 7. Conclusion
 
 Cross-Vendor Dynamic Model Fusion represents a fundamental shift in AI system architecture, moving from single-vendor platforms to intelligently orchestrated ecosystems. By treating models from Anthropic, OpenAI, and Google as specialized tools within a unified framework, DMF enables organizations to leverage the collective intelligence of frontier AI systems.
 
