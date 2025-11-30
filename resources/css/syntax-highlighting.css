@@ -187,6 +187,73 @@ pre:hover .copy-button {
         color: #656d76;
         border-bottom-color: #d0d7de;
     }
+
+    /* Light mode token colors for better readability */
+    .hljs-keyword {
+        color: #cf222e !important; /* Dark red for keywords */
+    }
+
+    .hljs-string {
+        color: #0a3069 !important; /* Dark blue for strings */
+    }
+
+    .hljs-comment {
+        color: #656d76 !important; /* Gray for comments */
+    }
+
+    .hljs-function {
+        color: #8250df !important; /* Dark purple for functions */
+    }
+
+    .hljs-variable {
+        color: #953800 !important; /* Dark orange for variables */
+    }
+
+    .hljs-number {
+        color: #0550ae !important; /* Dark blue for numbers */
+    }
+
+    .hljs-attr {
+        color: #116329 !important; /* Dark green for attributes */
+    }
+
+    .hljs-title,
+    .hljs-title.function_ {
+        color: #8250df !important; /* Dark purple for titles/functions */
+    }
+
+    .hljs-type {
+        color: #953800 !important; /* Dark orange for types */
+    }
+
+    .hljs-built_in {
+        color: #cf222e !important; /* Dark red for built-ins */
+    }
+
+    .hljs-literal {
+        color: #0550ae !important; /* Dark blue for literals */
+    }
+
+    .hljs-params {
+        color: #24292f !important; /* Default text color for params */
+    }
+
+    .hljs-property {
+        color: #116329 !important; /* Dark green for properties */
+    }
+
+    .hljs-selector-class,
+    .hljs-selector-id {
+        color: #8250df !important; /* Dark purple for selectors */
+    }
+
+    .hljs-tag {
+        color: #116329 !important; /* Dark green for tags */
+    }
+
+    .hljs-operator {
+        color: #24292f !important; /* Default text color for operators */
+    }
 }
 
 /* Custom token styling for better readability */
