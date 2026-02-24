@@ -1,5 +1,5 @@
 ---
-import { getCollection, getEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
 import BlogLayout from '../../layouts/BlogLayout.astro';
 import Callout from '../../components/Callout.astro';
 import Steps from '../../components/Steps.astro';
@@ -8,17 +8,30 @@ export async function getStaticPaths() {
   const posts = await getCollection('blog');
   return posts.map(post => ({
     params: { slug: post.slug },
-    props: { post },
+    props: { post, allPosts: posts },
   }));
 }
 
-const { post } = Astro.props;
+const { post, allPosts } = Astro.props;
 const { Content, remarkPluginFrontmatter } = await post.render();
 
 // Calculate reading time (rough estimate from body text)
 const readingTime = remarkPluginFrontmatter?.minutesRead
   ? Math.ceil(remarkPluginFrontmatter.minutesRead)
-  : undefined;
+  : Math.max(1, Math.round(post.body.trim().split(/\s+/).length / 200));
+
+// #7: Find related posts by matching tags
+const currentTags = new Set(post.data.tags ?? []);
+const relatedPosts = allPosts
+  .filter(p => p.slug !== post.slug)
+  .map(p => ({
+    post: p,
+    sharedTags: (p.data.tags ?? []).filter(t => currentTags.has(t)).length,
+  }))
+  .filter(({ sharedTags }) => sharedTags > 0)
+  .sort((a, b) => b.sharedTags - a.sharedTags || b.post.data.date.getTime() - a.post.data.date.getTime())
+  .slice(0, 3)
+  .map(({ post: p }) => p);
 ---
 
 <BlogLayout
@@ -30,6 +43,7 @@ const readingTime = remarkPluginFrontmatter?.minutesRead
   image={post.data.image}
   slug={post.slug}
   readingTime={readingTime}
+  relatedPosts={relatedPosts}
 >
   <Content components={{ Callout, Steps }} />
 </BlogLayout>
