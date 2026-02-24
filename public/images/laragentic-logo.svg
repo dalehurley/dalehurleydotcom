@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Laragentic logo">
+  <!-- Background -->
+  <rect width="512" height="512" rx="80" fill="#0a1628"/>
+
+  <!-- Neural agent dots (background) -->
+  <circle cx="340" cy="110" r="22" fill="#FF750F" opacity=".3"/>
+  <circle cx="430" cy="210" r="16" fill="#FF750F" opacity=".25"/>
+  <circle cx="400" cy="340" r="20" fill="#FF750F" opacity=".3"/>
+  <circle cx="330" cy="420" r="14" fill="#FF750F" opacity=".2"/>
+
+  <!-- Connection lines -->
+  <line x1="340" y1="132" x2="414" y2="200" stroke="#FF750F" stroke-width="4" opacity=".3"/>
+  <line x1="430" y1="226" x2="406" y2="322" stroke="#FF750F" stroke-width="4" opacity=".3"/>
+  <line x1="390" y1="350" x2="340" y2="408" stroke="#FF750F" stroke-width="4" opacity=".3"/>
+
+  <!-- Bold Laravel "L" (main icon) -->
+  <rect x="72" y="88" width="60" height="310" rx="14" fill="#ef4444"/>
+  <rect x="72" y="358" width="206" height="60" rx="14" fill="#ef4444"/>
+
+  <!-- Agent dot cluster (orange, brighter) -->
+  <circle cx="350" cy="130" r="30" fill="#FF750F"/>
+  <circle cx="428" cy="230" r="22" fill="#FF750F" opacity=".85"/>
+  <circle cx="400" cy="352" r="26" fill="#FF750F" opacity=".9"/>
+
+  <!-- Lines (active) -->
+  <line x1="350" y1="160" x2="418" y2="218" stroke="#FF750F" stroke-width="6" opacity=".6"/>
+  <line x1="428" y1="252" x2="404" y2="328" stroke="#FF750F" stroke-width="6" opacity=".6"/>
+
+  <!-- LARAGENTIC label -->
+  <rect x="72" y="438" width="368" height="48" rx="10" fill="#FF750F" opacity=".9"/>
+  <text x="256" y="471" text-anchor="middle" font-family="sans-serif" font-weight="700" font-size="24" fill="white" letter-spacing="1">LARAGENTIC</text>
+</svg>

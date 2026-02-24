@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Cross-Vendor DMF logo">
+  <!-- Background -->
+  <rect width="512" height="512" rx="80" fill="#0f172a"/>
+
+  <!-- Connecting lines (drawn first, behind nodes) -->
+  <line x1="134" y1="162" x2="228" y2="234" stroke="#FF750F" stroke-width="5" opacity=".55" stroke-dasharray="12,7"/>
+  <line x1="378" y1="162" x2="284" y2="234" stroke="#10b981" stroke-width="5" opacity=".55" stroke-dasharray="12,7"/>
+  <line x1="256" y1="390" x2="256" y2="296" stroke="#3b82f6" stroke-width="5" opacity=".55" stroke-dasharray="12,7"/>
+
+  <!-- Vendor node: Claude / Anthropic (orange) -->
+  <circle cx="120" cy="148" r="68" fill="#FF750F" opacity=".15"/>
+  <circle cx="120" cy="148" r="52" fill="#FF750F"/>
+  <text x="120" y="158" text-anchor="middle" font-family="sans-serif" font-weight="800" font-size="36" fill="white">C</text>
+
+  <!-- Vendor node: OpenAI (teal) -->
+  <circle cx="392" cy="148" r="68" fill="#10b981" opacity=".15"/>
+  <circle cx="392" cy="148" r="52" fill="#10b981"/>
+  <text x="392" y="158" text-anchor="middle" font-family="sans-serif" font-weight="800" font-size="36" fill="white">O</text>
+
+  <!-- Vendor node: Gemini (blue) -->
+  <circle cx="256" cy="404" r="68" fill="#3b82f6" opacity=".15"/>
+  <circle cx="256" cy="404" r="52" fill="#3b82f6"/>
+  <text x="256" y="414" text-anchor="middle" font-family="sans-serif" font-weight="800" font-size="36" fill="white">G</text>
+
+  <!-- Central fusion node -->
+  <circle cx="256" cy="256" r="58" fill="#1e293b" stroke="#FF750F" stroke-width="6"/>
+  <text x="256" y="246" text-anchor="middle" font-family="sans-serif" font-weight="800" font-size="20" fill="#FF750F">DMF</text>
+  <text x="256" y="270" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#94a3b8">FUSION</text>
+</svg>

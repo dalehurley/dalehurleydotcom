@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="PHPBot logo">
+  <!-- Background -->
+  <rect width="512" height="512" rx="80" fill="#1e1b4b"/>
+
+  <!-- Antenna -->
+  <rect x="244" y="46" width="24" height="68" rx="12" fill="#FF750F"/>
+  <circle cx="256" cy="36" r="28" fill="#FF750F"/>
+
+  <!-- Robot head -->
+  <rect x="108" y="112" width="296" height="218" rx="40" fill="#312e81"/>
+  <rect x="108" y="112" width="296" height="218" rx="40" fill="none" stroke="#FF750F" stroke-width="10"/>
+
+  <!-- Left eye -->
+  <rect x="148" y="168" width="88" height="62" rx="14" fill="#FF750F"/>
+  <rect x="162" y="180" width="26" height="18" rx="5" fill="white" opacity=".45"/>
+
+  <!-- Right eye -->
+  <rect x="276" y="168" width="88" height="62" rx="14" fill="#FF750F"/>
+  <rect x="290" y="180" width="26" height="18" rx="5" fill="white" opacity=".45"/>
+
+  <!-- Mouth grill -->
+  <rect x="158" y="272" width="196" height="14" rx="7" fill="#FF750F"/>
+  <rect x="180" y="294" width="152" height="10" rx="5" fill="#FF750F" opacity=".5"/>
+
+  <!-- Ear nubs -->
+  <rect x="76" y="188" width="32" height="46" rx="10" fill="#FF750F" opacity=".7"/>
+  <rect x="404" y="188" width="32" height="46" rx="10" fill="#FF750F" opacity=".7"/>
+
+  <!-- PHP badge bar -->
+  <rect x="108" y="360" width="296" height="96" rx="22" fill="#7c3aed"/>
+  <text x="256" y="432" text-anchor="middle" font-family="'Courier New', monospace" font-weight="900" font-size="68" fill="white">PHP</text>
+</svg>

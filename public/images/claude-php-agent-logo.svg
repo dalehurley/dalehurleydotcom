@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Claude PHP Agent logo">
+  <!-- Background -->
+  <rect width="512" height="512" rx="80" fill="#1a0030"/>
+
+  <!-- PHP hexagon (official logo style) -->
+  <polygon points="256,52 440,158 440,354 256,460 72,354 72,158" fill="#777bb4"/>
+  <polygon points="256,52 440,158 440,354 256,460 72,354 72,158" fill="none" stroke="#a78bfa" stroke-width="8" opacity=".5"/>
+
+  <!-- PHP text in hexagon -->
+  <text x="256" y="300" text-anchor="middle" font-family="'Courier New', monospace" font-weight="900" font-size="108" fill="white">PHP</text>
+
+  <!-- Orbital ring (agent concept) -->
+  <ellipse cx="256" cy="256" rx="210" ry="72" fill="none" stroke="#FF750F" stroke-width="6" opacity=".4" transform="rotate(-30,256,256)"/>
+
+  <!-- Agent dots on orbital -->
+  <circle cx="80" cy="180" r="16" fill="#FF750F"/>
+  <circle cx="432" cy="332" r="16" fill="#FF750F"/>
+  <circle cx="362" cy="100" r="12" fill="#FF750F" opacity=".7"/>
+
+  <!-- AGENT banner -->
+  <rect x="128" y="390" width="256" height="54" rx="12" fill="#FF750F"/>
+  <text x="256" y="429" text-anchor="middle" font-family="sans-serif" font-weight="700" font-size="30" fill="white" letter-spacing="3">AGENT</text>
+</svg>
