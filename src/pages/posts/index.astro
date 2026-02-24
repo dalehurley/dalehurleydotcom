@@ -44,17 +44,19 @@ const allTags = [...new Set(posts.flatMap(p => p.data.tags ?? []))].sort();
         <p class="mt-2 text-sm text-gray-500 dark:text-gray-500">{posts.length} articles</p>
       </div>
 
-      <!-- Tag filter bar (#15: clickable tags) -->
+      <!-- Tag filter bar: horizontally scrollable single row -->
       {allTags.length > 0 && (
-        <div class="mb-10 flex flex-wrap gap-2 justify-center">
-          {allTags.map(tag => (
-            <a
-              href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`}
-              class="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-orange-50 hover:text-orange-700 hover:border-orange-300 dark:hover:bg-orange-900/20 dark:hover:text-orange-300 transition-colors shadow-sm"
-            >
-              {tag}
-            </a>
-          ))}
+        <div class="mb-10 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0">
+          <div class="flex gap-2 w-max sm:w-auto sm:flex-wrap sm:justify-center">
+            {allTags.map(tag => (
+              <a
+                href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`}
+                class="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium whitespace-nowrap bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-orange-50 hover:text-orange-700 hover:border-orange-300 dark:hover:bg-orange-900/20 dark:hover:text-orange-300 transition-colors shadow-sm"
+              >
+                {tag}
+              </a>
+            ))}
+          </div>
         </div>
       )}
 
