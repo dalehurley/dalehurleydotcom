@@ -1,0 +1,118 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const principles = [
+  {
+    number: 1,
+    title: 'Customer first, always.',
+    body: 'The customer is the start, centre, and end of everything we do. Our goal is to deliver value to the customer. When in doubt, put the customer first.',
+  },
+  {
+    number: 2,
+    title: 'Hyperfocus on the problem.',
+    body: "Identify the real problem. Then work out how to solve it. Don't solve around it.",
+  },
+  {
+    number: 3,
+    title: 'Think big. Start small. Scale fast. Repeat.',
+    body: 'You solve the biggest problems by starting, iterating, and not waiting for perfect.',
+  },
+  {
+    number: 4,
+    title: 'Get to a result.',
+    body: 'Until the customer gets value, the work is worthless. Ship it, learn, improve.',
+  },
+  {
+    number: 5,
+    title: 'Remove complexity.',
+    body: "From the product, from the process, from the conversation. If it doesn't need to be there, strip it out.",
+  },
+  {
+    number: 6,
+    title: 'Be passionate.',
+    body: "Love what you do. Do your best. If you can't bring that energy, this isn't the place.",
+  },
+  {
+    number: 7,
+    title: 'Work with the best.',
+    body: 'Expect it of others. Expect it of yourself. Settle for neither less nor average.',
+  },
+  {
+    number: 8,
+    title: 'Take ownership.',
+    body: "When there's a problem, it's your problem. If you're not the person to fix the problem, find the person who can fix it and see to it that they do. Don't walk past it.",
+  },
+  {
+    number: 9,
+    title: 'Make the decision.',
+    body: "Collect the data, get the evidence, but decide. Accept you'll get some wrong. Indecision is worse.",
+  },
+];
+---
+
+<Layout
+  title="Principles of Dale — Dale Hurley"
+  description="The nine principles that guide how Dale Hurley builds products, leads teams, and makes decisions."
+  keywords="Dale Hurley, principles, leadership, product development, decision making, entrepreneurship"
+  ogType="website"
+>
+  <!-- Hero -->
+  <div class="relative isolate overflow-hidden bg-gradient-to-b from-[#FF750F]/20 via-[#FF750F]/10 to-white dark:from-[#FF750F]/10 dark:via-[#FF750F]/5 dark:to-gray-900 pt-14">
+    <div class="mx-auto max-w-3xl px-6 py-24 sm:py-32 lg:px-8 text-center">
+      <p class="text-sm font-semibold uppercase tracking-widest text-[#FF750F] mb-4">The Foundation</p>
+      <h1 class="text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-5xl">
+        Principles of Dale
+      </h1>
+      <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+        Nine principles that guide how I build products, lead teams, and make decisions. Not rules — ways of thinking.
+      </p>
+    </div>
+  </div>
+
+  <!-- Principles list -->
+  <section class="py-24 sm:py-32 bg-white dark:bg-gray-900">
+    <div class="mx-auto max-w-3xl px-6 lg:px-8">
+      <ol class="space-y-12">
+        {principles.map((p) => (
+          <li class="fade-in-section flex gap-6 sm:gap-10 items-start">
+            <span
+              class="flex-shrink-0 flex items-center justify-center w-12 h-12 rounded-full bg-[#FF750F] text-white text-lg font-bold shadow-md"
+              aria-hidden="true"
+            >
+              {p.number}
+            </span>
+            <div>
+              <h2 class="text-xl font-bold text-gray-900 dark:text-white">{p.title}</h2>
+              <p class="mt-2 text-base leading-7 text-gray-600 dark:text-gray-300">{p.body}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-16 bg-[#4B0600] dark:bg-gray-800">
+    <div class="mx-auto max-w-2xl px-6 text-center fade-in-section">
+      <p class="text-lg font-semibold text-orange-100">
+        Want to work together or learn more?
+      </p>
+      <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a
+          href="https://www.linkedin.com/in/dalehurley/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 px-6 py-3 bg-[#FF750F] text-white rounded-lg hover:bg-orange-500 transition-colors font-semibold"
+        >
+          Connect on LinkedIn
+        </a>
+        <a
+          href="/"
+          class="inline-flex items-center gap-2 px-6 py-3 border border-orange-400/40 text-orange-100 rounded-lg hover:bg-white/10 transition-colors font-semibold"
+        >
+          Back to home
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
