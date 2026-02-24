@@ -1,0 +1,125 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+
+  // Collect all unique tags
+  const tagSet = new Set<string>();
+  posts.forEach(post => {
+    (post.data.tags ?? []).forEach(tag => {
+      tagSet.add(tag.toLowerCase().replace(/\s+/g, '-'));
+    });
+  });
+
+  return Array.from(tagSet).map(tag => ({
+    params: { tag },
+    props: {
+      tag,
+      posts: posts
+        .filter(post =>
+          (post.data.tags ?? []).some(t => t.toLowerCase().replace(/\s+/g, '-') === tag)
+        )
+        .sort((a, b) => b.data.date.getTime() - a.data.date.getTime()),
+    },
+  }));
+}
+
+const { tag, posts } = Astro.props;
+const displayTag = tag.replace(/-/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase());
+
+// Estimate reading time from body (average 200 wpm)
+function estimateReadingTime(body: string): number {
+  const words = body.trim().split(/\s+/).length;
+  return Math.max(1, Math.round(words / 200));
+}
+---
+
+<Layout
+  title={`${displayTag} - Dale Hurley Blog`}
+  description={`All posts tagged with "${displayTag}" on the Dale Hurley blog.`}
+  keywords={`Dale Hurley, ${displayTag}, AI, technology, entrepreneurship`}
+  ogType="website"
+>
+  <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <nav class="mb-6 text-sm text-gray-500 dark:text-gray-400" aria-label="Breadcrumb">
+        <ol class="flex items-center space-x-2">
+          <li><a href="/" class="hover:text-orange-600 transition-colors">Home</a></li>
+          <li class="before:content-['/'] before:mx-2">
+            <a href="/posts" class="hover:text-orange-600 transition-colors">Blog</a>
+          </li>
+          <li class="before:content-['/'] before:mx-2 text-gray-900 dark:text-white">
+            {displayTag}
+          </li>
+        </ol>
+      </nav>
+
+      <div class="text-center mb-12">
+        <div class="inline-flex items-center gap-2 mb-4">
+          <svg class="w-5 h-5 text-[#FF750F]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+          </svg>
+          <span class="text-sm font-medium text-[#FF750F] uppercase tracking-wider">Tag</span>
+        </div>
+        <h1 class="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4">{displayTag}</h1>
+        <p class="text-xl text-gray-600 dark:text-gray-400">
+          {posts.length} {posts.length === 1 ? 'post' : 'posts'} tagged with "{displayTag}"
+        </p>
+      </div>
+
+      <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        {posts.map(post => {
+          const readingTime = estimateReadingTime(post.body);
+          return (
+            <a
+              href={`/posts/${post.slug}`}
+              class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow flex flex-col"
+            >
+              {post.data.thumbnail && (
+                <div class="aspect-[3/2] overflow-hidden">
+                  <img
+                    src={post.data.thumbnail.startsWith('/') ? post.data.thumbnail : `/${post.data.thumbnail}`}
+                    alt={post.data.title}
+                    class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                    loading="lazy"
+                  />
+                </div>
+              )}
+              <div class="p-6 flex flex-col flex-1">
+                <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3">{post.data.title}</h2>
+                {post.data.description && (
+                  <p class="text-gray-600 dark:text-gray-400 mb-4 line-clamp-3 flex-1">{post.data.description}</p>
+                )}
+                <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400 mt-auto">
+                  <time datetime={post.data.date.toISOString()}>
+                    {post.data.date.toLocaleDateString('en-AU', { year: 'numeric', month: 'short', day: 'numeric' })}
+                  </time>
+                  <span class="flex items-center gap-1">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    {readingTime} min read
+                  </span>
+                </div>
+              </div>
+            </a>
+          );
+        })}
+      </div>
+
+      <div class="text-center mt-12">
+        <a
+          href="/posts"
+          class="inline-flex items-center px-6 py-3 bg-[#FF750F] text-white rounded-lg hover:bg-orange-500 transition-colors font-semibold"
+        >
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+          All Posts
+        </a>
+      </div>
+    </div>
+  </div>
+</Layout>

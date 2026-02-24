@@ -33,7 +33,7 @@ const currentPath = Astro.url.pathname;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -55,6 +55,9 @@ const currentPath = Astro.url.pathname;
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- RSS Feed -->
+    <link rel="alternate" type="application/rss+xml" title="Dale Hurley Blog" href="/rss.xml" />
 
     <!-- Resource hints -->
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
@@ -126,7 +129,8 @@ const currentPath = Astro.url.pathname;
       Skip to main content
     </a>
 
-    <header class="absolute inset-x-0 top-0 z-50">
+    <!-- Sticky Header (#2: sticky with backdrop blur) -->
+    <header id="site-header" class="sticky top-0 z-50 transition-all duration-300">
       <nav aria-label="Main navigation" class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
         <div class="flex lg:flex-1">
           <a href="/" class="-m-1.5 p-1.5" aria-label="Dale Hurley homepage">
@@ -134,6 +138,8 @@ const currentPath = Astro.url.pathname;
             <span class="text-xl font-bold text-[#FF750F]">DaleHurley.com</span>
           </a>
         </div>
+
+        <!-- Desktop nav -->
         <div class="hidden lg:flex lg:gap-x-12" role="navigation">
           <a
             href="/"
@@ -145,11 +151,64 @@ const currentPath = Astro.url.pathname;
             class={`text-sm font-semibold leading-6 transition-colors ${currentPath.startsWith('/posts') ? 'text-[#FF750F]' : 'text-gray-900 dark:text-white hover:text-[#FF750F]'}`}
             aria-current={currentPath.startsWith('/posts') ? 'page' : undefined}
           >Blog</a>
+          <a
+            href="/#track-record"
+            class="text-sm font-semibold leading-6 transition-colors text-gray-900 dark:text-white hover:text-[#FF750F]"
+          >About</a>
+          <a
+            href="/#contact"
+            class="text-sm font-semibold leading-6 transition-colors text-gray-900 dark:text-white hover:text-[#FF750F]"
+          >Contact</a>
         </div>
+
+        <!-- Mobile hamburger button (#1: mobile menu) -->
+        <button
+          id="mobile-menu-btn"
+          class="lg:hidden p-2 rounded-md text-gray-700 dark:text-gray-200 hover:text-[#FF750F] transition-colors"
+          aria-label="Open navigation menu"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+        >
+          <svg id="hamburger-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
       </nav>
+
+      <!-- Mobile menu panel (#1: mobile menu) -->
+      <div
+        id="mobile-menu"
+        class="hidden lg:hidden border-t border-gray-200 dark:border-gray-700 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md"
+        role="navigation"
+        aria-label="Mobile navigation"
+      >
+        <div class="px-6 py-4 space-y-3">
+          <a
+            href="/"
+            class={`block px-3 py-2 rounded-md text-base font-semibold transition-colors ${currentPath === '/' ? 'text-[#FF750F] bg-orange-50 dark:bg-orange-900/20' : 'text-gray-900 dark:text-white hover:text-[#FF750F] hover:bg-gray-50 dark:hover:bg-gray-800'}`}
+            aria-current={currentPath === '/' ? 'page' : undefined}
+          >Home</a>
+          <a
+            href="/posts"
+            class={`block px-3 py-2 rounded-md text-base font-semibold transition-colors ${currentPath.startsWith('/posts') ? 'text-[#FF750F] bg-orange-50 dark:bg-orange-900/20' : 'text-gray-900 dark:text-white hover:text-[#FF750F] hover:bg-gray-50 dark:hover:bg-gray-800'}`}
+            aria-current={currentPath.startsWith('/posts') ? 'page' : undefined}
+          >Blog</a>
+          <a
+            href="/#track-record"
+            class="block px-3 py-2 rounded-md text-base font-semibold text-gray-900 dark:text-white hover:text-[#FF750F] hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+          >About</a>
+          <a
+            href="/#contact"
+            class="block px-3 py-2 rounded-md text-base font-semibold text-gray-900 dark:text-white hover:text-[#FF750F] hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+          >Contact</a>
+        </div>
+      </div>
     </header>
 
-    <main id="main-content" class="pt-16" role="main">
+    <main id="main-content" role="main">
       <slot />
     </main>
 
@@ -179,6 +238,12 @@ const currentPath = Astro.url.pathname;
                   <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
                 </svg>
               </a>
+              <!-- RSS -->
+              <a href="/rss.xml" class="text-gray-400 hover:text-gray-300" aria-label="RSS Feed">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M6.18 15.64a2.18 2.18 0 0 1 2.18 2.18C8.36 19.01 7.38 20 6.18 20C4.98 20 4 19.01 4 17.82a2.18 2.18 0 0 1 2.18-2.18M4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44m0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93V10.1z"/>
+                </svg>
+              </a>
             </div>
           </div>
 
@@ -204,6 +269,7 @@ const currentPath = Astro.url.pathname;
                     { href: 'https://www.linkedin.com/in/dalehurley/', text: 'LinkedIn' },
                     { href: 'https://x.com/dalehurley', text: 'Twitter' },
                     { href: 'https://github.com/dalehurley', text: 'GitHub' },
+                    { href: '/rss.xml', text: 'RSS Feed' },
                   ].map(link => (
                     <li><a href={link.href} class="text-sm text-gray-300 hover:text-white">{link.text}</a></li>
                   ))}
@@ -218,6 +284,7 @@ const currentPath = Astro.url.pathname;
                     { href: '/#track-record', text: 'Track Record' },
                     { href: '/#projects', text: 'Projects' },
                     { href: '/posts', text: 'Blog' },
+                    { href: '/#contact', text: 'Contact' },
                   ].map(link => (
                     <li><a href={link.href} class="text-sm text-gray-300 hover:text-white">{link.text}</a></li>
                   ))}
@@ -246,5 +313,89 @@ const currentPath = Astro.url.pathname;
         </div>
       </div>
     </footer>
+
+    <!-- Back to top button (#4) -->
+    <button
+      id="back-to-top"
+      class="fixed bottom-8 right-8 z-50 p-3 bg-[#FF750F] text-white rounded-full shadow-lg opacity-0 invisible transition-all duration-300 hover:bg-orange-500 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-[#FF750F] focus:ring-offset-2"
+      aria-label="Back to top"
+    >
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+      </svg>
+    </button>
+
+    <script>
+      // #1: Mobile hamburger menu
+      const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const hamburgerIcon = document.getElementById('hamburger-icon');
+      const closeIcon = document.getElementById('close-icon');
+
+      mobileMenuBtn?.addEventListener('click', () => {
+        const isOpen = mobileMenu?.classList.contains('hidden') === false;
+        if (isOpen) {
+          mobileMenu?.classList.add('hidden');
+          hamburgerIcon?.classList.remove('hidden');
+          closeIcon?.classList.add('hidden');
+          mobileMenuBtn.setAttribute('aria-expanded', 'false');
+        } else {
+          mobileMenu?.classList.remove('hidden');
+          hamburgerIcon?.classList.add('hidden');
+          closeIcon?.classList.remove('hidden');
+          mobileMenuBtn.setAttribute('aria-expanded', 'true');
+        }
+      });
+
+      // Close mobile menu when a link is clicked
+      mobileMenu?.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          mobileMenu.classList.add('hidden');
+          hamburgerIcon?.classList.remove('hidden');
+          closeIcon?.classList.add('hidden');
+          mobileMenuBtn?.setAttribute('aria-expanded', 'false');
+        });
+      });
+
+      // #2: Sticky header with backdrop blur on scroll
+      const header = document.getElementById('site-header');
+      const updateHeader = () => {
+        if (window.scrollY > 10) {
+          header?.classList.add('bg-white/90', 'dark:bg-gray-900/90', 'backdrop-blur-md', 'shadow-sm', 'border-b', 'border-gray-200/50', 'dark:border-gray-700/50');
+        } else {
+          header?.classList.remove('bg-white/90', 'dark:bg-gray-900/90', 'backdrop-blur-md', 'shadow-sm', 'border-b', 'border-gray-200/50', 'dark:border-gray-700/50');
+        }
+      };
+      window.addEventListener('scroll', updateHeader, { passive: true });
+      updateHeader();
+
+      // #4: Back to top button
+      const backToTop = document.getElementById('back-to-top');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 400) {
+          backToTop?.classList.remove('opacity-0', 'invisible');
+          backToTop?.classList.add('opacity-100', 'visible');
+        } else {
+          backToTop?.classList.add('opacity-0', 'invisible');
+          backToTop?.classList.remove('opacity-100', 'visible');
+        }
+      }, { passive: true });
+
+      backToTop?.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      // #14: Scroll-triggered fade-in animations
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate-in');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll('.fade-in-section').forEach(el => observer.observe(el));
+    </script>
   </body>
 </html>

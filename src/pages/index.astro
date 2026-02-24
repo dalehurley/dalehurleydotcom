@@ -7,6 +7,12 @@ const featuredPosts = posts
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
   .slice(0, 3);
 
+// Estimate reading time from raw body (average 200 wpm)
+function estimateReadingTime(body: string): number {
+  const words = body.trim().split(/\s+/).length;
+  return Math.max(1, Math.round(words / 200));
+}
+
 const projects = [
   { name: 'DocCheetah', desc: 'AI-powered document processing and analysis', url: 'https://doccheetah.com/', image: '/images/doc-cheetah-logo.webp' },
   { name: 'Spotfillr', desc: 'Intelligent parking space optimisation', url: 'https://spotfillr.com/', image: '/images/spotfill-logo.webp' },
@@ -63,8 +69,11 @@ const projects = [
         </div>
         <div class="mt-10 lg:mt-0 xl:col-end-1 xl:row-start-1">
           <div class="mt-10 flex items-center gap-x-6">
-            <a href="#track-record" class="text-base/6 font-semibold text-gray-900 dark:text-white">
-              View Track Record <span aria-hidden="true">→</span>
+            <a href="#track-record" class="rounded-lg bg-[#FF750F] px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 transition-colors">
+              View Track Record
+            </a>
+            <a href="#contact" class="text-sm font-semibold text-gray-900 dark:text-white hover:text-[#FF750F] transition-colors">
+              Get in touch <span aria-hidden="true">→</span>
             </a>
           </div>
         </div>
@@ -72,10 +81,29 @@ const projects = [
     </div>
   </div>
 
+  <!-- #11: Key Stats / Achievements Section -->
+  <section class="py-16 bg-[#FF750F]">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+      <div class="grid grid-cols-2 gap-8 sm:grid-cols-4 text-center fade-in-section">
+        {[
+          { value: '$77M+', label: 'Funding Secured' },
+          { value: '14+', label: 'Years in Fintech' },
+          { value: '10+', label: 'Products Launched' },
+          { value: `${posts.length}+`, label: 'Articles Published' },
+        ].map(stat => (
+          <div>
+            <p class="text-4xl font-bold text-white">{stat.value}</p>
+            <p class="mt-1 text-sm font-medium text-orange-100">{stat.label}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
   <!-- Track Record Section -->
   <section id="track-record" class="py-24 sm:py-32 bg-[#FDFDFC] dark:bg-gray-800">
     <div class="mx-auto max-w-7xl px-6 lg:px-8">
-      <div class="mx-auto max-w-2xl text-center">
+      <div class="mx-auto max-w-2xl text-center fade-in-section">
         <h2 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">Proven Track Record</h2>
         <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">
           Building successful fintech companies and AI solutions
@@ -105,7 +133,7 @@ const projects = [
             image: '/images/creditorwatch-icon.webp',
           },
         ].map(item => (
-          <div class="flex flex-col sm:flex-row gap-8 items-start">
+          <div class="flex flex-col sm:flex-row gap-8 items-start fade-in-section">
             <div class="flex-shrink-0">
               <img src={item.image} alt={item.title} class="w-16 h-16 rounded-xl object-contain bg-white p-1 shadow" loading="lazy" />
             </div>
@@ -124,7 +152,7 @@ const projects = [
   <!-- AI Solutions Section -->
   <section id="ai-solutions" class="py-24 sm:py-32 bg-gradient-to-br from-[#FF750F]/10 via-[#FF750F]/5 to-white dark:from-[#FF750F]/5 dark:via-gray-900/50 dark:to-gray-900">
     <div class="mx-auto max-w-7xl px-6 lg:px-8">
-      <div class="mx-auto max-w-2xl lg:mx-0">
+      <div class="mx-auto max-w-2xl lg:mx-0 fade-in-section">
         <h2 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">AI-Powered Solutions</h2>
         <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">
           I build AI systems that dramatically accelerate business processes
@@ -148,7 +176,7 @@ const projects = [
             svgPath: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z',
           },
         ].map(item => (
-          <div class="flex flex-col bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-sm">
+          <div class="flex flex-col bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-sm fade-in-section">
             <div class="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-[#FF750F]">
               <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={item.svgPath} />
@@ -165,13 +193,13 @@ const projects = [
   <!-- Projects Section -->
   <section id="projects" class="py-24 sm:py-32 bg-white dark:bg-gray-800">
     <div class="mx-auto max-w-7xl px-6 lg:px-8">
-      <div class="mx-auto max-w-2xl text-center">
+      <div class="mx-auto max-w-2xl text-center fade-in-section">
         <h2 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">Current Projects</h2>
         <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">
           Innovative solutions transforming industries through AI
         </p>
       </div>
-      <div class="mx-auto mt-16 grid max-w-2xl grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-3 lg:mx-0 lg:max-w-none lg:grid-cols-5">
+      <div class="mx-auto mt-16 grid max-w-2xl grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-3 lg:mx-0 lg:max-w-none lg:grid-cols-5 fade-in-section">
         {projects.map(p => (
           <a href={p.url} target="_blank" rel="noopener noreferrer" class="flex flex-col items-center text-center group">
             <div class="w-16 h-16 mb-3 rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-700 flex items-center justify-center group-hover:shadow-md transition-shadow">
@@ -189,39 +217,48 @@ const projects = [
   {featuredPosts.length > 0 && (
     <section class="py-24 sm:py-32 bg-gray-50 dark:bg-gray-900">
       <div class="mx-auto max-w-7xl px-6 lg:px-8">
-        <div class="mx-auto max-w-2xl text-center">
+        <div class="mx-auto max-w-2xl text-center fade-in-section">
           <h2 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">Latest Posts</h2>
           <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">
             Thoughts on AI, technology, and entrepreneurship
           </p>
         </div>
         <div class="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-          {featuredPosts.map(post => (
-            <a
-              href={`/posts/${post.slug}`}
-              class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
-            >
-              {post.data.thumbnail && (
-                <div class="aspect-[3/2] overflow-hidden">
-                  <img
-                    src={post.data.thumbnail.startsWith('/') ? post.data.thumbnail : `/${post.data.thumbnail}`}
-                    alt={post.data.title}
-                    class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                    loading="lazy"
-                  />
-                </div>
-              )}
-              <div class="p-6">
-                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">{post.data.title}</h3>
-                {post.data.description && (
-                  <p class="text-gray-600 dark:text-gray-400 text-sm line-clamp-3">{post.data.description}</p>
+          {featuredPosts.map(post => {
+            const readingTime = estimateReadingTime(post.body);
+            return (
+              <a
+                href={`/posts/${post.slug}`}
+                class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow fade-in-section group"
+              >
+                {post.data.thumbnail && (
+                  <div class="aspect-[3/2] overflow-hidden">
+                    <img
+                      src={post.data.thumbnail.startsWith('/') ? post.data.thumbnail : `/${post.data.thumbnail}`}
+                      alt={post.data.title}
+                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      loading="lazy"
+                    />
+                  </div>
                 )}
-                <p class="mt-4 text-sm text-gray-500 dark:text-gray-400">
-                  {post.data.date.toLocaleDateString('en-AU', { year: 'numeric', month: 'short', day: 'numeric' })}
-                </p>
-              </div>
-            </a>
-          ))}
+                <div class="p-6">
+                  <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-[#FF750F] transition-colors">{post.data.title}</h3>
+                  {post.data.description && (
+                    <p class="text-gray-600 dark:text-gray-400 text-sm line-clamp-3">{post.data.description}</p>
+                  )}
+                  <div class="mt-4 flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
+                    <p>{post.data.date.toLocaleDateString('en-AU', { year: 'numeric', month: 'short', day: 'numeric' })}</p>
+                    <span class="flex items-center gap-1">
+                      <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      {readingTime} min read
+                    </span>
+                  </div>
+                </div>
+              </a>
+            );
+          })}
         </div>
         <div class="text-center mt-12">
           <a
@@ -234,6 +271,47 @@ const projects = [
       </div>
     </section>
   )}
+
+  <!-- #12: Contact CTA Section -->
+  <section id="contact" class="py-24 sm:py-32 bg-[#4B0600] dark:bg-gray-800">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+      <div class="mx-auto max-w-2xl text-center fade-in-section">
+        <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">Let's build something together</h2>
+        <p class="mt-6 text-lg leading-8 text-orange-200">
+          Whether you need an AI strategy, a rapid prototype, or a technical co-founder — I'm always open to interesting conversations.
+        </p>
+        <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a
+            href="https://www.linkedin.com/in/dalehurley/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 px-6 py-3 bg-[#FF750F] text-white rounded-lg hover:bg-orange-500 transition-colors font-semibold"
+          >
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+            </svg>
+            Connect on LinkedIn
+          </a>
+          <a
+            href="https://x.com/dalehurley"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 px-6 py-3 border border-orange-400/40 text-orange-100 rounded-lg hover:bg-white/10 transition-colors font-semibold"
+          >
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
+            </svg>
+            Follow on X
+          </a>
+        </div>
+        <div class="mt-8 flex flex-wrap justify-center gap-6 text-sm text-orange-300">
+          <a href="https://github.com/dalehurley" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">GitHub</a>
+          <a href="/rss.xml" class="hover:text-white transition-colors">RSS Feed</a>
+          <a href="/posts" class="hover:text-white transition-colors">Blog</a>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <script type="application/ld+json" set:html={JSON.stringify({
     "@context": "https://schema.org",

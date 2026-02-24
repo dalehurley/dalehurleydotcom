@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+/* #13: Smooth scroll behaviour */
+html {
+  scroll-behavior: smooth;
+}
+
 /* Custom Shiki / code block styling */
 pre.astro-code {
   background: #0d1117 !important;
@@ -12,12 +17,59 @@ pre.astro-code {
   padding: 1rem;
   overflow-x: auto;
   margin: 1.5rem 0;
+  position: relative;
 }
 
 @media (prefers-color-scheme: light) {
   pre.astro-code {
     background: #ffffff !important;
     border: 1px solid #d0d7de;
+  }
+}
+
+/* #10: Copy code button */
+.code-block-wrapper {
+  position: relative;
+}
+
+.copy-code-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  padding: 0.25rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #8b949e;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  line-height: 1.4;
+  z-index: 10;
+}
+
+.copy-code-btn:hover {
+  color: #ffffff;
+  background: rgba(255,255,255,0.15);
+  border-color: rgba(255,255,255,0.25);
+}
+
+.copy-code-btn.copied {
+  color: #3fb950;
+  border-color: #3fb950;
+}
+
+@media (prefers-color-scheme: light) {
+  .copy-code-btn {
+    color: #57606a;
+    background: rgba(0,0,0,0.05);
+    border-color: rgba(0,0,0,0.12);
+  }
+  .copy-code-btn:hover {
+    color: #24292f;
+    background: rgba(0,0,0,0.1);
   }
 }
 
@@ -116,4 +168,28 @@ pre.astro-code {
   line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+/* #14: Scroll-triggered fade-in animations */
+.fade-in-section {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-in-section.animate-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* #3: Reading progress bar */
+#reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 3px;
+  background: linear-gradient(to right, #FF750F, #f97316);
+  z-index: 9999;
+  transition: width 0.1s ease;
 }
