@@ -1,61 +1,64 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# DaleHurley.com
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Personal blog and portfolio of Dale Hurley — AI entrepreneur, co-founder of Avenue Bank, and founding CTO of CreditorWatch.
 
-## About Laravel
+Built with [Astro](https://astro.build) and deployed to [GitHub Pages](https://pages.github.com) at **[dalehurley.com](https://dalehurley.com)**.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Stack
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+| Layer | Technology |
+|---|---|
+| Framework | Astro 5 (static output) |
+| Styling | Tailwind CSS 3 + @tailwindcss/typography |
+| Content | MDX with Astro Content Collections |
+| Syntax highlighting | Shiki (built-in to Astro) |
+| Sitemap | @astrojs/sitemap |
+| Hosting | GitHub Pages |
+| CI/CD | GitHub Actions |
+| Image generation | OpenAI gpt-image-1 + gpt-4o via Node.js script |
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Development
 
-## Learning Laravel
+```bash
+npm install
+npm run dev       # http://localhost:4321
+npm run build     # output → dist/
+npm run preview   # preview the built site locally
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Adding a Blog Post
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+1. Create `src/content/blog/<slug>/index.mdx`
+2. Add frontmatter:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```yaml
+---
+title: My Post Title
+date: 2025-01-15
+description: A short description for SEO and cards.
+tags: [AI, Technology]
+author: Dale Hurley
+image: images/<slug>.webp
+thumbnail: images/<slug>-thumbnail.webp
+---
+```
 
-## Laravel Sponsors
+3. Write the post in Markdown/MDX below the frontmatter.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Generating Hero Images
 
-### Premium Partners
+Uses the OpenAI API to generate 1950s propaganda-style hero images that match each post's content.
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+```bash
+OPENAI_API_KEY=sk-... npm run generate-images
+# or for a single post:
+OPENAI_API_KEY=sk-... npm run generate-images -- --post=<slug>
+```
 
-## Contributing
+Images are saved to `public/images/` and the MDX frontmatter is updated automatically.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Deployment
 
-## Code of Conduct
+Every push to `main` triggers the GitHub Actions workflow (`.github/workflows/deploy.yml`), which builds the site and deploys it to GitHub Pages.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+See [CUSTOM_DOMAIN_SETUP.md](./CUSTOM_DOMAIN_SETUP.md) for the DNS and Pages configuration required for the `dalehurley.com` custom domain.
