@@ -1,0 +1,119 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Shiki / code block styling */
+pre.astro-code {
+  background: #0d1117 !important;
+  border-radius: 6px;
+  font-family: ui-monospace, SFMono-Regular, 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 14px;
+  line-height: 1.45;
+  padding: 1rem;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+}
+
+@media (prefers-color-scheme: light) {
+  pre.astro-code {
+    background: #ffffff !important;
+    border: 1px solid #d0d7de;
+  }
+}
+
+/* Callout component styling */
+.blog-callout {
+  border-left: 4px solid;
+  margin: 24px 0;
+  border-radius: 8px;
+}
+
+/* Prose overrides */
+.prose pre {
+  background: transparent !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.prose code:not([class*='language-']) {
+  background: rgba(110, 118, 129, 0.4) !important;
+  color: #000 !important;
+  padding: 2px 4px !important;
+  border-radius: 3px !important;
+  font-size: 0.875em !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  .prose code:not([class*='language-']) {
+    color: #f0f6fc !important;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  .prose code:not([class*='language-']) {
+    background: rgba(175, 184, 193, 0.2) !important;
+    color: #24292f !important;
+  }
+}
+
+/* Steps counter */
+.steps-container {
+  counter-reset: step-counter;
+}
+
+.steps-container .step-item {
+  counter-increment: step-counter;
+  position: relative;
+  padding-left: 3rem;
+  margin-bottom: 2rem;
+}
+
+.steps-container .step-item::before {
+  content: counter(step-counter);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2rem;
+  height: 2rem;
+  background: #f97316;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.steps-container .step-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 0.75rem;
+  top: 2rem;
+  bottom: -1rem;
+  width: 2px;
+  background: #e5e7eb;
+}
+
+@media (prefers-color-scheme: dark) {
+  .steps-container .step-item:not(:last-child)::after {
+    background: #374151;
+  }
+}
+
+/* Utility */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

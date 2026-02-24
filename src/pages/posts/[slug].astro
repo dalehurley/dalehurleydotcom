@@ -1,0 +1,35 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import BlogLayout from '../../layouts/BlogLayout.astro';
+import Callout from '../../components/Callout.astro';
+import Steps from '../../components/Steps.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map(post => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content, remarkPluginFrontmatter } = await post.render();
+
+// Calculate reading time (rough estimate from body text)
+const readingTime = remarkPluginFrontmatter?.minutesRead
+  ? Math.ceil(remarkPluginFrontmatter.minutesRead)
+  : undefined;
+---
+
+<BlogLayout
+  title={post.data.title}
+  description={post.data.description}
+  date={post.data.date}
+  author={post.data.author}
+  tags={post.data.tags}
+  image={post.data.image}
+  slug={post.slug}
+  readingTime={readingTime}
+>
+  <Content components={{ Callout, Steps }} />
+</BlogLayout>
