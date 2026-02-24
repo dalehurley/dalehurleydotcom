@@ -1,0 +1,799 @@
+---
+title: "Tutorial: Building Agentic AI Agents using OpenAI with Laravel 12 and React - Part 5: Implementing Automated Planning"
+date: 2025-07-31
+description: "Create an AI Agent with Laravel and OpenAI"
+tags: [AI, Technology, Automation, Laravel, OpenAI, Agent, Agentic, Tutorial]
+author: "Dale Hurley"
+image: images/aiagentopart5.webp
+thumbnail: images/aiagentopart5-thumbnail.webp
+---
+
+## Part 5: Implementing Automated Planning
+
+In this part we will be adding a planning capability to our AI agent. This will allow the AI to analyze complex requests, break them down into logical steps, and execute those steps in order.
+
+You’ll learn how to:
+
+- [Refactor the ChatController for maintainability](#refactor-the-chatcontroller-for-maintainability)
+- [Create the Planning Tool](#create-the-planning-tool)
+- [Update the ChatController to use the Planning Tool](#update-the-chatcontroller-to-use-the-planning-tool)
+
+We are following on from [Part 4: Adding Stateful Context to Your Agent](/posts/aiagentopart4) and the code from part 4 is available in the [ai-agent-tutorial repository on GitHub](https://github.com/dalehurley/ai-agent-tutorial/tree/Part-4).
+
+## Adding Planning to the Agent
+
+Here's where we make the leap from a tool-using chatbot to a true agentic system. We're adding a planning capability that allows the AI to analyze complex requests, break them down into logical steps, and execute those steps in order.
+
+This is the difference between asking "Can you create 5 users?" and having the system say "I'll create 5 users for you" versus having it say "I'll create a plan to generate 5 diverse user profiles, then execute the creation of each user, and finally verify they were all created successfully."
+
+### First, Let's Refactor for Maintainability
+
+Before adding planning, we need to refactor our ChatController to improve maintainability and prepare for more complex functionality. Currently, our controller is handling multiple responsibilities: message management, tool orchestration, and response streaming. This violates the single responsibility principle and makes the code harder to test and extend.
+
+We're going to extract these concerns into dedicated action classes:
+
+1. **Messages management** - A dedicated class to handle conversation history and message formatting
+2. **Tool execution logic** - Separating the tool calling and result handling into focused methods
+3. **Response streaming** - Isolating the streaming logic for better reusability
+
+This refactoring sets us up perfectly for adding planning capabilities, as we'll need robust message management and clear tool execution flows to handle multi-step planning and execution cycles.
+
+Let's clean up our controller with some helpful action classes:
+
+#### Create the Messages action class
+
+The `Messages` action class serves as a dedicated message management system for our AI agent. Instead of manually building and manipulating message arrays throughout our controller, this class provides a clean, fluent interface for conversation management.
+
+**Key responsibilities:**
+
+- **Message construction**: Provides methods like `addUserMessage()` and `addAssistantMessage()` for common message types
+- **Tool result formatting**: Handles the complex message structure required when tools are executed, including both the tool call and its result
+- **Conversation state**: Maintains the complete message history in the correct OpenAI format
+- **Fluent interface**: Methods return `$this` allowing for method chaining like `$messages->addUserMessage($input)->addAssistantMessage($response)`
+
+This abstraction makes our controller code much cleaner and removes the repetitive array building that was cluttering our main logic. It also provides a single place to modify message formatting if OpenAI's requirements change in the future.
+
+```bash
+php artisan make:class AIAgent/Actions/Messages
+```
+
+Update `app/AIAgent/Actions/Messages.php`:
+
+```php showLineNumbers
+<?php
+
+namespace App\AIAgent\Actions;
+
+class Messages
+{
+    /**
+     * Create a new class instance.
+     */
+    public function __construct(public array $messages = []) {}
+
+    public function addMessage(string $role, string $content): self
+    {
+        $this->messages[] = [
+            'role' => $role,
+            'content' => $content,
+        ];
+        return $this;
+    }
+
+    public function addUserMessage(string $content): self
+    {
+        return $this->addMessage('user', $content);
+    }
+
+    public function addAssistantMessage(string $content): self
+    {
+        return $this->addMessage('assistant', $content);
+    }
+
+    public function addToolExecutionResult($choice, $call, $result): self
+    {
+        // add the tool call result to the messages array
+        $this->messages[] = [
+            'role'         => $choice->message->role,
+            'content'      => $choice->message->content,
+            'tool_calls'   => [$call->toArray()],
+        ];
+
+        // add the result to the messages array
+        $this->messages[] = [
+            'role'         => 'tool',
+            'tool_call_id' => $call->id,
+            'content'      => json_encode($result, JSON_UNESCAPED_UNICODE),
+        ];
+        return $this;
+    }
+
+    public function getMessages(): array
+    {
+        return $this->messages;
+    }
+}
+
+
+```
+
+#### Create the output formatting action
+
+The `ComposeAssistantOutput` action is a utility class that standardizes the format of assistant responses in our streaming chat system. It replaced the mutliple times we were manually constructing the assistant response array.
+
+```bash
+php artisan make:class AIAgent/Actions/ComposeAssistantOutput
+```
+
+Update `app/AIAgent/Actions/ComposeAssistantOutput.php`:
+
+```php showLineNumbers
+<?php
+
+namespace App\AIAgent\Actions;
+
+class ComposeAssistantOutput
+{
+    /**
+     * Create a new class instance.
+     */
+    public static function prepare($content = '')
+    {
+        return [
+            'role' => 'assistant',
+            'delta' => [
+                'content' => $content . PHP_EOL . PHP_EOL,
+            ],
+            'content' => $content . PHP_EOL . PHP_EOL,
+        ];
+    }
+}
+
+```
+
+#### Refactor the ChatController to use these actions
+
+The ChatController is refactored to use the new Messages and ComposeAssistantOutput actions. This makes the code much more readable and maintainable.
+
+Update `app/Http/Controllers/ChatController.php`:
+
+```php showLineNumbers
+<?php
+
+namespace App\Http\Controllers;
+
+use App\AIAgent\Actions\ComposeAssistantOutput;
+use App\AIAgent\Actions\Messages;
+use App\AIAgent\Tools\ToolUserCreate;
+use App\AIAgent\Tools\ToolUserFind;
+use App\AIAgent\Tools\ToolUsersList;
+use App\AIAgent\Tools\ToolRegistry;
+use App\Models\Context;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use OpenAI\Laravel\Facades\OpenAI;
+use Illuminate\Support\Facades\Response;
+
+class ChatController extends Controller
+{
+    public function newChatContext()
+    {
+        return response()->json([
+            'message' => 'New chat context created',
+            'chatId' => Context::create(['messages' => []])->id
+        ])->setStatusCode(201);
+    }
+
+    public function streamChat(Request $request, Context $context)
+    {
+        // Validate the request
+        $request->validate([
+            'message' => 'required|string|max:1000',
+        ]);
+
+        // Stream the chat response
+        return Response::eventStream(function () use ($request, $context) {
+
+            $ai = new OpenAI;
+            $registry = new ToolRegistry();
+            $registry->add(new ToolUsersList($ai));
+            $registry->add(new ToolUserFind($ai));
+            $registry->add(new ToolUserCreate($ai));
+
+            // Add tools to the OpenAI chat request
+            $tools = $registry->toOpenAIToolsArray();
+
+            // the user and assistant messages
+            $messages = (new Messages($context->messages))->addUserMessage($request->input('message'));
+
+            // Create a streamed chat response using OpenAI
+            $response = OpenAI::chat()->create([
+                'model' => 'gpt-4.1-mini',
+                'messages' => $messages->getMessages(),
+                'tools' => $tools,
+                'tool_choice' => 'auto', // Automatically choose the best tool
+            ]);
+
+            // Loop through the response choices
+            foreach ($response->choices as $choice) {
+                if ($choice->message?->content) {
+                    // Add the assistant's message to the messages array
+                    $messages->addAssistantMessage($choice->message->content);
+
+                    // Yield the assistant's message content
+                    yield ComposeAssistantOutput::prepare($choice->message->content);
+                }
+
+                // Loop through the tool calls in the AI response
+                foreach ($choice->message->toolCalls as $call) {
+                    // Get the tool name and arguments
+                    $toolName = $call->function->name;
+                    $arguments = json_decode($call->function->arguments, true, 512, JSON_THROW_ON_ERROR);
+
+                    // load the tool from the registry
+                    $tool = $registry->get($toolName);
+
+                    // Communicate the tool call to the user
+                    yield ComposeAssistantOutput::prepare('Calling ' . $tool->getName());
+                    yield ComposeAssistantOutput::prepare($tool->getDescription());
+
+                    // Run the tool with the provided arguments and AI client
+                    $result = $tool->execute($arguments, $ai);
+
+                    // Communicate the tool execution completion to the user
+                    yield ComposeAssistantOutput::prepare('Finished ' . $tool->getName());
+
+                    // Add the tool execution result to the messages
+                    $messages->addToolExecutionResult($choice, $call, $result);
+
+                    // 👇 Send the tool's result back into the chat so the model can use the results in the message back to the user
+                    $assistantResponse = OpenAI::chat()->create([
+                        'model'    => 'gpt-4.1-mini',
+                        'messages' => $messages->getMessages(),
+                    ]);
+
+                    // Loop through the assistant's response
+                    foreach ($assistantResponse->choices as $assistantChoice) {
+                        if ($assistantChoice->message?->content !== null) {
+                            // Add the assistant's message to the messages array
+                            $messages->addAssistantMessage($assistantChoice->message->content);
+                            // Yield the assistant's message content
+                            yield ComposeAssistantOutput::prepare($assistantChoice->message->content);
+                        }
+                    }
+                }
+            }
+
+            // Update the context with the new messages
+            $context->messages = $messages->getMessages();
+            $context->save();
+        });
+    }
+}
+
+```
+
+## Now, Let's Add the Planning Tool
+
+### Create the Planning Tool
+
+The `PlanningTool` is a specialized tool that analyzes user requests and creates structured execution plans. It uses GPT-4.1-mini to break down complex requests into sequential steps that can be executed by our AI agent.
+
+**How the Planning Tool Works**
+
+The Planning Tool receives:
+
+- **Message context**: Previous conversation messages for understanding the full context
+- **Available tools**: A list of all tools the agent can use, including their descriptions and parameters
+
+It then uses GPT-4.1-mini with a structured JSON schema to generate an execution plan containing:
+
+- **Sequential steps**: Each step has a number and specific action type
+- **Action types**:
+    - `"prompt"` - For AI thinking/content generation
+    - `"tool"` - For calling a specific tool with parameters
+    - `"message"` - For communicating with the user
+    - `"needs_more_info"` - For requesting additional information from the user
+- **User messages**: What to display when starting and completing each step
+- **Tool parameters**: Specific arguments to pass to tools when needed
+
+**Example Planning Scenarios**
+
+**Simple request**: "Find user with ID 5"
+
+- Single step using `ToolUserFind` with the ID parameter
+
+**Complex request**: "Create 3 new users with random data"
+
+- Step 1: Use AI prompt to generate 3 user profiles
+- Steps 2-4: Use `ToolUserCreate` for each generated user
+- Step 5: Use `ToolUsersList` to show the updated user list
+
+**Information-gathering request**: "Update John's email"
+
+- Step 1: Use `needs_more_info` action to ask which John and what new email
+- Step 2: Use `ToolUserFind` to locate the specific user
+- Step 3: Use an update tool with the new email address
+
+The Planning Tool transforms our AI agent from a simple tool executor into an intelligent system that can handle multi-step workflows, gather missing information, and coordinate complex operations automatically.
+
+Create the PlanningTool:
+
+```bash
+php artisan make:class AIAgent/Tools/PlanningTool
+```
+
+Update `app/AIAgent/Tools/PlanningTool.php`:
+
+```php showLineNumbers
+<?php
+
+namespace App\AIAgent\Tools;
+
+use Illuminate\Support\Facades\Log;
+use OpenAI\Laravel\Facades\OpenAI;
+
+class PlanningTool extends AbstractTool
+{
+    /**
+     * Get the name of the tool.
+     */
+    public function getName(): string
+    {
+        return 'planning_tool';
+    }
+
+    /**
+     * Get a description of the tool.
+     */
+    public function getDescription(): string
+    {
+        return 'Analyze user requests and create step-by-step execution plans with available tools.';
+    }
+
+    /**
+     * Get the parameters required by this tool.
+     */
+    public function getParameters(): array
+    {
+        return [
+            'type' => 'object',
+            'properties' => [
+                'message_context' => [
+                    'type' => 'array',
+                    'description' => 'Previous messages in the conversation for context',
+                    'items' => [
+                        'type' => 'object',
+                        'properties' => [
+                            'role' => ['type' => 'string'],
+                            'content' => ['type' => 'string'],
+                        ],
+                    ],
+                ],
+                'available_tools' => [
+                    'type' => 'array',
+                    'description' => 'List of available tools and their descriptions',
+                    'items' => [
+                        'type' => 'object',
+                        'properties' => [
+                            'name' => ['type' => 'string'],
+                            'description' => ['type' => 'string'],
+                            'parameters' => ['type' => 'object'],
+                        ],
+                    ],
+                ],
+            ],
+            'required' => ['user_message'],
+        ];
+    }
+
+    public function getOutputSchema(): array
+    {
+        return [
+            'type' => 'object',
+            'properties' => [
+                'success' => [
+                    'type' => 'boolean',
+                    'description' => 'Whether the plan was created successfully',
+                ],
+                'plan' => [
+                    'type' => 'array',
+                    'description' => 'List of execution steps',
+                    'items' => [
+                        'type' => 'object',
+                        'properties' => [
+                            'step_number' => ['type' => 'integer', 'description' => 'Sequential step number'],
+                            'action_type' => ['type' => 'string', 'description' => 'Type of action: "prompt", "tool", "message", or "needs_more_info"'],
+                            'message_to_start' => ['type' => 'string', 'description' => 'Message to display when starting this step'],
+                            'prompt_to_ai' => ['type' => 'string', 'description' => 'Prompt for AI if action_type is "prompt"'],
+                            'tool_name' => ['type' => 'string', 'description' => 'Tool name if action_type is "tool"'],
+                            'tool_parameters' => ['type' => 'object', 'description' => 'Parameters for the tool'],
+                            'message_when_completed' => ['type' => 'string', 'description' => 'Message to display when step is completed'],
+                        ],
+                        'required' => ['step_number', 'action_type', 'message_to_start', 'message_when_completed'],
+                    ],
+                ],
+                'summary' => [
+                    'type' => 'string',
+                    'description' => 'Brief summary of the execution plan',
+                ],
+                'estimated_steps' => [
+                    'type' => 'integer',
+                    'description' => 'Total number of steps in the plan',
+                ],
+                'message' => [
+                    'type' => 'string',
+                    'description' => 'Status message',
+                ],
+            ],
+            'required' => ['success', 'message'],
+        ];
+    }
+
+    /**
+     * Execute the tool to create an execution plan.
+     *
+     * @param  array   $arguments   Validated arguments from the model
+     * @param  OpenAI  $AI          Shared OpenAI PHP client
+     * @return mixed                Any serialisable result to feed back to the model
+     */
+    public function execute(array $arguments, OpenAI $AI): mixed
+    {
+        $context = $arguments['message_context'] ?? [];
+        $availableTools = $arguments['available_tools'] ?? [];
+
+        try {
+            // Create a planning prompt for the AI
+            $planningPrompt = $this->buildPlanningPrompt($availableTools);
+
+            // Use OpenAI to analyze the request and create a plan
+            $response = $AI::chat()->create([
+                'model' => 'gpt-4.1-mini',
+                'messages' => [
+                    ...$context,
+                    [
+                        'role' => 'system',
+                        'content' => 'You are an AI assistant that creates detailed execution plans. Break down user requests into clear, actionable steps. Each step should specify the action type (prompt, tool, or message), what to do, and what message to show when starting and completing the step.'
+                    ],
+                    [
+                        'role' => 'user',
+                        'content' => $planningPrompt
+                    ]
+                ],
+                'response_format' => [
+                    'type' => 'json_schema',
+                    'json_schema' => [
+                        'name' => 'execution_plan',
+                        'schema' => [
+                            'type' => 'object',
+                            'properties' => [
+                                'steps' => [
+                                    'type' => 'array',
+                                    'items' => [
+                                        'type' => 'object',
+                                        'properties' => [
+                                            'step_number' => ['type' => 'integer'],
+                                            'action_type' => ['type' => 'string', 'enum' => ['prompt', 'tool', 'message', 'needs_more_info']],
+                                            'message_to_start' => ['type' => 'string'],
+                                            'prompt_to_ai' => ['type' => 'string'],
+                                            'tool_name' => ['type' => 'string'],
+                                            'tool_parameters' => ['type' => 'object'],
+                                            'message_when_completed' => ['type' => 'string'],
+                                        ],
+                                        'required' => ['step_number', 'action_type', 'message_to_start', 'message_when_completed']
+                                    ]
+                                ],
+                                'summary' => ['type' => 'string']
+                            ],
+                            'required' => ['steps', 'summary']
+                        ]
+                    ]
+                ]
+            ]);
+
+            $planData = json_decode($response->choices[0]->message->content, true);
+
+            if (!$planData || !isset($planData['steps'])) {
+                throw new \Exception('Failed to generate valid plan structure');
+            }
+
+            return [
+                'success' => true,
+                'plan' => $planData['steps'],
+                'summary' => $planData['summary'] ?? 'Execution plan created',
+                'estimated_steps' => count($planData['steps']),
+                'message' => 'Execution plan created successfully with ' . count($planData['steps']) . ' steps',
+            ];
+        } catch (\Exception $e) {
+            return [
+                'success' => false,
+                'message' => 'Failed to create execution plan: ' . $e->getMessage(),
+            ];
+        }
+    }
+
+    /**
+     * Build the planning prompt for the AI.
+     */
+    private function buildPlanningPrompt(array $availableTools): string
+    {
+        $prompt = "Create an execution plan.\n\n";
+
+        Log::info('Available Tools: ' . json_encode($availableTools, JSON_PRETTY_PRINT));
+
+        if (!empty($availableTools)) {
+            $prompt .= "AVAILABLE TOOLS:\n<tools>\n";
+            foreach ($availableTools as $tool) {
+                $prompt .= "<tool>\n";
+                $prompt .= "- {$tool['function']['name']}: {$tool['function']['description']}\n";
+                if (isset($tool['function']['parameters'])) {
+                    $prompt .= "Parameters: " . json_encode($tool['function']['parameters']) . "\n";
+                }
+                $prompt .= "</tool>\n";
+            }
+            $prompt .= "</tools>\n";
+        }
+
+        $prompt .= "INSTRUCTIONS:\n";
+        $prompt .= "1. Break down the request into logical, sequential steps\n";
+        $prompt .= "2. For each step, specify:\n";
+        $prompt .= "   - action_type: 'prompt' (for AI thinking/generation), 'tool' (for using a specific tool), 'message' (for user communication, no action or tool calling), or 'needs_more_info' (stopping and asking the user for additional information, typically will be the first step and no steps should follow this)\n";
+        $prompt .= "   - message_to_start: What to tell the user when starting this step\n";
+        $prompt .= "   - prompt_to_ai: If action_type is 'prompt', what prompt to give the AI\n";
+        $prompt .= "   - tool_name: If action_type is 'tool', which tool to use\n";
+        $prompt .= "   - tool_parameters: If using a tool, what parameters to pass\n";
+        $prompt .= "   - message_when_completed: What to tell the user when step is done\n";
+        $prompt .= "3. Create a brief summary of the overall plan\n\n";
+        $prompt .= "Make sure the plan logically orders the steps and includes all necessary details. For example: a step may require specific user information, so that user needs to be identified beforehand.\n";
+
+        $prompt .= "EXAMPLE (for 'think of 10 random users and create them'):\n";
+        $prompt .= "Step 1: action_type='prompt', prompt_to_ai='Generate 10 diverse user profiles with names, emails, and passwords'\n";
+        $prompt .= "Step 2-11: action_type='tool', tool_name='create_user', tool_parameters={name, email, password for each user}\n";
+
+        return $prompt;
+    }
+}
+```
+
+### Update ChatController to use planning
+
+The ChatController is updated to use the PlanningTool to create execution plans and execute them step by step.
+
+Update `app/Http/Controllers/ChatController.php`:
+
+```php showLineNumbers
+<?php
+
+namespace App\Http\Controllers;
+
+use App\AIAgent\Actions\ComposeAssistantOutput;
+use App\AIAgent\Actions\Messages;
+use App\AIAgent\Tools\ToolUserCreate;
+use App\AIAgent\Tools\ToolUserFind;
+use App\AIAgent\Tools\ToolUsersList;
+use App\AIAgent\Tools\PlanningTool;
+use App\AIAgent\Tools\ToolRegistry;
+use App\Models\Context;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use OpenAI\Laravel\Facades\OpenAI;
+use Illuminate\Support\Facades\Response;
+
+class ChatController extends Controller
+{
+    public function newChatContext()
+    {
+        return response()->json([
+            'message' => 'New chat context created',
+            'chatId' => Context::create(['messages' => []])->id
+        ])->setStatusCode(201);
+    }
+
+    public function streamChat(Request $request, Context $context)
+    {
+        // Validate the request
+        $request->validate([
+            'message' => 'required|string|max:1000',
+        ]);
+
+        // Stream the chat response
+        return Response::eventStream(function () use ($request, $context) {
+
+            $ai = new OpenAI;
+            $registry = new ToolRegistry();
+            $registry->add(new ToolUsersList($ai));
+            $registry->add(new ToolUserFind($ai));
+            $registry->add(new ToolUserCreate($ai));
+
+            // Add tools to the OpenAI chat request
+            $tools = $registry->toOpenAIToolsArray();
+
+            // the user and assistant messages
+            $messages = (new Messages($context->messages))->addUserMessage($request->input('message'));
+
+            // Understand the user message and make a plan of actions
+            yield ComposeAssistantOutput::prepare('Thinking...');
+
+            $plan = (new PlanningTool($ai))->execute(
+                [
+                    'message_context' => $messages->getMessages(),
+                    'available_tools' => $tools,
+                ],
+                $ai
+            );
+
+            Log::info('Planning Tool Response: ' . json_encode($plan, JSON_UNESCAPED_UNICODE));
+
+            $messages->addAssistantMessage(json_encode($plan, JSON_UNESCAPED_UNICODE));
+
+            if (!$plan['success']) {
+                yield ComposeAssistantOutput::prepare('Failed to create a plan: ' . $plan['message']);
+            } else {
+                foreach ($plan['plan'] as $step) {
+                    // Yield the step message to the user
+                    yield ComposeAssistantOutput::prepare($step['message_to_start']);
+
+                    // If the action type is 'needs_more_info', we stop here and wait for user input
+                    if ($step['action_type'] === 'needs_more_info') {
+                        yield ComposeAssistantOutput::prepare($step['prompt_to_ai']);
+                        break;
+                    }
+
+                    // If the action type is 'message', we can continue with the next steps
+                    if ($step['action_type'] === 'message') {
+                        yield ComposeAssistantOutput::prepare($step['message_to_start'] . ': ' . $step['prompt_to_ai']);
+                        continue;
+                    }
+
+                    // If the action type is 'prompt', send the message to AI and we can continue with the next steps
+                    if ($step['action_type'] === 'prompt') {
+                        yield ComposeAssistantOutput::prepare('Continuing: ' . $step['prompt_to_ai']);
+                        $messages->addUserMessage($step['prompt_to_ai']);
+                        $stream = $ai::chat()->createStreamed([
+                            'model' => 'gpt-4.1-mini',
+                            'messages' => $messages->getMessages(),
+                        ]);
+
+                        $assitantMessage = '';
+                        foreach ($stream as $chunk) {
+                            if ($chunk->choices[0]->delta->content) {
+                                yield $chunk->choices[0]->toArray();
+                                $assitantMessage .= $chunk->choices[0]->delta->content;
+                            }
+                        }
+                        yield "\n\n";
+                        $messages->addAssistantMessage($assitantMessage);
+                        continue;
+                    }
+
+                    // If the action type is 'tool', we will execute the tool later
+
+                    // Create a streamed chat response using OpenAI
+                    $response = $ai::chat()->create([
+                        'model' => 'gpt-4.1-mini',
+                        'messages' => $messages->getMessages(),
+                        'tools' => $tools,
+                        'tool_choice' => 'auto', // Automatically choose the best tool
+                    ]);
+
+                    // Loop through the response choices
+                    foreach ($response->choices as $choice) {
+                        if ($choice->message?->content) {
+                            // Add the assistant's message to the messages array
+                            $messages->addAssistantMessage($choice->message->content);
+
+                            // Yield the assistant's message content
+                            yield ComposeAssistantOutput::prepare($choice->message->content);
+                        }
+
+                        // Loop through the tool calls in the AI response
+                        foreach ($choice->message->toolCalls as $call) {
+                            // Get the tool name and arguments
+                            $toolName = $call->function->name;
+                            $arguments = json_decode($call->function->arguments, true, 512, JSON_THROW_ON_ERROR);
+
+                            // load the tool from the registry
+                            $tool = $registry->get($toolName);
+
+                            // Communicate the tool call to the user
+                            yield ComposeAssistantOutput::prepare('Calling ' . $tool->getName());
+                            yield ComposeAssistantOutput::prepare($tool->getDescription());
+
+                            // Run the tool with the provided arguments and AI client
+                            $result = $tool->execute($arguments, $ai);
+
+                            // Communicate the tool execution completion to the user
+                            yield ComposeAssistantOutput::prepare('Finished ' . $tool->getName());
+
+                            // Add the tool execution result to the messages
+                            $messages->addToolExecutionResult($choice, $call, $result);
+
+                            // 👇 Send the tool's result back into the chat so the model can use the results in the message back to the user
+                            $assistantResponse = $ai::chat()->create([
+                                'model'    => 'gpt-4.1-mini',
+                                'messages' => $messages->getMessages(),
+                            ]);
+
+                            // Loop through the assistant's response
+                            foreach ($assistantResponse->choices as $assistantChoice) {
+                                if ($assistantChoice->message?->content !== null) {
+                                    // Add the assistant's message to the messages array
+                                    $messages->addAssistantMessage($assistantChoice->message->content);
+                                    // Yield the assistant's message content
+                                    yield ComposeAssistantOutput::prepare($assistantChoice->message->content);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Update the context with the new messages
+            $context->messages = $messages->getMessages();
+            $context->save();
+        });
+    }
+}
+
+```
+
+**You now have a fully agentic AI system!** Try some complex requests:
+
+- "Create 5 users with random but realistic details"
+- "Find all users that were created today and tell me their names"
+- "Create a new user named Bob, then find him and tell me his details"
+
+Watch as the AI creates a plan, explains what it's going to do, and then methodically executes each step. This is agentic AI in action—not just responding to commands, but thinking, planning, and executing complex workflows.
+
+## Next Steps
+
+You've built something genuinely impressive, but this is just the beginning. Here are some directions to take your agentic system:
+
+**Essential Improvements:**
+
+- **Authentication & Authorization**: Add proper user auth and role-based access control
+- **Enhanced User Management**: Add user editing, deletion, and role management tools
+- **Persistent Chat History**: Build a proper chat interface with conversation management
+- **Error Handling**: Add robust error handling and recovery mechanisms
+
+**Advanced Features:**
+
+- **More Tools**: API integrations, calculations, file operations, database queries
+- **MCP Integration**: Connect to Model Context Protocol for expanded capabilities
+- **Multi-step Workflows**: Build tools that can chain together for complex operations
+- **Custom Agent Personalities**: Different agents for different domains (customer service, data analysis, etc.)
+
+**Frontend Enhancements:**
+
+- **Message Types**: Different rendering for user vs. agent vs. tool execution messages
+- **Real-time Status**: Show which tools are running and progress indicators
+- **Chat Management**: Save/load conversations, export transcripts
+
+The architecture you've built is genuinely scalable. The tool system makes it easy to add new capabilities, the planning system can handle increasingly complex requests, and the streaming interface provides a modern user experience.
+
+## Conclusion
+
+We've built something that goes way beyond your typical chatbot. This agentic AI system can understand complex requests, create execution plans, and use real tools to get work done. The combination of Laravel's robust backend capabilities with OpenAI's intelligence creates a foundation that's both powerful and maintainable.
+
+The key insight here is that true agentic behavior comes from the combination of planning, tool usage, and persistent context. Your AI doesn't just respond—it thinks about what you want, figures out how to do it, and then executes that plan using the tools you've given it.
+
+This architecture is production-ready with some additional work around authentication, error handling, and monitoring. But even as a proof of concept, it demonstrates the future of human-AI interaction: not just conversation, but true collaboration.
+
+**The era of AI that actually gets stuff done has arrived—and you just built it.**
+
+## Resources
+
+- [Laravel Documentation](https://laravel.com/docs)
+- [OpenAI API Documentation](https://platform.openai.com/docs)
+- [Laravel OpenAI Package](https://github.com/openai-php/laravel)
+- [React Documentation](https://react.dev)
+- [Inertia.js Documentation](https://inertiajs.com)
+
+**Building an Agentic AI Agent Series**
+
+- [Preface](/posts/aiagentopart0)
+- [Part 1 - Getting Started with Laravel OpenAI Calls](/posts/aiagentopart1)
+- [Part 2 - Creating a Basic AI Chat App with Laravel Stream React](/posts/aiagentopart2)
+- [Part 3 - Building Custom AI Tools in Laravel & React](/posts/aiagentopart3)
+- [Part 4 - Adding Stateful Context to Your Agent](/posts/aiagentopart4)
+- [Part 5 - Implementing Automated Planning](/posts/aiagentopart5) 👈 You are here and the end!

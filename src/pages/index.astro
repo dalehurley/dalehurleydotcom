@@ -1,0 +1,252 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog');
+const featuredPosts = posts
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
+
+const projects = [
+  { name: 'DocCheetah', desc: 'AI-powered document processing and analysis', url: 'https://doccheetah.com/', image: '/images/doc-cheetah-logo.webp' },
+  { name: 'Spotfillr', desc: 'Intelligent parking space optimisation', url: 'https://spotfillr.com/', image: '/images/spotfill-logo.webp' },
+  { name: 'Full.CX', desc: 'Customer experience enhancement platform', url: 'https://full.cx/', image: '/images/full-cx-logo.webp' },
+  { name: 'Custom Homework Maker', desc: 'AI-generated personalised learning materials', url: 'https://customhomeworkmaker.com/', image: '/images/custom-homework-maker-logo.webp' },
+  { name: '1 to 5 App', desc: 'Simplified rating system for businesses', url: 'https://www.1to5app.com/', image: '/images/1-to-5-app-logo.webp' },
+  { name: 'RapidReportCard', desc: 'Automated educational assessment tool', url: 'https://rapidreportcard.com/', image: '/images/rapid-report-card-logo.webp' },
+  { name: 'Risks.io', desc: 'Enterprise risk management platform', url: 'https://www.risks.io/', image: '/images/risks-io-logo.webp' },
+  { name: 'SpeedBrain', desc: 'Cognitive enhancement training system', url: 'https://speedbrain.app/', image: '/images/speed-brain-app-logo.webp' },
+  { name: 'Claude 3 API PHP Package', desc: "Official SDK for Anthropic's Claude 3", url: 'https://github.com/claude-php/claude-3-api', image: '/images/php-claude-logo.webp' },
+  { name: 'CodeWithPHP.com', desc: 'Modern PHP tutorials and AI-ready starter kits for rapid product launches', url: 'https://codewithphp.com/', image: '/images/codewithphp-logo.svg' },
+];
+---
+
+<Layout
+  title="Dale Hurley - AI-Driven Tech Entrepreneur & Banking Innovation Leader"
+  description="AI-driven tech entrepreneur, banking innovation leader, and co-founder of Avenue Bank. Expert in fintech solutions, AI automation, and startup development."
+  keywords="Dale Hurley, AI entrepreneur, fintech, banking innovation, Avenue Bank, CreditorWatch, AI automation, LEAP Legal Software, tech entrepreneur, startup founder"
+  ogType="website"
+  ogImage="/images/dale-hurley-og.jpg"
+>
+  <!-- Hero Section -->
+  <div class="relative isolate overflow-hidden bg-gradient-to-b from-[#FF750F]/20 via-[#FF750F]/10 to-white dark:from-[#FF750F]/10 dark:via-[#FF750F]/5 dark:to-gray-900 pt-14">
+    <div class="mx-auto max-w-7xl px-6 py-32 sm:py-40 lg:px-8">
+      <div class="mx-auto max-w-3xl lg:mx-0 lg:grid lg:max-w-none lg:grid-cols-2 lg:gap-x-16 lg:gap-y-8 xl:grid-cols-1 xl:grid-rows-1 xl:gap-x-8">
+        <div class="lg:col-span-2 xl:col-auto">
+          <h1 class="max-w-3xl text-4xl font-bold tracking-tight text-balance text-gray-900 dark:text-white sm:text-6xl">
+            Building the AI future
+          </h1>
+          <p class="mt-6 text-xl font-semibold text-[#4B0600] dark:text-[#FF750F]">
+            AI-Driven Tech Entrepreneur & Banking Innovation Leader
+          </p>
+          <div class="mt-6 space-y-4">
+            {['Co-founded Avenue Bank', 'Founding CTO of CreditorWatch', '$77M+ funding secured', 'Full banking licence (2024)'].map(text => (
+              <div class="flex items-center gap-3">
+                <svg class="w-5 h-5 text-[#FF750F] flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                </svg>
+                <span class="text-gray-700 dark:text-gray-300">{text}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div class="mt-10 aspect-[16/12] w-full overflow-hidden rounded-xl sm:mt-16 lg:mt-0 lg:max-w-none xl:row-span-2 xl:row-end-2">
+          <img
+            src="/images/dale-hurley.jpg"
+            alt="Dale Hurley"
+            class="h-full w-full object-cover object-top"
+            loading="eager"
+            fetchpriority="high"
+            width="600"
+            height="450"
+          />
+        </div>
+        <div class="mt-10 lg:mt-0 xl:col-end-1 xl:row-start-1">
+          <div class="mt-10 flex items-center gap-x-6">
+            <a href="#track-record" class="text-base/6 font-semibold text-gray-900 dark:text-white">
+              View Track Record <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Track Record Section -->
+  <section id="track-record" class="py-24 sm:py-32 bg-[#FDFDFC] dark:bg-gray-800">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+      <div class="mx-auto max-w-2xl text-center">
+        <h2 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">Proven Track Record</h2>
+        <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">
+          Building successful fintech companies and AI solutions
+        </p>
+      </div>
+      <div class="mt-16 max-w-2xl mx-auto space-y-20">
+        {[
+          {
+            year: '2024–Present',
+            title: 'LEAP Legal Software',
+            role: 'AI Practice Management Engineering Lead',
+            description: 'Created no-code AI agentic platform for legal firms, transforming how legal professionals manage matter profitability.',
+            image: '/images/leap-icon.webp',
+          },
+          {
+            year: '2018–2024',
+            title: 'Avenue Bank',
+            role: 'Co-founder & Executive Leader',
+            description: 'Secured $77M+ funding, obtained full banking licence in 2024, and implemented 24-hour processing systems that revolutionised customer experience.',
+            image: '/images/avenue-bank-icon.webp',
+          },
+          {
+            year: '2010–2018',
+            title: 'CreditorWatch',
+            role: 'CTO & Innovation Director',
+            description: 'Led technology and product from startup to successful exit, pioneered AI risk score innovation, and implemented user-centric design principles that transformed credit risk assessment.',
+            image: '/images/creditorwatch-icon.webp',
+          },
+        ].map(item => (
+          <div class="flex flex-col sm:flex-row gap-8 items-start">
+            <div class="flex-shrink-0">
+              <img src={item.image} alt={item.title} class="w-16 h-16 rounded-xl object-contain bg-white p-1 shadow" loading="lazy" />
+            </div>
+            <div>
+              <p class="text-sm font-semibold text-[#FF750F] uppercase tracking-wide">{item.year}</p>
+              <h3 class="mt-1 text-xl font-bold text-gray-900 dark:text-white">{item.title}</h3>
+              <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">{item.role}</p>
+              <p class="text-gray-600 dark:text-gray-300">{item.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- AI Solutions Section -->
+  <section id="ai-solutions" class="py-24 sm:py-32 bg-gradient-to-br from-[#FF750F]/10 via-[#FF750F]/5 to-white dark:from-[#FF750F]/5 dark:via-gray-900/50 dark:to-gray-900">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+      <div class="mx-auto max-w-2xl lg:mx-0">
+        <h2 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">AI-Powered Solutions</h2>
+        <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">
+          I build AI systems that dramatically accelerate business processes
+        </p>
+      </div>
+      <div class="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+        {[
+          {
+            title: 'Rapid Prototyping',
+            description: 'Transform ideas into functional prototypes in days, not months. Validate concepts quickly and iterate based on real user feedback.',
+            svgPath: 'M13 10V3L4 14h7v7l9-11h-7z',
+          },
+          {
+            title: 'Intelligent Automation',
+            description: 'Implement AI systems that automate complex business processes, reduce operational costs by 40–60%, and eliminate human error.',
+            svgPath: 'M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4',
+          },
+          {
+            title: 'Strategic Innovation',
+            description: 'Develop AI-first strategies that create sustainable competitive advantages and open new revenue streams.',
+            svgPath: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z',
+          },
+        ].map(item => (
+          <div class="flex flex-col bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-sm">
+            <div class="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-[#FF750F]">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={item.svgPath} />
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{item.title}</h3>
+            <p class="mt-2 text-gray-600 dark:text-gray-300 text-sm leading-relaxed">{item.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="projects" class="py-24 sm:py-32 bg-white dark:bg-gray-800">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+      <div class="mx-auto max-w-2xl text-center">
+        <h2 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">Current Projects</h2>
+        <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">
+          Innovative solutions transforming industries through AI
+        </p>
+      </div>
+      <div class="mx-auto mt-16 grid max-w-2xl grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-3 lg:mx-0 lg:max-w-none lg:grid-cols-5">
+        {projects.map(p => (
+          <a href={p.url} target="_blank" rel="noopener noreferrer" class="flex flex-col items-center text-center group">
+            <div class="w-16 h-16 mb-3 rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-700 flex items-center justify-center group-hover:shadow-md transition-shadow">
+              <img src={p.image} alt={p.name} class="w-12 h-12 object-contain" loading="lazy" />
+            </div>
+            <p class="text-sm font-semibold text-gray-900 dark:text-white group-hover:text-[#FF750F] transition-colors">{p.name}</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1 line-clamp-2">{p.desc}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Latest Posts Section -->
+  {featuredPosts.length > 0 && (
+    <section class="py-24 sm:py-32 bg-gray-50 dark:bg-gray-900">
+      <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="mx-auto max-w-2xl text-center">
+          <h2 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">Latest Posts</h2>
+          <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">
+            Thoughts on AI, technology, and entrepreneurship
+          </p>
+        </div>
+        <div class="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+          {featuredPosts.map(post => (
+            <a
+              href={`/posts/${post.slug}`}
+              class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
+            >
+              {post.data.thumbnail && (
+                <div class="aspect-[3/2] overflow-hidden">
+                  <img
+                    src={post.data.thumbnail.startsWith('/') ? post.data.thumbnail : `/${post.data.thumbnail}`}
+                    alt={post.data.title}
+                    class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                    loading="lazy"
+                  />
+                </div>
+              )}
+              <div class="p-6">
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">{post.data.title}</h3>
+                {post.data.description && (
+                  <p class="text-gray-600 dark:text-gray-400 text-sm line-clamp-3">{post.data.description}</p>
+                )}
+                <p class="mt-4 text-sm text-gray-500 dark:text-gray-400">
+                  {post.data.date.toLocaleDateString('en-AU', { year: 'numeric', month: 'short', day: 'numeric' })}
+                </p>
+              </div>
+            </a>
+          ))}
+        </div>
+        <div class="text-center mt-12">
+          <a
+            href="/posts"
+            class="inline-flex items-center px-6 py-3 bg-[#FF750F] text-white rounded-lg hover:bg-orange-500 transition-colors font-semibold"
+          >
+            View All Posts <span class="ml-2">→</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Dale Hurley",
+    "jobTitle": "AI-Driven Tech Entrepreneur & Banking Innovation Leader",
+    "description": "AI-driven tech entrepreneur, banking innovation leader, and co-founder of Avenue Bank.",
+    "url": "https://dalehurley.com",
+    "image": "https://dalehurley.com/images/dale-hurley.jpg",
+    "sameAs": [
+      "https://www.linkedin.com/in/dalehurley/",
+      "https://github.com/dalehurley",
+      "https://twitter.com/dalehurley"
+    ]
+  })} />
+</Layout>

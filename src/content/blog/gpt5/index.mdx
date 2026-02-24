@@ -1,0 +1,44 @@
+---
+title: GPT-5
+date: 2025/08/08
+description: First impressions of GPT-5 is just meh
+tags: [ai, llm, openai]
+author: Dale Hurley
+image: images/gpt5.webp
+thumbnail: images/gpt5-thumbnail.webp
+---
+It is Firday in Australia and that means we get to wake up to the exciting announcements from the labs, that seem to like to drop new products while we are asleep. This morning I got to wake up to the expected GPT-5 that Sam Altman has been promising. Sam was promising the model would be world changing, it is not, in-fact the general vibe outside of the OpenAI video's seemed to be "meh". It is not a bad model, but it is far from the hype.
+
+First there were a few clues this model was not living up to the hype, my X feed had very little mentions of the announcements, and then HackerNews had the official [OpenAI announcement](https://openai.com/gpt-5/) and then [Simon Willison’s post](https://simonwillison.net/2025/Aug/7/gpt-5/). This was not like we have seen in the past where HN is flooded with OpenAI posts and write-ups.
+
+First some stats:
+* 400K input context (reasonable, models with bigger context seem to not handle the large context very well anyway)
+* 128k output
+* 3 modes GPT-5, GPT-5-mini and GPT-5-nano
+* It has a reasoning effort of minimal, low, and high (how much effort to put into thinking)
+* It has verbosity of low, medium, and high (the length of the response)
+* Costs are cheap:
+  * GPT-5 Input $1.25 | Output $10.00 per 1M tokens
+  * GPT-5 mini Input $0.25 | Output $2.00 per 1M tokens
+  * GPT-5 nano Input $0.05 | Output $0.40 per 1M tokens
+
+<img
+src="/images/openai-costs.png"
+width="700"
+height="288"
+/>
+
+
+Then started to get the Pod bros impressions
+
+The AI Daily Brief
+<iframe width="560" height="315" src="https://www.youtube.com/embed/5ccTjCSjaM4?si=cfaVPDuuWN8Jc2yG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+This Day in AI Podcast
+<iframe width="560" height="315" src="https://www.youtube.com/embed/6vwYRN7OBvg?si=ZO-bmDzHEvgsKxBh" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+Basically outside of the hype videos from OpenAI, everyone is kindof like "it is good, I guess". And that is the general feeling I had. Yes it is giving better results than the other OpenAI models, maybe better than Claude and Gemini, but feels like they have just caught up with the other model providers, hardly world changing.
+
+I spent the day coding with it too. It was good, solving issues, I certainly would use it along side Claude Sonnet and Opus, when I run out of those very few Cursor credits.
+
+On the speed front it is not fast, even when you minimise the reasoning effort.

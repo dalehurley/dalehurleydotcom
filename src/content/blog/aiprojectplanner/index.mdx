@@ -1,0 +1,189 @@
+---
+title: R&D Idea - AI-Assisted Project Planner for Software Development
+date: 2023/3/30
+description: The AI-Assisted Project Planner for Software Development utilising GPT-4 to generate comprehensive project plans for businesses. This tool aims to increase efficiency and accuracy in project planning, resulting in improved productivity and successful outcomes. By addressing the standard formula, requirements, and common needs of software projects, the AI-powered assistant guides businesses throughout the planning process.
+tags: [r&d, ideas, gpt, gpt-4, openai, ai, project planner]
+author: Dale Hurley
+image: images/aiprojectplanner.webp
+thumbnail: images/aiprojectplanner-thumbnail.webp
+---
+# R&D Idea - AI-Assisted Project Planner for Software Development
+
+There is a promising opportunity to develop a platform that utilises GPT-4 to help businesses generate comprehensive project plans for software development initiatives.
+
+Most software projects adhere to a standard formula, encompassing a standard set of requirements, a typical format, and common needs. These elements often include:
+
+- Business case
+- Requirements
+- Stakeholders
+- Personas
+- Use cases
+- EPICs/User Stories
+- Risks (issues, dependencies, assumptions)
+
+OpenAI's potential for enhancing business efficiency extends beyond generating images, blog posts, and email responses. By understanding how to use and design prompts, as well as recognising their limitations, I can create an effective tool for project planning.
+
+## Objective
+
+Develop an AI-powered assistant, combined with an intelligent prompt designer, to guide businesses in creating detailed project plans throughout the planning process.
+
+## Hypothesis
+
+Incorporating GPT-4 into a software development project planner will significantly enhance the efficiency and accuracy of project planning, leading to increased productivity and successful project outcomes.
+
+### GPT-4 Overview
+
+OpenAI's latest generative pre-trained model can mimic human conversations by analysing an extensive dataset to generate contextually relevant text. Essentially, it serves as a highly advanced autocorrect.
+
+#### GPT Strengths
+
+- Exceptionally fast
+- Extensive dataset
+- Cost-effective
+- Widespread popularity
+- Substantial investment
+- Availability of Microsoft Azure's enterprise edition
+
+#### GPT Limitations:
+
+- Lack of memory (conversations are not persistent)
+- Message size limits (affect both sent and received messages)
+- Hallucination, resulting in the creation of implausible content
+
+#### Faking Memory:
+
+Simulating memory is a vital component of the project planner. Given the message size constraints, the absence of message persistence, and the considerable amount of information needed for a project, it is essential to adopt an intelligent approach to prompt design and metadata generation to minimise the size of prompts sent to OpenAI.
+
+Memory is simulated by reconstructing the conversation between the "human" and the "AI assistant" in a step-by-step manner.
+
+```python
+messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": "Who won the world series in 2020?"},
+        {"role": "assistant", "content": "The Los Angeles Dodgers won the World Series in 2020."},
+        {"role": "user", "content": "Where was it played?"}
+    ]
+```
+
+#### Using Summarise to Improve Future Prompts
+
+The summarise aspect of GPT will help with reducing the size of messages and prompt design.
+
+#### Meta vs Presentation Data Structures
+
+In this approach, I propose using two distinct data structures: meta and presentation. The presentation data structure is displayed to users, while the meta data structure is a continuously evolving set of data used for prompt design to minimise the size of each prompt.
+
+For example, the presentation of a project description would contain the complete description, whereas the meta version would consist of a generated summary. When sending messages to GPT, the summarised version is transmitted instead of the full version, reducing the prompt size and optimising the conversation with the AI assistant. This dual-data structure system enables efficient communication without sacrificing essential information.
+
+#### Example Prompt
+
+The below is an example of a prompt to get a list of suggested stakeholders, in the example the project name and detailed description has been created, the description has been sent to GPT to be summarise, the summarise version is what is sent to reduce the number of tokens in subsequent calls.
+
+```
+messages=[
+        {"role": "system", "content": "You are a helpful assistant that assists project stakeholders to create detailed project plans."},
+        {"role": "user", "content": "Project name: PM To Do"},
+        {"role": "user", "content": "Project description: PM To Do is a versatile, cloud-based project management tool designed to streamline project planning, execution, and monitoring. Key features include intuitive task management, team collaboration, customizable reporting, and seamless integration with popular tools. Suitable for businesses, freelancers, and individuals, PM To Do enhances productivity, optimizes workflows, and ensures timely project completion."},
+        {"role": "user", "content": "Suggest a list of stakeholders in the format of {"stakeholders":[{\"title\":\"\",\"description\":\"\",}],"stakeholdersSummary":\"\"}"}
+    ]
+```
+
+To Which GPT-4 Replies:
+
+```
+{
+  "stakeholders": [
+    {
+      "title": "Project Sponsor",
+      "description": "A senior executive or stakeholder who provides financial support, resources, and overall direction for the project."
+    },
+    {
+      "title": "Project Manager",
+      "description": "The individual responsible for planning, executing, managing, and closing the project, ensuring that project goals and objectives are met."
+    },
+    {
+      "title": "Development Team",
+      "description": "A group of professionals, including software engineers, designers, and testers, responsible for building and maintaining the project management tool."
+    },
+    {
+      "title": "Product Owner",
+      "description": "The person responsible for defining the product vision, prioritizing features, and ensuring that the development team delivers a high-quality product that meets user needs."
+    },
+    {
+      "title": "QA Team",
+      "description": "Quality assurance specialists responsible for testing the project management tool and ensuring that it meets performance, reliability, and usability standards."
+    },
+    {
+      "title": "Marketing Team",
+      "description": "A group of marketing professionals responsible for promoting the project management tool and generating leads and sales."
+    },
+    {
+      "title": "Sales Team",
+      "description": "A team of sales representatives responsible for selling and demonstrating the value of the project management tool to potential clients."
+    },
+    {
+      "title": "Customer Support Team",
+      "description": "A team of customer support specialists responsible for addressing user issues, providing technical assistance, and ensuring customer satisfaction."
+    },
+    {
+      "title": "End Users",
+      "description": "Businesses, freelancers, and individuals who will use the project management tool to plan, execute, and monitor their projects."
+    },
+    {
+      "title": "Integration Partners",
+      "description": "Third-party software vendors whose tools and services will be integrated with the project management tool to provide additional functionality and value to users."
+    }
+  ],
+  "stakeholdersSummary": "The project stakeholders include the project sponsor, project manager, development team, product owner, QA team, marketing team, sales team, customer support team, end users, and integration partners. These stakeholders play a crucial role in the successful planning, execution, and delivery of the PM To Do project management tool."
+}
+```
+
+### Software Development Project Management Overview:
+
+The project planning process for software projects involves a series of steps that help define the scope, objectives, requirements, and resources needed to deliver a successful outcome. Here is an outline of the typical project planning process:
+
+1. **Define the project scope**: Begin by establishing the project's goals, objectives, and boundaries. Identify the target audience, their needs, and the expected benefits of the software.
+1. **Identify stakeholders:** Determine the key individuals and groups involved in the project, such as clients, users, project sponsors, development team members, and other relevant parties.
+1. **Gather requirements:** Collect information on functional, non-functional, technical, and business requirements. This includes features, performance expectations, technology choices, and alignment with business objectives.
+1. **Develop a project plan:** Create a comprehensive plan that outlines the project's timeline, milestones, tasks, resources, and budget. Define the roles and responsibilities of team members and assign tasks accordingly.
+1. **Risk assessment:** Identify potential risks, issues, dependencies, and assumptions related to the project. Develop strategies to mitigate, monitor, and manage these risks throughout the project's lifecycle.
+1. **Establish communication channels:** Set up effective communication methods among team members, stakeholders, and clients to ensure that information is shared efficiently and promptly.
+1. **Design the software architecture:** Create a high-level design of the software's structure, components, and their interactions. This provides a blueprint for the development team to follow during implementation.
+1. **Develop a project schedule:** Break down the project plan into smaller tasks, and allocate time and resources to each. Establish deadlines for each task, and monitor progress to ensure timely completion.
+1. **Monitor and control progress:** Regularly review the project's progress against the plan, making adjustments as needed to address deviations or changes in requirements, resources, or timelines.
+1. **Perform quality assurance:** Implement testing and quality control processes to ensure that the software meets the defined requirements and adheres to best practices.
+1. **Deployment and transition:** Prepare the software for release, and plan the transition from development to production. This may include data migration, user training, and infrastructure setup.
+1. **Closure and evaluation:** Once the project is completed, review its performance against the initial objectives and lessons learned. Document the findings and share them with relevant stakeholders to improve future projects.
+
+The project planning process for software projects is iterative, requiring ongoing adjustment and adaptation to ensure success in a dynamic and evolving environment.
+
+## Vision
+
+The vision for this project is to create a tool that can be used by project managers to create detailed project plans. The tool will be conversational, allowing the user to interact with the tool in a natural language. The tool will be able to generate project plans based on the user's input, and will be able to suggest project inputs for the users' approval, modification or rejection.
+
+## Actors
+
+- User - A BA or PM experienced with project management
+- PM Assistant - the application that the user uses and acts as a middleman between GPT and the user. It collects, stores, and prepares data.
+- AI Assistant - GPT-4 (or other)
+
+## Key Challenges to Be Addressed
+
+1. Facilitating user input for AI comprehension: Develop user-friendly interfaces, such as guided forms, interactive questionnaires, or conversational UIs that enable users to provide information in a structured and clear manner. This will help the AI process and understand user input more effectively.
+2. Enhancing user understanding: Ensure that the information provided to users is clear, concise, and easy to comprehend. Utilise visual aids, step-by-step instructions, and simple language to make the process accessible to users with varying levels of expertise.
+3. Optimising messages for AI: Design intelligent prompts and metadata to streamline communication with the AI. Employ techniques like summarisation, context-aware prompts, and proper message sequencing to improve the quality of AI-generated responses.
+4. Structuring data for AI communication: Implement data structures that are both efficient and effective for AI processing. Consider using meta and presentation data structures to minimize the size of prompts sent to the AI without sacrificing essential information.
+5. Organising stored data: Create a well-organized data storage system that facilitates easy retrieval, updates, and management of project information. Use structured data formats and apply best practices for data organisation, such as consistent naming conventions, categorisation, and version control.
+
+## Knownledge to be Developed
+
+1. Understanding of AI and natural language processing (NLP): Gain a deep understanding of AI, NLP, and the capabilities of language models like GPT-4. Learn how to design and optimise prompts for efficient communication with the AI.
+1. User experience (UX) design principles: Develop expertise in UX design, focusing on creating user-friendly interfaces and interactions that facilitate information input and comprehension.
+1. Software development project management: Acquire a solid foundation in software development project management methodologies, such as Agile, Scrum, or Waterfall. Understand the key stages, requirements, and common challenges in software projects.
+1. Data management and storage: Learn best practices for organizing and managing data, including structuring, categorization, version control, and efficient retrieval methods.
+1. Risk assessment and mitigation: Gain knowledge of risk identification, assessment, and mitigation strategies to proactively address potential challenges and obstacles during project development.
+1. Quality assurance and testing: Develop expertise in quality assurance and testing methodologies to ensure the software meets the defined requirements and adheres to best practices.
+1. Communication and collaboration: Enhance skills in effective communication and collaboration to ensure seamless interactions among team members, stakeholders, and clients.
+1. Industry standards and regulations: Stay up-to-date with relevant industry standards, regulations, and best practices to ensure software compliance and adherence to guidelines.
+1. Change management: Learn how to manage and communicate changes in project scope, requirements, or timelines effectively to minimize disruptions and maintain alignment with project objectives.
+1. Evaluation and performance measurement: Develop methods to assess the performance of the AI-assisted project planning tool, including metrics, benchmarks, and user feedback.
