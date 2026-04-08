@@ -2,14 +2,14 @@
 /**
  * Blog Hero Image Generator
  *
- * Ports the Laravel ImageAgent service to a standalone Node.js script.
- * Uses the OpenAI API (gpt-image-1 + gpt-4o) to generate 1950s propaganda-
- * style hero images and thumbnails for blog posts, then writes the paths
- * back into the MDX frontmatter.
+ * Uses OpenAI GPT-4o for prompt engineering and Google Gemini
+ * (gemini-3.1-flash-image-preview / Nano Banana) for image generation.
+ * Produces 1950s propaganda-style hero images and thumbnails for blog
+ * posts, then writes the paths back into the MDX frontmatter.
  *
  * Usage:
- *   OPENAI_API_KEY=sk-... node scripts/generate-images.mjs
- *   OPENAI_API_KEY=sk-... node scripts/generate-images.mjs --post=gpt5
+ *   OPENAI_API_KEY=sk-... GEMINI_API_KEY=... node scripts/generate-images.mjs
+ *   OPENAI_API_KEY=sk-... GEMINI_API_KEY=... node scripts/generate-images.mjs --post=gpt5
  */
 
 import fs from 'fs';
@@ -17,6 +17,8 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { createInterface } from 'readline';
 import OpenAI from 'openai';
+import { GoogleGenAI } from '@google/genai';
+import mime from 'mime';
 import sharp from 'sharp';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -318,30 +320,51 @@ function getAllPosts() {
 // Image generation
 // ---------------------------------------------------------------------------
 
-async function generateImage(openai, post) {
+async function generateImage(openai, gemini, post) {
   console.log(`\n→ Generating prompt for: ${post.title}`);
 
   const metaPrompt = buildMetaPrompt(post);
 
-  // Step 1: Use GPT-4o to craft a polished image prompt
+  // Step 1: Use GPT-5.4 to craft a polished image prompt
   const chatRes = await openai.chat.completions.create({
-    model: 'gpt-4o',
+    model: 'gpt-5.4',
     messages: [{ role: 'user', content: metaPrompt }],
   });
   const imagePrompt = chatRes.choices[0].message.content.trim();
   console.log('  Prompt:', imagePrompt.slice(0, 120) + '…');
 
-  // Step 2: Generate the image
-  console.log('  Calling image API…');
-  const imgRes = await openai.images.generate({
-    model: 'gpt-image-1',
-    prompt: imagePrompt,
-    size: '1536x1024',
-    output_format: 'webp',
+  // Step 2: Generate the image using Gemini (Nano Banana)
+  console.log('  Calling Gemini image API…');
+  const response = await gemini.models.generateContentStream({
+    model: 'gemini-3.1-flash-image-preview',
+    config: {
+      responseModalities: ['IMAGE', 'TEXT'],
+      imageConfig: {
+        aspectRatio: '3:2',
+        imageSize: '1K',
+      },
+    },
+    contents: [
+      {
+        role: 'user',
+        parts: [{ text: imagePrompt }],
+      },
+    ],
   });
 
-  const b64 = imgRes.data[0].b64_json;
-  const buffer = Buffer.from(b64, 'base64');
+  let buffer = null;
+  for await (const chunk of response) {
+    if (!chunk.candidates?.[0]?.content?.parts) continue;
+    const inlineData = chunk.candidates[0].content.parts[0]?.inlineData;
+    if (inlineData) {
+      buffer = Buffer.from(inlineData.data || '', 'base64');
+      break;
+    }
+  }
+
+  if (!buffer) {
+    throw new Error('Gemini did not return an image');
+  }
 
   // Step 3: Save hero image
   fs.mkdirSync(IMAGES_DIR, { recursive: true });
@@ -404,13 +427,19 @@ function prompt(question) {
 }
 
 async function main() {
-  const apiKey = process.env.OPENAI_API_KEY;
-  if (!apiKey) {
-    console.error('Error: OPENAI_API_KEY environment variable is required.');
+  const openaiKey = process.env.OPENAI_API_KEY;
+  const geminiKey = process.env.GEMINI_API_KEY;
+  if (!openaiKey) {
+    console.error('Error: OPENAI_API_KEY environment variable is required (for prompt engineering).');
+    process.exit(1);
+  }
+  if (!geminiKey) {
+    console.error('Error: GEMINI_API_KEY environment variable is required (for image generation).');
     process.exit(1);
   }
 
-  const openai = new OpenAI({ apiKey });
+  const openai = new OpenAI({ apiKey: openaiKey });
+  const gemini = new GoogleGenAI({ apiKey: geminiKey });
   const posts = getAllPosts();
 
   if (posts.length === 0) {
@@ -427,7 +456,7 @@ async function main() {
       console.error(`Post not found: ${slug}`);
       process.exit(1);
     }
-    const { imagePath, thumbnailPath } = await generateImage(openai, post);
+    const { imagePath, thumbnailPath } = await generateImage(openai, gemini, post);
     updateFrontmatter(post, imagePath, thumbnailPath);
     console.log('\nDone!');
     return;
@@ -444,7 +473,7 @@ async function main() {
   if (num === 0) {
     for (const post of posts) {
       try {
-        const { imagePath, thumbnailPath } = await generateImage(openai, post);
+        const { imagePath, thumbnailPath } = await generateImage(openai, gemini, post);
         updateFrontmatter(post, imagePath, thumbnailPath);
       } catch (err) {
         console.error(`  ✗ Failed for ${post.slug}:`, err.message);
@@ -452,7 +481,7 @@ async function main() {
     }
   } else if (num >= 1 && num <= posts.length) {
     const post = posts[num - 1];
-    const { imagePath, thumbnailPath } = await generateImage(openai, post);
+    const { imagePath, thumbnailPath } = await generateImage(openai, gemini, post);
     updateFrontmatter(post, imagePath, thumbnailPath);
   } else {
     console.log('Invalid selection.');
