@@ -1,0 +1,202 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout
+  title="RunningOut — Run tracking with clear stats"
+  description="RunningOut is a free running tracker for iPhone and Apple Watch. Detailed stats, personal records, interval tools, and voice coaching — with no sign-up, no subscription, and no third-party servers."
+  keywords="RunningOut, running app, run tracker, Apple Watch, iPhone, free, privacy, pace, heart rate, cadence, running power"
+  ogType="website"
+>
+  <!-- Hero -->
+  <div class="relative isolate overflow-hidden bg-gradient-to-b from-[#FF750F]/20 via-[#FF750F]/10 to-white dark:from-[#FF750F]/10 dark:via-[#FF750F]/5 dark:to-gray-900 pt-14">
+    <div class="mx-auto max-w-3xl px-6 py-24 sm:py-32 lg:px-8 text-center">
+      <p class="text-sm font-semibold uppercase tracking-widest text-[#FF750F] mb-4">Free on the App Store</p>
+      <h1 class="text-5xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-6xl">
+        RunningOut
+      </h1>
+      <p class="mt-6 text-xl leading-8 text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+        A running tracker that shows you the stats that actually matter — so every run tells you something useful.
+      </p>
+      <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a
+          href="https://apps.apple.com/app/runningout/id6738298906"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 px-8 py-4 bg-[#FF750F] text-white rounded-xl hover:bg-orange-500 transition-colors font-semibold text-lg shadow-lg shadow-orange-500/20"
+        >
+          Download on the App Store
+        </a>
+        <a
+          href="/runningout/support"
+          class="inline-flex items-center gap-2 px-8 py-4 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-semibold text-lg"
+        >
+          Support
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Privacy banner -->
+  <div class="bg-green-50 dark:bg-green-950 border-y border-green-200 dark:border-green-800">
+    <div class="mx-auto max-w-3xl px-6 py-8 lg:px-8 flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
+      <div class="flex-shrink-0 flex items-center justify-center w-12 h-12 rounded-full bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 text-2xl" aria-hidden="true">
+        &#x1F512;
+      </div>
+      <div>
+        <p class="font-semibold text-green-900 dark:text-green-100">No sign-up. No subscription. No third-party servers.</p>
+        <p class="mt-1 text-sm text-green-800 dark:text-green-300">Your runs stay on your device and in your private iCloud account — visible only to you, never to anyone else.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Feature highlights -->
+  <section class="py-24 sm:py-32 bg-white dark:bg-gray-900">
+    <div class="mx-auto max-w-3xl px-6 lg:px-8">
+      <h2 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white mb-4">Built for runners who want to improve</h2>
+      <p class="text-lg text-gray-600 dark:text-gray-400 mb-16 max-w-2xl">
+        RunningOut tracks what your body is doing on every run, then surfaces it in a way that helps you understand your training — without noise or clutter.
+      </p>
+
+      <div class="grid sm:grid-cols-2 gap-10">
+
+        <div>
+          <div class="w-10 h-10 rounded-lg bg-[#FF750F]/10 dark:bg-[#FF750F]/20 flex items-center justify-center text-[#FF750F] text-xl mb-4" aria-hidden="true">&#x1F3C3;</div>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Live metrics on iPhone &amp; Apple Watch</h3>
+          <p class="mt-2 text-base text-gray-600 dark:text-gray-400">
+            See pace, heart rate, cadence, power, elevation, stride length, and more in real time — on your wrist or your phone, exactly when you need them.
+          </p>
+        </div>
+
+        <div>
+          <div class="w-10 h-10 rounded-lg bg-[#FF750F]/10 dark:bg-[#FF750F]/20 flex items-center justify-center text-[#FF750F] text-xl mb-4" aria-hidden="true">&#x1F4CA;</div>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Post-run stats worth reading</h3>
+          <p class="mt-2 text-base text-gray-600 dark:text-gray-400">
+            Each run ends with a detailed summary: splits, trend context, personal bests, route maps, and shareable run graphics. Add notes and tags to build a training log that means something.
+          </p>
+        </div>
+
+        <div>
+          <div class="w-10 h-10 rounded-lg bg-[#FF750F]/10 dark:bg-[#FF750F]/20 flex items-center justify-center text-[#FF750F] text-xl mb-4" aria-hidden="true">&#x23F1;</div>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Interval sessions</h3>
+          <p class="mt-2 text-base text-gray-600 dark:text-gray-400">
+            Build structured interval workouts and let RunningOut guide you through them with automatic cues. Track interval performance in your post-run summary.
+          </p>
+        </div>
+
+        <div>
+          <div class="w-10 h-10 rounded-lg bg-[#FF750F]/10 dark:bg-[#FF750F]/20 flex items-center justify-center text-[#FF750F] text-xl mb-4" aria-hidden="true">&#x1F3AF;</div>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Voice coaching</h3>
+          <p class="mt-2 text-base text-gray-600 dark:text-gray-400">
+            Get spoken updates on your pace, distance, heart rate zone, and more at configurable intervals. No need to glance at your screen mid-run.
+          </p>
+        </div>
+
+        <div>
+          <div class="w-10 h-10 rounded-lg bg-[#FF750F]/10 dark:bg-[#FF750F]/20 flex items-center justify-center text-[#FF750F] text-xl mb-4" aria-hidden="true">&#x1F3C5;</div>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Personal records</h3>
+          <p class="mt-2 text-base text-gray-600 dark:text-gray-400">
+            RunningOut tracks your bests across distances and surfaces them in context — so when you break a record, you know it.
+          </p>
+        </div>
+
+        <div>
+          <div class="w-10 h-10 rounded-lg bg-[#FF750F]/10 dark:bg-[#FF750F]/20 flex items-center justify-center text-[#FF750F] text-xl mb-4" aria-hidden="true">&#x1F6B6;</div>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Outdoor &amp; treadmill</h3>
+          <p class="mt-2 text-base text-gray-600 dark:text-gray-400">
+            Track outdoor runs with GPS route maps and elevation, or switch to treadmill mode for indoor sessions. Both give you the same level of detail.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Metrics list -->
+  <section class="py-24 sm:py-32 bg-gray-50 dark:bg-gray-800">
+    <div class="mx-auto max-w-3xl px-6 lg:px-8">
+      <h2 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white mb-4">Every metric your run produces</h2>
+      <p class="text-lg text-gray-600 dark:text-gray-400 mb-12">
+        Where your device and permissions support it, RunningOut tracks all of these.
+      </p>
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+        {[
+          'Distance', 'Pace', 'Heart Rate', 'Cadence', 'Elevation',
+          'Running Power', 'Stride Length', 'Vertical Oscillation',
+          'Ground Contact Time', 'Calories', 'Splits', 'Heart Rate Zones',
+        ].map((metric) => (
+          <div class="flex items-center gap-2 text-gray-700 dark:text-gray-300 text-sm font-medium">
+            <span class="w-2 h-2 rounded-full bg-[#FF750F] flex-shrink-0" aria-hidden="true"></span>
+            {metric}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Privacy detail -->
+  <section class="py-24 sm:py-32 bg-white dark:bg-gray-900">
+    <div class="mx-auto max-w-3xl px-6 lg:px-8">
+      <h2 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white mb-4">Your data, your devices, full stop</h2>
+      <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">
+        Most fitness apps require an account, phone home to their own servers, or reserve the right to use your data. RunningOut doesn't.
+      </p>
+      <ul class="space-y-4 text-base text-gray-600 dark:text-gray-400">
+        <li class="flex items-start gap-3">
+          <span class="mt-1 text-[#FF750F] font-bold flex-shrink-0">&#x2713;</span>
+          <span>No account required — RunningOut works completely offline from the moment you install it.</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="mt-1 text-[#FF750F] font-bold flex-shrink-0">&#x2713;</span>
+          <span>No subscription — every feature is free, now and in the future.</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="mt-1 text-[#FF750F] font-bold flex-shrink-0">&#x2713;</span>
+          <span>No third-party servers — your runs sync through your own private iCloud account, not ours.</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="mt-1 text-[#FF750F] font-bold flex-shrink-0">&#x2713;</span>
+          <span>No ads, no analytics SDKs, no tracking — RunningOut collects nothing about you.</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="mt-1 text-[#FF750F] font-bold flex-shrink-0">&#x2713;</span>
+          <span>Works with Apple Health — read workouts for context, write your runs back, nothing else.</span>
+        </li>
+      </ul>
+      <div class="mt-10">
+        <a
+          href="/runningout/privacy"
+          class="text-[#FF750F] font-semibold hover:text-orange-500 transition-colors"
+        >
+          Read the full privacy policy &rarr;
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer CTA -->
+  <section class="py-16 bg-[#4B0600] dark:bg-gray-800">
+    <div class="mx-auto max-w-2xl px-6 text-center">
+      <p class="text-2xl font-bold text-white">
+        RunningOut is free on the App Store.
+      </p>
+      <p class="mt-3 text-orange-200">No sign-up. No catch.</p>
+      <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a
+          href="https://apps.apple.com/app/runningout/id6738298906"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 px-8 py-4 bg-[#FF750F] text-white rounded-xl hover:bg-orange-500 transition-colors font-semibold text-lg"
+        >
+          Download on the App Store
+        </a>
+        <a
+          href="/runningout/support"
+          class="inline-flex items-center gap-2 px-8 py-4 border border-orange-400/40 text-orange-100 rounded-xl hover:bg-white/10 transition-colors font-semibold text-lg"
+        >
+          Support
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
