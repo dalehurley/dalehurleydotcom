@@ -1,0 +1,131 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout
+  title="Support — RunningOut"
+  description="Support page for RunningOut, a free running tracker for iPhone and Apple Watch by Dale Hurley."
+  keywords="RunningOut, support, running app, help, contact"
+  ogType="website"
+>
+  <!-- Hero -->
+  <div class="relative isolate overflow-hidden bg-gradient-to-b from-[#FF750F]/20 via-[#FF750F]/10 to-white dark:from-[#FF750F]/10 dark:via-[#FF750F]/5 dark:to-gray-900 pt-14">
+    <div class="mx-auto max-w-3xl px-6 py-24 sm:py-32 lg:px-8 text-center">
+      <p class="text-sm font-semibold uppercase tracking-widest text-[#FF750F] mb-4">RunningOut</p>
+      <h1 class="text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-5xl">
+        Support
+      </h1>
+      <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+        Need help with RunningOut? Start with the common questions below or get in touch directly.
+      </p>
+    </div>
+  </div>
+
+  <!-- Data privacy banner -->
+  <div class="bg-green-50 dark:bg-green-950 border-y border-green-200 dark:border-green-800">
+    <div class="mx-auto max-w-3xl px-6 py-8 lg:px-8 flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
+      <div class="flex-shrink-0 flex items-center justify-center w-12 h-12 rounded-full bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 text-2xl" aria-hidden="true">
+        &#x1F512;
+      </div>
+      <div>
+        <p class="font-semibold text-green-900 dark:text-green-100">Your data never leaves your Apple devices</p>
+        <p class="mt-1 text-sm text-green-800 dark:text-green-300">RunningOut collects nothing. All your runs, health metrics, and personal data stay on your iPhone and in your private iCloud account — visible only to you.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <section class="py-24 sm:py-32 bg-white dark:bg-gray-900">
+    <div class="mx-auto max-w-3xl px-6 lg:px-8">
+      <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-12">Common questions</h2>
+
+      <div class="space-y-10">
+
+        <div>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">RunningOut is not recording my runs to Apple Health</h3>
+          <p class="mt-2 text-base leading-7 text-gray-600 dark:text-gray-300">
+            Open the Health app, go to Sharing &rarr; Apps &rarr; RunningOut, and confirm that workout write access is enabled. RunningOut writes a workout to HealthKit at the end of each run you save.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Heart rate, cadence, or other metrics are missing</h3>
+          <p class="mt-2 text-base leading-7 text-gray-600 dark:text-gray-300">
+            Advanced metrics like cadence, running power, stride length, vertical oscillation, and ground contact time require an Apple Watch with the appropriate sensors. Heart rate requires an Apple Watch or a compatible Bluetooth sensor. Confirm HealthKit read permissions are granted in the Health app under Sharing &rarr; Apps &rarr; RunningOut.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">My run history is not syncing across my devices</h3>
+          <p class="mt-2 text-base leading-7 text-gray-600 dark:text-gray-300">
+            RunningOut uses iCloud to sync your run history. Make sure you are signed in to the same Apple ID on both devices and that iCloud is enabled in Settings &rarr; [your name] &rarr; iCloud. Allow a few minutes after saving a run for sync to complete.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">How do I delete all my data?</h3>
+          <p class="mt-2 text-base leading-7 text-gray-600 dark:text-gray-300">
+            Open the iOS Settings app, scroll down to RunningOut, turn on Reset All Data, then launch RunningOut. All locally stored runs, preferences, and cached data will be removed. To also remove iCloud-synced data, delete RunningOut from all devices linked to your Apple ID.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Does RunningOut work on the Apple Watch without my iPhone nearby?</h3>
+          <p class="mt-2 text-base leading-7 text-gray-600 dark:text-gray-300">
+            RunningOut mirrors your iPhone run to Apple Watch in real time. The Watch app is designed to work alongside the iPhone app during a run. Independent Watch-only run tracking is not supported in the current version.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Is there a cost? Are there in-app purchases?</h3>
+          <p class="mt-2 text-base leading-7 text-gray-600 dark:text-gray-300">
+            RunningOut is free with no in-app purchases, subscriptions, or advertising.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Contact -->
+      <div class="mt-20 rounded-2xl bg-gray-50 dark:bg-gray-800 p-8 sm:p-10">
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Get in touch</h2>
+        <p class="mt-4 text-base leading-7 text-gray-600 dark:text-gray-300">
+          If your question is not answered above, reach out on LinkedIn. Include your iOS version, Apple Watch model if relevant, and a short description of what you expected versus what happened.
+        </p>
+        <div class="mt-6">
+          <a
+            href="https://www.linkedin.com/in/dalehurley/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 px-6 py-3 bg-[#FF750F] text-white rounded-lg hover:bg-orange-500 transition-colors font-semibold"
+          >
+            Message on LinkedIn
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer CTA -->
+  <section class="py-16 bg-[#4B0600] dark:bg-gray-800">
+    <div class="mx-auto max-w-2xl px-6 text-center">
+      <p class="text-lg font-semibold text-orange-100">
+        Looking for the privacy policy?
+      </p>
+      <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a
+          href="/runningout/privacy"
+          class="inline-flex items-center gap-2 px-6 py-3 bg-[#FF750F] text-white rounded-lg hover:bg-orange-500 transition-colors font-semibold"
+        >
+          Privacy Policy
+        </a>
+        <a
+          href="/"
+          class="inline-flex items-center gap-2 px-6 py-3 border border-orange-400/40 text-orange-100 rounded-lg hover:bg-white/10 transition-colors font-semibold"
+        >
+          Back to home
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
