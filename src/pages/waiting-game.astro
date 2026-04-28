@@ -1,0 +1,256 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Waiting Game Example | DaleHurley.com"
+  description="An example one-button mini game inspired by ftaip/waiting-game."
+  keywords="waiting game, one button game, canvas game, pixel runner"
+>
+  <main id="main-content" class="min-h-screen bg-gradient-to-b from-slate-950 to-slate-900 text-slate-100 py-16 px-6">
+    <div class="mx-auto max-w-4xl">
+      <p class="text-sm uppercase tracking-[0.2em] text-orange-300">Example Page</p>
+      <h1 class="mt-2 text-4xl font-bold sm:text-5xl">Waiting Game (Runner Demo)</h1>
+      <p class="mt-4 text-slate-300 max-w-2xl">
+        This page is an example inspired by
+        <a class="text-orange-300 underline decoration-orange-500/60 hover:text-orange-200" href="https://github.com/ftaip/waiting-game" target="_blank" rel="noreferrer">ftaip/waiting-game</a>:
+        a tiny one-button arcade idea you can play while waiting for long tasks.
+      </p>
+
+      <div class="mt-8 rounded-2xl border border-white/10 bg-black/30 p-4 sm:p-6 shadow-2xl shadow-black/40">
+        <canvas id="runner-canvas" width="900" height="280" class="w-full rounded-xl bg-[#0b1220] border border-white/10"></canvas>
+
+        <div class="mt-4 flex flex-wrap gap-3">
+          <button id="start-btn" class="rounded-lg bg-orange-500 px-4 py-2 font-semibold text-white hover:bg-orange-400 transition">Start / Restart</button>
+          <button id="pause-btn" class="rounded-lg bg-white/10 px-4 py-2 font-semibold text-white hover:bg-white/20 transition">Pause</button>
+          <span id="status" class="rounded-lg bg-white/5 px-4 py-2 text-sm text-slate-200">Status: Ready</span>
+        </div>
+
+        <ul class="mt-4 list-disc pl-5 text-sm text-slate-300 space-y-1">
+          <li><strong>One button control:</strong> Space, Arrow Up, W, click, or touch to jump.</li>
+          <li>Tap for short jump, hold for higher jump.</li>
+          <li>Avoid cacti and birds, build combo, and beat your high score.</li>
+        </ul>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const canvas = document.getElementById('runner-canvas');
+    const ctx = canvas.getContext('2d');
+    const startBtn = document.getElementById('start-btn');
+    const pauseBtn = document.getElementById('pause-btn');
+    const status = document.getElementById('status');
+
+    const GROUND_Y = canvas.height - 46;
+    const PLAYER_X = 92;
+
+    let isRunning = false;
+    let isPaused = false;
+    let pressing = false;
+    let score = 0;
+    let high = Number(localStorage.getItem('waiting-game-demo:high') || 0);
+    let combo = 0;
+    let speed = 5.6;
+    let frame = 0;
+
+    const player = {
+      y: GROUND_Y - 34,
+      w: 28,
+      h: 34,
+      vy: 0,
+      onGround: true,
+    };
+
+    const obstacles = [];
+    const stars = Array.from({ length: 60 }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * (canvas.height - 70),
+      z: Math.random() * 1 + 0.3,
+    }));
+
+    function setStatus(text) {
+      status.textContent = text;
+    }
+
+    function reset() {
+      score = 0;
+      combo = 0;
+      speed = 5.6;
+      frame = 0;
+      obstacles.length = 0;
+      player.y = GROUND_Y - player.h;
+      player.vy = 0;
+      player.onGround = true;
+      setStatus('Status: Running');
+    }
+
+    function spawnObstacle() {
+      const tall = Math.random() < 0.65;
+      if (tall) {
+        obstacles.push({ x: canvas.width + 20, y: GROUND_Y - 34, w: 20, h: 34, type: 'cactus', passed: false });
+      } else {
+        obstacles.push({ x: canvas.width + 20, y: GROUND_Y - 76, w: 26, h: 18, type: 'bird', passed: false });
+      }
+    }
+
+    function jump() {
+      if (!isRunning || isPaused) return;
+      if (player.onGround) {
+        player.vy = -12;
+        player.onGround = false;
+      }
+    }
+
+    function endGame() {
+      isRunning = false;
+      isPaused = false;
+      high = Math.max(high, Math.floor(score));
+      localStorage.setItem('waiting-game-demo:high', String(high));
+      setStatus(`Status: Game over — score ${Math.floor(score)} | high ${high}`);
+      draw();
+    }
+
+    function update() {
+      frame += 1;
+      score += 0.15 + combo * 0.003;
+      speed = Math.min(12, speed + 0.0009);
+
+      if (!player.onGround) {
+        if (pressing && player.vy < 0) player.vy -= 0.13;
+        player.vy += 0.62;
+        player.y += player.vy;
+        if (player.y >= GROUND_Y - player.h) {
+          player.y = GROUND_Y - player.h;
+          player.vy = 0;
+          player.onGround = true;
+        }
+      }
+
+      if (frame % Math.max(42, 120 - Math.floor(speed * 5)) === 0) spawnObstacle();
+
+      for (let i = obstacles.length - 1; i >= 0; i -= 1) {
+        const o = obstacles[i];
+        o.x -= speed;
+
+        if (!o.passed && o.x + o.w < PLAYER_X) {
+          o.passed = true;
+          combo += 1;
+        }
+
+        const hit =
+          PLAYER_X < o.x + o.w &&
+          PLAYER_X + player.w > o.x &&
+          player.y < o.y + o.h &&
+          player.y + player.h > o.y;
+
+        if (hit) {
+          endGame();
+          return;
+        }
+
+        if (o.x + o.w < -20) obstacles.splice(i, 1);
+      }
+    }
+
+    function drawPixelRect(x, y, w, h, color) {
+      ctx.fillStyle = color;
+      ctx.fillRect(Math.round(x), Math.round(y), Math.round(w), Math.round(h));
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawPixelRect(0, 0, canvas.width, canvas.height, '#0b1220');
+
+      for (const s of stars) {
+        s.x -= 0.2 * s.z;
+        if (s.x < -2) {
+          s.x = canvas.width + Math.random() * 30;
+          s.y = Math.random() * (canvas.height - 60);
+        }
+        drawPixelRect(s.x, s.y, 2 * s.z, 2 * s.z, '#1f2d4a');
+      }
+
+      drawPixelRect(0, GROUND_Y, canvas.width, 2, '#f97316');
+      for (let x = -(frame * speed) % 28; x < canvas.width; x += 28) {
+        drawPixelRect(x, GROUND_Y + 8, 14, 2, '#24334f');
+      }
+
+      drawPixelRect(PLAYER_X, player.y, player.w, player.h, '#f8fafc');
+      drawPixelRect(PLAYER_X + 18, player.y + 8, 5, 5, '#0b1220');
+
+      for (const o of obstacles) {
+        const c = o.type === 'bird' ? '#fb923c' : '#fdba74';
+        drawPixelRect(o.x, o.y, o.w, o.h, c);
+        if (o.type === 'bird') drawPixelRect(o.x + 6, o.y + 4, 8, 3, '#0b1220');
+      }
+
+      ctx.fillStyle = '#e2e8f0';
+      ctx.font = 'bold 20px ui-monospace, SFMono-Regular, Menlo, monospace';
+      ctx.fillText(`SCORE ${Math.floor(score).toString().padStart(4, '0')}`, 18, 30);
+      ctx.fillText(`HI ${String(high).padStart(4, '0')}`, 18, 56);
+      ctx.fillText(`COMBO x${Math.max(1, combo)}`, 18, 82);
+
+      if (!isRunning) {
+        ctx.fillStyle = 'rgba(2, 6, 23, 0.65)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#fff';
+        ctx.font = 'bold 34px ui-sans-serif, system-ui';
+        ctx.fillText('Tap to Start', canvas.width / 2 - 95, canvas.height / 2 - 8);
+        ctx.font = '16px ui-sans-serif, system-ui';
+        ctx.fillText('One-button runner demo inspired by waiting-game', canvas.width / 2 - 170, canvas.height / 2 + 26);
+      }
+    }
+
+    function loop() {
+      if (isRunning && !isPaused) update();
+      draw();
+      requestAnimationFrame(loop);
+    }
+
+    function startGame() {
+      reset();
+      isRunning = true;
+      isPaused = false;
+      setStatus('Status: Running');
+    }
+
+    function togglePause() {
+      if (!isRunning) return;
+      isPaused = !isPaused;
+      setStatus(isPaused ? 'Status: Paused' : 'Status: Running');
+    }
+
+    function onPress(e) {
+      if (e.cancelable) e.preventDefault();
+      pressing = true;
+      if (!isRunning) {
+        startGame();
+      } else {
+        jump();
+      }
+    }
+
+    function onRelease() {
+      pressing = false;
+    }
+
+    startBtn.addEventListener('click', startGame);
+    pauseBtn.addEventListener('click', togglePause);
+
+    window.addEventListener('keydown', (e) => {
+      if (['Space', 'ArrowUp', 'KeyW'].includes(e.code) && !e.repeat) onPress(e);
+      if (e.code === 'KeyP') togglePause();
+    });
+    window.addEventListener('keyup', (e) => {
+      if (['Space', 'ArrowUp', 'KeyW'].includes(e.code)) onRelease();
+    });
+
+    canvas.addEventListener('pointerdown', onPress);
+    window.addEventListener('pointerup', onRelease);
+
+    setStatus(`Status: Ready — high score ${high}`);
+    draw();
+    loop();
+  </script>
+</Layout>
