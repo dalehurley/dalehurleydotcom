@@ -1,0 +1,38 @@
+---
+title: "How I Use AI-Assisted Code Development"
+date: 2026-04-29
+description: "AI coding models and agents are powerful, but they still need tight supervision. Here is the process I use to keep quality high and avoid costly drift."
+tags: [ai, coding, process, agentic]
+author: "Dale Hurley"
+image: images/gpt5.webp
+thumbnail: images/gpt5-thumbnail.webp
+---
+
+AI coding models and agents are now extremely capable. In many workflows, they are about 80–85% of the way there.
+
+That sounds great, but the remaining 15–20% matters a lot. If you do not supervise closely, small mistakes compound.
+
+## What Goes Wrong
+
+Agents still make too many assumptions. They often do too much in one pass, consume too much context, and then lose track of earlier decisions.
+
+Once context gets compacted, they can recreate work that already exists. As context grows, they may ignore project rules, skip skills, and miss MCP-based context they should be using.
+
+## My Current Approach (April 2026)
+
+Before I start an agent, I think through the task first. Then I break it into smaller, bounded tasks with clear goals.
+
+During execution, I review generated files continuously. I push the agent toward reusable components, classes, traits, and functions instead of one-off code.
+
+I usually run one execution agent at a time so I can supervise in real time. I may use separate agents for planning, but I keep build execution tightly controlled.
+
+## Workflow Rules I Follow
+
+- Break work into small tasks.
+- Review every generated file.
+- Prefer reusable architecture over quick patches.
+- Use git heavily.
+- Revert bad changes quickly.
+- Run experiments in separate branches.
+
+AI-assisted development is very effective, but only with active engineering judgment. The tools are powerful; the developer still has to steer.
