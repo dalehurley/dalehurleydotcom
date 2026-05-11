@@ -1,0 +1,144 @@
+---
+title: "Testing an AI Agent Harness Over a Few Weekends"
+date: 2026-05-11
+description: "A short write-up on using Cursor, Kimi K2.5, Laravel, React, and shadcn/ui to test whether a tightly planned agent loop can build a useful app cheaply."
+tags: [AI, Coding, Agents, Laravel, Cursor]
+author: "Dale Hurley"
+---
+
+I spent a few weekends testing a simple idea: can an AI agent harness turn a well-defined brief into a useful application with very little manual coding?
+
+The short answer: yes, for the right kind of project.
+
+The longer answer: the result was useful, cheap, and much better than expected. It was also bloated in places, occasionally illogical, and still needed experienced human judgement.
+
+## The Stack
+
+I used:
+
+- [Cursor CLI](https://cursor.com/en-US/cli) to run the agent loop from the terminal.
+- Kimi K2.5 in the workflow. Kimi K2.5 is an open-source multimodal model from Moonshot AI designed for coding, long-context work, and agentic tool use. Cloudflare lists it with a 256k context window, vision inputs, structured outputs, and multi-turn tool calling.
+- Laravel, React, and shadcn/ui for the application.
+- Laravel's AI coding tools. [Laravel Boost](https://laravel.com/docs/master/boost) provides agent guidelines, skills, an MCP server, and documentation search so coding agents can work with Laravel-specific context instead of guessing.
+- A [Tailwind Plus](https://tailwindcss.com/plus) template for the marketing pages.
+
+Laravel was a good choice because it removes a lot of boilerplate. Any opinionated framework would help for the same reason: fewer blank-page decisions, more established conventions, and clearer defaults for the agent to follow.
+
+## The Setup
+
+I spent about eight hours preparing the project before letting the loop run.
+
+That time went into:
+
+1. Writing `AGENTS.md`.
+2. Getting the agent to research the subject area.
+3. Asking the agent lots of questions until the domain was clearer.
+4. Creating a `research` folder and saving the research as Markdown files.
+5. Building the marketing pages and copy from a Tailwind Plus template.
+6. Refining the marketing copy heavily.
+7. Asking the agent to research competitors.
+8. Saving competitor analysis in the `research` folder.
+9. Turning the research into 47 specific requirements.
+10. Manually reviewing every requirement.
+
+The requirements were not vague user stories. They covered functional behaviour, non-functional requirements, ease of use, clarity, UI expectations, and copy.
+
+That specificity mattered.
+
+## The Harness
+
+I then wrote a shell script to loop Cursor CLI through the requirements.
+
+For each requirement, the loop asked the agent to:
+
+1. Update the requirement based on what had already been implemented.
+2. Plan the build.
+3. Implement the requirement.
+4. Identify 15 improvements.
+5. Implement those improvements.
+6. Run browser testing with screenshots.
+7. Fix issues found during testing.
+8. Commit the result to Git.
+
+Then I left the loop running.
+
+Across the experiment I burnt through roughly a billion tokens for under US$100.
+
+## What Worked
+
+The results were largely positive.
+
+Kimi K2.5 was much better than I expected. It was also fast compared with Claude and GPT in this workflow. Speed matters in an agent loop because latency compounds across planning, implementation, testing, fixes, and commits.
+
+The preparation also paid off. The agent performed better when it had:
+
+- clear requirements,
+- project-specific instructions,
+- researched context,
+- competitor analysis,
+- framework conventions,
+- a repeatable loop,
+- browser testing,
+- screenshots,
+- and Git commits after each unit of work.
+
+The lesson is not "let the AI code everything". The lesson is that upfront planning makes automated implementation far more useful.
+
+## What Did Not Work
+
+The app was not perfect.
+
+Some workflows were illogical. Some features were bloated. The agent sometimes overbuilt instead of choosing the simplest path.
+
+That was fixable, but it still required human judgement. A better next pass would explicitly ask the agent to remove bloat, simplify flows, and cut anything that does not support the core use case.
+
+The harness improved throughput. It did not remove the need for product taste, technical judgement, or manual review.
+
+## Where This Approach Fits
+
+This approach works best for a well-defined, non-novel project.
+
+It is a good fit when:
+
+- the domain is understood,
+- the workflows are known,
+- the requirements can be written clearly,
+- the UI patterns are familiar,
+- the framework is opinionated,
+- and the main challenge is execution.
+
+It is a poor fit when:
+
+- the project is highly experimental,
+- the product shape is still unknown,
+- the core workflow needs discovery,
+- the technical approach is novel,
+- or success depends on subtle product judgement.
+
+For novel work, the agent would probably fail badly unless the human stayed much closer to the loop.
+
+## The Bigger Implication
+
+This experiment changed how I think about small software teams.
+
+We may be moving towards teams built around one strong product engineer supported by:
+
+- a UX/UI lead,
+- a product subject matter expert,
+- and a quality engineer.
+
+That does not mean software development skill matters less. It means it matters more.
+
+The human needs to define the system, constrain the work, review the output, spot bad trade-offs, simplify the product, and know when the agent is wrong.
+
+AI increases delivery efficiency. It does not replace engineering judgement.
+
+## My Takeaway
+
+The harness worked because the project was constrained.
+
+Eight hours of planning gave the agent enough structure to produce something useful at very low cost. The loop turned requirements into steady progress. The framework reduced decision fatigue. The screenshots and commits made the output easier to inspect.
+
+I would use this approach again for a well-defined application.
+
+I would not use it as-is for a product where the hard part is discovery.
