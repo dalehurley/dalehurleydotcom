@@ -1,0 +1,72 @@
+---
+import Layout from './Layout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  keywords: string;
+  current: 'overview' | 'privacy' | 'support';
+}
+
+const { title, description, keywords, current } = Astro.props;
+const socialImage = new URL('/images/purerun-og.jpg', Astro.site).toString();
+
+const links = [
+  { href: '/purerun', label: 'Overview', key: 'overview' },
+  { href: '/purerun/privacy', label: 'Privacy', key: 'privacy' },
+  { href: '/purerun/support', label: 'Support', key: 'support' },
+] as const;
+---
+
+<Layout
+  title={title}
+  description={description}
+  keywords={keywords}
+  ogType="website"
+  ogImage={socialImage}
+>
+  <nav aria-label="PureRun" class="border-y border-white/10 bg-[#090b0d] text-white">
+    <div class="mx-auto flex max-w-5xl items-center justify-between gap-6 px-6 py-4 lg:px-8">
+      <a href="/purerun" class="flex items-center gap-3 font-bold tracking-tight">
+        <img
+          src="/images/purerun-app-icon.jpg"
+          width="40"
+          height="40"
+          alt=""
+          class="h-10 w-10 rounded-xl"
+        />
+        <span class="text-lg">PureRun</span>
+      </a>
+
+      <div class="flex items-center gap-5 sm:gap-8">
+        {links.map((link) => (
+          <a
+            href={link.href}
+            class:list={[
+              'text-sm font-semibold transition-colors hover:text-[#a7ff2f]',
+              current === link.key ? 'text-[#a7ff2f]' : 'text-gray-300',
+            ]}
+            aria-current={current === link.key ? 'page' : undefined}
+          >
+            {link.label}
+          </a>
+        ))}
+      </div>
+    </div>
+  </nav>
+
+  <slot />
+
+  <footer class="border-t border-white/10 bg-[#090b0d] text-gray-300">
+    <div class="mx-auto flex max-w-5xl flex-col gap-6 px-6 py-10 sm:flex-row sm:items-center sm:justify-between lg:px-8">
+      <div>
+        <p class="font-bold text-white">PureRun</p>
+        <p class="mt-1 text-sm">Your run. Your Health data. Nothing else.</p>
+      </div>
+      <div class="flex gap-6 text-sm font-semibold">
+        <a href="/purerun/privacy" class="hover:text-[#a7ff2f]">Privacy</a>
+        <a href="/purerun/support" class="hover:text-[#a7ff2f]">Support</a>
+      </div>
+    </div>
+  </footer>
+</Layout>

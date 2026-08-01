@@ -1,0 +1,81 @@
+---
+import PureRunLayout from '../../layouts/PureRunLayout.astro';
+
+const questions = [
+  {
+    question: 'How do I get started?',
+    answer: 'Install PureRun on iPhone, make sure its companion app is installed on Apple Watch, and complete the short setup on iPhone. PureRun explains each Health permission before Apple presents the system permission screens.',
+  },
+  {
+    question: 'Can all Health permissions be granted from iPhone?',
+    answer: 'The iPhone setup requests the permissions available there. Apple Watch may still ask for permission the first time it records a workout because Apple keeps some Watch authorization decisions on the Watch itself.',
+  },
+  {
+    question: 'Can I start a run from either device?',
+    answer: 'Yes. You can start on Apple Watch or use Start on Apple Watch from the iPhone. The Watch records one HealthKit workout and the iPhone becomes its live companion.',
+  },
+  {
+    question: 'Why are live metrics not appearing on iPhone?',
+    answer: 'Keep the paired iPhone and Apple Watch nearby with Bluetooth and Wi‑Fi available, confirm Health access for PureRun on both devices, and open PureRun on each device. Ending and starting a fresh run can restore a workout session that was temporarily interrupted.',
+  },
+  {
+    question: 'Where is my run history stored?',
+    answer: 'Runs are stored as workouts in Apple Health. PureRun reads those workouts to show history and recent progress; it does not maintain a separate workout database or upload them to a PureRun server.',
+  },
+  {
+    question: 'How do I delete a run or revoke access?',
+    answer: 'Delete workouts in the Apple Health app. You can change or revoke PureRun’s Health permissions in Health or Settings. Removing PureRun deletes its local setup preference.',
+  },
+];
+---
+
+<PureRunLayout
+  title="Support — PureRun"
+  description="Help and support for PureRun on iPhone and Apple Watch, including Health permissions, Watch installation, workout mirroring, and run history."
+  keywords="PureRun support, Apple Watch workout mirroring, HealthKit permissions, running app help"
+  current="support"
+>
+  <header class="bg-[#090b0d] px-6 py-20 text-center text-white sm:py-24">
+    <p class="text-sm font-bold uppercase tracking-[0.22em] text-[#a7ff2f]">PureRun</p>
+    <h1 class="mt-5 text-5xl font-black tracking-tight sm:text-6xl">Support</h1>
+    <p class="mx-auto mt-6 max-w-2xl text-lg leading-8 text-gray-300">Straight answers for getting your iPhone and Apple Watch running together.</p>
+  </header>
+
+  <section class="bg-white py-20 dark:bg-gray-900 sm:py-24">
+    <div class="mx-auto max-w-3xl px-6 lg:px-8">
+      <h2 class="text-3xl font-black tracking-tight text-gray-950 dark:text-white">Common questions</h2>
+      <div class="mt-10 divide-y divide-gray-200 border-y border-gray-200 dark:divide-gray-700 dark:border-gray-700">
+        {questions.map((item) => (
+          <details class="group py-6">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-6 text-lg font-bold text-gray-950 marker:content-none dark:text-white">
+              {item.question}
+              <span class="text-2xl font-light text-lime-600 transition-transform group-open:rotate-45 dark:text-[#a7ff2f]" aria-hidden="true">+</span>
+            </summary>
+            <p class="max-w-2xl pt-4 leading-7 text-gray-600 dark:text-gray-300">{item.answer}</p>
+          </details>
+        ))}
+      </div>
+
+      <div class="mt-16 rounded-3xl bg-gray-100 p-8 dark:bg-gray-800 sm:p-10">
+        <p class="text-sm font-bold uppercase tracking-[0.18em] text-lime-600 dark:text-[#a7ff2f]">Still need help?</p>
+        <h2 class="mt-3 text-3xl font-black text-gray-950 dark:text-white">Get in touch</h2>
+        <p class="mt-4 max-w-2xl leading-7 text-gray-600 dark:text-gray-300">
+          Include your iOS version, Apple Watch model and watchOS version, plus what you expected and what happened. Please do not include private Health information.
+        </p>
+        <a
+          href="https://www.linkedin.com/in/dalehurley/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="mt-7 inline-flex rounded-xl bg-[#a7ff2f] px-6 py-3 font-bold text-black transition-colors hover:bg-lime-300"
+        >
+          Message Dale on LinkedIn
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-[#a7ff2f] px-6 py-14 text-center text-black">
+    <p class="text-xl font-black">Looking for details about your data?</p>
+    <a href="/purerun/privacy" class="mt-4 inline-flex font-bold underline decoration-2 underline-offset-4">Read the privacy policy</a>
+  </section>
+</PureRunLayout>
