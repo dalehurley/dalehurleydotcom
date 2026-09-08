@@ -7,29 +7,30 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Custom Shiki / code block styling */
+/* Shiki uses github-dark token colours in both site themes. */
 pre.astro-code {
   background: #0d1117 !important;
+  color: #e6edf3;
+  border: 1px solid #30363d;
   border-radius: 6px;
   font-family: ui-monospace, SFMono-Regular, 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
   font-size: 14px;
-  line-height: 1.45;
-  padding: 1rem;
+  line-height: 1.65;
+  padding: 1.25rem;
   overflow-x: auto;
   margin: 1.5rem 0;
   position: relative;
 }
 
-@media (prefers-color-scheme: light) {
-  pre.astro-code {
-    background: #ffffff !important;
-    border: 1px solid #d0d7de;
-  }
-}
-
 /* #10: Copy code button */
 .code-block-wrapper {
   position: relative;
+  margin: 1.5rem 0;
+}
+
+.code-block-wrapper pre.astro-code {
+  margin: 0;
+  padding-top: 3rem;
 }
 
 .copy-code-btn {
@@ -61,16 +62,9 @@ pre.astro-code {
   border-color: #3fb950;
 }
 
-@media (prefers-color-scheme: light) {
-  .copy-code-btn {
-    color: #57606a;
-    background: rgba(0,0,0,0.05);
-    border-color: rgba(0,0,0,0.12);
-  }
-  .copy-code-btn:hover {
-    color: #24292f;
-    background: rgba(0,0,0,0.1);
-  }
+.copy-code-btn:focus-visible {
+  outline: 2px solid #e6edf3;
+  outline-offset: 3px;
 }
 
 /* Callout component styling */
@@ -78,13 +72,6 @@ pre.astro-code {
   border-left: 4px solid;
   margin: 24px 0;
   border-radius: 8px;
-}
-
-/* Prose overrides: strip typography plugin's default pre padding/margin
-   but do NOT override background so Shiki's dark theme stays intact */
-.prose pre {
-  padding: 0 !important;
-  margin: 0 !important;
 }
 
 /* Reset code inside pre so Shiki token colours show correctly */
@@ -180,16 +167,11 @@ pre.astro-code {
   overflow: hidden;
 }
 
-/* #14: Scroll-triggered fade-in animations */
-.fade-in-section {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-
+/* Content stays readable if its enhancement script never runs. */
+.fade-in-section,
 .fade-in-section.animate-in {
   opacity: 1;
-  transform: translateY(0);
+  transform: none;
 }
 
 /* #3: Reading progress bar */
@@ -202,4 +184,21 @@ pre.astro-code {
   background: linear-gradient(to right, #FF750F, #f97316);
   z-index: 9999;
   transition: width 0.1s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  .fade-in-section,
+  #site-header,
+  #back-to-top,
+  #reading-progress,
+  .copy-code-btn,
+  #main-content a,
+  #main-content img {
+    animation: none !important;
+    transition: none !important;
+  }
 }

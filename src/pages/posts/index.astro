@@ -1,161 +1,149 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import PostList from '../../components/PostList.astro';
+import Arrow from '../../components/Arrow.astro';
 import { getCollection } from 'astro:content';
+import { formatTagLabel, normalizeTagSlug } from '../../utils/posts';
+import '../../styles/writing.css';
 
-const allPosts = await getCollection('blog');
-const posts = allPosts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
-
-// Estimate reading time from raw body (average 200 wpm)
-function estimateReadingTime(body: string): number {
-  const words = body.trim().split(/\s+/).length;
-  return Math.max(1, Math.round(words / 200));
-}
-
-// Title-case helper
-function toTitleCase(str: string): string {
-  return str.replace(/\b\w/g, c => c.toUpperCase());
-}
-
-// Collect tags, normalize by lowercasing, count occurrences, then display as Title Case
+const posts = (await getCollection('blog')).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 const tagCounts = new Map<string, number>();
+
 posts.forEach(post => {
-  const seen = new Set<string>(); // avoid double-counting within a post
-  (post.data.tags ?? []).forEach(tag => {
-    const key = tag.toLowerCase().replace(/\s+/g, '-');
-    if (!seen.has(key)) {
-      seen.add(key);
-      tagCounts.set(key, (tagCounts.get(key) ?? 0) + 1);
-    }
+  new Set((post.data.tags ?? []).map(normalizeTagSlug)).forEach(tag => {
+    tagCounts.set(tag, (tagCounts.get(tag) ?? 0) + 1);
   });
 });
 
-// Sort by count desc, then alphabetically; only show tags used 2+ times
-const popularTags = [...tagCounts.entries()]
-  .filter(([, count]) => count >= 2)
+const topics = [...tagCounts.entries()]
   .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
-  .map(([slug, count]) => ({
-    slug,
-    label: toTitleCase(slug.replace(/-/g, ' ')),
-    count,
-  }));
+  .map(([slug, count]) => ({ slug, label: formatTagLabel(slug), count }));
+const popularTopics = topics.slice(0, 6);
+const moreTopics = topics.slice(6);
 ---
 
 <Layout
-  title="Blog Posts - Dale Hurley"
-  description="Explore insights on AI, technology, and entrepreneurship from Dale Hurley. Learn about fintech innovation, AI automation, and startup building strategies."
-  keywords="Dale Hurley blog, AI insights, fintech blog, technology entrepreneurship, banking innovation, startup advice"
+  title="Writing - Dale Hurley"
+  description="Thoughts on AI, technology, and entrepreneurship. Notes from building products, experimenting with AI, and starting businesses."
+  keywords="Dale Hurley writing, AI insights, technology, entrepreneurship, fintech, startups"
   ogType="website"
 >
   <Fragment slot="head">
     <script type="application/ld+json" set:html={JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "Blog",
-      "name": "Dale Hurley Blog",
-      "description": "Insights on AI, technology, and entrepreneurship",
-      "url": "https://dalehurley.com/posts",
-      "author": {
-        "@type": "Person",
-        "name": "Dale Hurley",
-        "url": "https://dalehurley.com"
-      }
+      '@context': 'https://schema.org',
+      '@type': 'Blog',
+      name: 'Writing by Dale Hurley',
+      description: 'Thoughts on AI, technology, and entrepreneurship.',
+      url: 'https://dalehurley.com/posts',
+      author: { '@type': 'Person', name: 'Dale Hurley', url: 'https://dalehurley.com' },
     })} />
   </Fragment>
 
-  <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div class="text-center mb-12">
-        <h1 class="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4">Blog Posts</h1>
-        <p class="text-xl text-gray-600 dark:text-gray-400">Thoughts on AI, technology, and entrepreneurship</p>
-        <p class="mt-2 text-sm text-gray-500 dark:text-gray-500">{posts.length} articles</p>
+  <div class="writing-page site-container" data-writing-archive>
+    <header class="writing-header">
+      <div class="writing-heading-row">
+        <div>
+          <h1 class="writing-title">Writing<span>.</span></h1>
+          <p class="writing-intro">Thoughts on AI, technology, and entrepreneurship.</p>
+        </div>
+        <a href="/rss.xml" class="text-link writing-rss">
+          Follow via RSS
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M5 19 19 5M5 5h14v14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </a>
       </div>
+    </header>
 
-      <!-- Tag filter bar: popular tags only, compact single row -->
-      {popularTags.length > 0 && (
-        <div class="mb-10 flex flex-wrap justify-center gap-2">
-          {popularTags.map(tag => (
-            <a
-              href={`/tags/${tag.slug}`}
-              class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium whitespace-nowrap bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-orange-50 hover:text-orange-700 hover:border-orange-300 dark:hover:bg-orange-900/20 dark:hover:text-orange-300 transition-colors shadow-sm"
-            >
-              {tag.label}
-              <span class="text-xs text-gray-400 dark:text-gray-500">{tag.count}</span>
+    {topics.length > 0 && (
+      <nav class="archive-topics" aria-label="Browse writing by topic">
+        <p class="archive-topics-label">Explore topics</p>
+        <div class="topic-links">
+          {popularTopics.map(topic => (
+            <a class="topic-link" href={`/tags/${topic.slug}`}>
+              {topic.label}<span>{topic.count}</span>
             </a>
           ))}
+          {moreTopics.length > 0 && (
+            <details class="more-topics">
+              <summary>More topics <span aria-hidden="true">+</span></summary>
+              <div class="more-topic-links">
+                {moreTopics.map(topic => (
+                  <a class="topic-link" href={`/tags/${topic.slug}`}>
+                    {topic.label}<span>{topic.count}</span>
+                  </a>
+                ))}
+              </div>
+            </details>
+          )}
         </div>
-      )}
+      </nav>
+    )}
 
-      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {posts.length === 0 ? (
-          <div class="col-span-full text-center py-12">
-            <p class="text-gray-500 dark:text-gray-400 text-lg">No posts found.</p>
-          </div>
-        ) : posts.map(post => {
-          const readingTime = estimateReadingTime(post.body);
-          // Deduplicate tags for display
-          const uniqueTags = [...new Map((post.data.tags ?? []).map(t => [t.toLowerCase().replace(/\s+/g, '-'), t])).values()];
-          return (
-            <a
-              href={`/posts/${post.slug}`}
-              class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow flex flex-col group"
-            >
-              <div class="aspect-[3/2] overflow-hidden bg-gray-100 dark:bg-gray-700">
-                {post.data.thumbnail ? (
-                  <img
-                    src={post.data.thumbnail.startsWith('/') ? post.data.thumbnail : `/${post.data.thumbnail}`}
-                    alt={post.data.title}
-                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    loading="lazy"
-                  />
-                ) : (
-                  <div class="w-full h-full flex items-center justify-center">
-                    <svg class="w-12 h-12 text-gray-300 dark:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-                    </svg>
-                  </div>
-                )}
-              </div>
-              <div class="p-5 flex flex-col flex-1">
-                <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-2 line-clamp-2 group-hover:text-[#FF750F] transition-colors">{post.data.title}</h2>
-
-                {post.data.description && (
-                  <p class="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-2 flex-1">{post.data.description}</p>
-                )}
-
-                <div class="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400 mt-auto">
-                  <time datetime={post.data.date.toISOString()}>
-                    {post.data.date.toLocaleDateString('en-AU', { year: 'numeric', month: 'short', day: 'numeric' })}
-                  </time>
-                  <span class="flex items-center gap-1">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    {readingTime} min read
-                  </span>
-                </div>
-
-                {uniqueTags.length > 0 && (
-                  <div class="flex flex-wrap gap-1.5 mt-3 pt-3 border-t border-gray-100 dark:border-gray-700" onclick="event.preventDefault()">
-                    {uniqueTags.slice(0, 3).map(tag => (
-                      <a
-                        href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`}
-                        class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-orange-50 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300 hover:bg-orange-100 dark:hover:bg-orange-900/50 transition-colors"
-                        onclick="event.stopPropagation()"
-                      >
-                        {tag}
-                      </a>
-                    ))}
-                    {uniqueTags.length > 3 && (
-                      <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-500 dark:bg-gray-700 dark:text-gray-400">
-                        +{uniqueTags.length - 3}
-                      </span>
-                    )}
-                  </div>
-                )}
-              </div>
-            </a>
-          );
-        })}
+    <div class="archive-tools">
+      <div class="archive-search" role="search" aria-label="Search writing">
+        <label for="writing-search">Search the archive</label>
+        <div class="search-input-wrap">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="10.75" cy="10.75" r="6.75" stroke="currentColor" stroke-width="1.5" />
+            <path d="m16 16 4.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+          </svg>
+          <input id="writing-search" type="search" placeholder="Search by title or topic…" autocomplete="off" aria-controls="archive-results" />
+          <button class="search-clear" type="button" data-clear-search hidden>Clear</button>
+        </div>
       </div>
+      <p class="archive-count" role="status" aria-live="polite" aria-atomic="true" data-result-count>
+        {posts.length} {posts.length === 1 ? 'article' : 'articles'} <span aria-hidden="true">·</span> Newest first
+      </p>
     </div>
+
+    <section id="archive-results" aria-label="Articles">
+      <PostList posts={posts} showTags />
+      <div class="archive-empty" data-empty-state hidden={posts.length > 0}>
+        <h2>No articles found.</h2>
+        <p>Try a different word or explore a topic above.</p>
+        <button type="button" class="text-link" data-clear-search>Clear your search <Arrow direction="right" /></button>
+      </div>
+    </section>
+    <noscript><p class="search-note">All articles are shown. Enable JavaScript to search, or use the topic links to browse.</p></noscript>
   </div>
 </Layout>
+
+<script>
+  const archive = document.querySelector<HTMLElement>('[data-writing-archive]');
+  const input = archive?.querySelector<HTMLInputElement>('#writing-search');
+  const entries = [...(archive?.querySelectorAll<HTMLElement>('[data-post-entry]') ?? [])];
+  const count = archive?.querySelector<HTMLElement>('[data-result-count]');
+  const emptyState = archive?.querySelector<HTMLElement>('[data-empty-state]');
+  const clearButton = archive?.querySelector<HTMLButtonElement>('.search-clear');
+  const normalize = (value: string) => value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  const searchEntries = entries.map(element => ({ element, text: normalize(element.dataset.search ?? '') }));
+
+  function filterArticles() {
+    if (!input || !count || !emptyState || !clearButton) return;
+    const query = input.value.trim();
+    const words = normalize(query).split(/\s+/).filter(Boolean);
+    let visible = 0;
+
+    searchEntries.forEach(({ element, text }) => {
+      const matches = words.every(word => text.includes(word));
+      element.hidden = !matches;
+      if (matches) visible += 1;
+    });
+
+    count.textContent = `${visible} ${visible === 1 ? 'article' : 'articles'}${query ? ` for “${query}”` : ' · Newest first'}`;
+    emptyState.hidden = visible > 0;
+    clearButton.hidden = input.value.length === 0;
+  }
+
+  input?.addEventListener('input', filterArticles);
+  archive?.querySelectorAll<HTMLButtonElement>('[data-clear-search]').forEach(button => {
+    button.addEventListener('click', () => {
+      if (!input) return;
+      input.value = '';
+      filterArticles();
+      input.focus();
+    });
+  });
+  filterArticles();
+</script>

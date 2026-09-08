@@ -1,5 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import '../styles/reading.css';
+import Arrow from '../components/Arrow.astro';
 
 const principles = [
   {
@@ -56,63 +58,35 @@ const principles = [
   keywords="Dale Hurley, principles, leadership, product development, decision making, entrepreneurship"
   ogType="website"
 >
-  <!-- Hero -->
-  <div class="relative isolate overflow-hidden bg-gradient-to-b from-[#FF750F]/20 via-[#FF750F]/10 to-white dark:from-[#FF750F]/10 dark:via-[#FF750F]/5 dark:to-gray-900 pt-14">
-    <div class="mx-auto max-w-3xl px-6 py-24 sm:py-32 lg:px-8 text-center">
-      <p class="text-sm font-semibold uppercase tracking-widest text-[#FF750F] mb-4">The Foundation</p>
-      <h1 class="text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-5xl">
-        Principles of Dale
-      </h1>
-      <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-        Nine principles that guide how I build products, lead teams, and make decisions. Not rules — ways of thinking.
-      </p>
-    </div>
-  </div>
+  <div class="principles-page site-container">
+    <header class="principles-header">
+      <p class="section-label">The foundation</p>
+      <h1 class="section-title">Principles of Dale.</h1>
+      <p>Nine principles that guide how I build products, lead teams, and make decisions. Not rules — ways of thinking.</p>
+    </header>
 
-  <!-- Principles list -->
-  <section class="py-24 sm:py-32 bg-white dark:bg-gray-900">
-    <div class="mx-auto max-w-3xl px-6 lg:px-8">
-      <ol class="space-y-12">
+    <section aria-label="My nine principles">
+      <ol class="principles-list">
         {principles.map((p) => (
-          <li class="fade-in-section flex gap-6 sm:gap-10 items-start">
-            <span
-              class="flex-shrink-0 flex items-center justify-center w-12 h-12 rounded-full bg-[#FF750F] text-white text-lg font-bold shadow-md"
-              aria-hidden="true"
-            >
-              {p.number}
-            </span>
+          <li>
+            <span class="principle-number" aria-hidden="true">{String(p.number).padStart(2, '0')}</span>
             <div>
-              <h2 class="text-xl font-bold text-gray-900 dark:text-white">{p.title}</h2>
-              <p class="mt-2 text-base leading-7 text-gray-600 dark:text-gray-300">{p.body}</p>
+              <h2>{p.title}</h2>
+              <p>{p.body}</p>
             </div>
           </li>
         ))}
       </ol>
-    </div>
-  </section>
+    </section>
 
-  <!-- CTA -->
-  <section class="py-16 bg-[#4B0600] dark:bg-gray-800">
-    <div class="mx-auto max-w-2xl px-6 text-center fade-in-section">
-      <p class="text-lg font-semibold text-orange-100">
-        Want to work together or learn more?
-      </p>
-      <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-4">
-        <a
-          href="https://www.linkedin.com/in/dalehurley/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="inline-flex items-center gap-2 px-6 py-3 bg-[#FF750F] text-white rounded-lg hover:bg-orange-500 transition-colors font-semibold"
-        >
-          Connect on LinkedIn
-        </a>
-        <a
-          href="/"
-          class="inline-flex items-center gap-2 px-6 py-3 border border-orange-400/40 text-orange-100 rounded-lg hover:bg-white/10 transition-colors font-semibold"
-        >
-          Back to home
-        </a>
+    <section class="principles-connect" aria-labelledby="principles-connect-heading">
+      <div>
+        <h2 id="principles-connect-heading">Good work starts with a conversation.</h2>
+        <p>Want to work together or learn more?</p>
       </div>
-    </div>
-  </section>
+      <a href="https://www.linkedin.com/in/dalehurley/" target="_blank" rel="noopener noreferrer" class="button">
+        Connect on LinkedIn <Arrow direction="up-right" />
+      </a>
+    </section>
+  </div>
 </Layout>

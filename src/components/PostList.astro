@@ -1,0 +1,46 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { estimateReadingTime, formatPostDate, formatTagLabel, normalizeTagSlug } from '../utils/posts';
+import '../styles/writing.css';
+
+interface Props {
+  posts: CollectionEntry<'blog'>[];
+  showTags?: boolean;
+  headingLevel?: 'h2' | 'h3';
+}
+
+const { posts, showTags = false, headingLevel = 'h2' } = Astro.props;
+const Heading = headingLevel;
+---
+
+<div class="post-list">
+  {posts.map(post => {
+    const tags = [...new Map((post.data.tags ?? []).map(tag => [normalizeTagSlug(tag), tag])).entries()];
+    const searchText = [post.data.title, post.data.description, ...tags.map(([, tag]) => formatTagLabel(tag))].filter(Boolean).join(' ');
+
+    return (
+      <article class="post-row" data-post-entry data-search={searchText}>
+        <a class="post-entry" href={`/posts/${post.slug}`}>
+          <div class="post-meta">
+            <time datetime={post.data.date.toISOString()}>{formatPostDate(post.data.date)}</time>
+            <span>{estimateReadingTime(post.body)} min read</span>
+          </div>
+          <div class="post-copy">
+            <Heading class="post-title">{post.data.title}</Heading>
+            {post.data.description && <p class="post-description">{post.data.description}</p>}
+          </div>
+          <svg class="post-arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M3 12h17M13 5l7 7-7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </a>
+        {showTags && tags.length > 0 && (
+          <ul class="post-topics" aria-label={`Topics for ${post.data.title}`}>
+            {tags.slice(0, 3).map(([slug, tag]) => (
+              <li><a href={`/tags/${slug}`}>{formatTagLabel(tag)}</a></li>
+            ))}
+          </ul>
+        )}
+      </article>
+    );
+  })}
+</div>
