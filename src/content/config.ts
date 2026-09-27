@@ -8,6 +8,7 @@ const blog = defineCollection({
     description: z.string().optional(),
     tags: z.array(z.string()).optional().default([]),
     author: z.string().optional().default('Dale Hurley'),
+    featured: z.boolean().optional().default(false),
     image: z.string().optional(),
     thumbnail: z.string().optional(),
   }),

@@ -5,6 +5,25 @@
 .hero-intro { margin: 32px 0 0; font-size: 26px; line-height: 1.5; max-width: 610px; letter-spacing: -.35px; }
 .hero-bio { margin: 22px 0 0; max-width: 610px; font-size: 18px; line-height: 1.7; color: var(--muted); }
 .hero-actions { margin-top: 34px; display: flex; align-items: center; flex-wrap: wrap; gap: 28px; }
+.hero-announcement { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 12px; width: fit-content; margin-top: 26px; color: var(--ink); font-size: 13px; line-height: 1.5; text-decoration: none; }
+.hero-announcement > span { color: var(--accent); font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+.hero-announcement .arrow-icon { width: 16px; height: 16px; }
+.hero-announcement:hover { color: var(--accent); }
+.timelodge-feature { padding-bottom: 60px; }
+.timelodge-feature-grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 64px; align-items: center; padding: 40px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); }
+.timelodge-feature-label { display: flex; align-items: center; gap: 14px; margin-bottom: 22px; }
+.timelodge-feature-label img { flex: 0 0 auto; }
+.timelodge-feature-copy .section-title { font-size: clamp(38px, 4vw, 54px); }
+.timelodge-feature-copy .section-title a { text-decoration: none; }
+.timelodge-feature-copy .section-title a:hover { color: var(--accent); }
+.timelodge-feature-copy .section-description { font-size: 16px; }
+.timelodge-feature-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 20px 24px; margin-top: 26px; }
+.timelodge-timeline { margin: 0; padding: 0 0 0 32px; border-left: 1px solid var(--line); list-style: none; }
+.timelodge-timeline li { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 20px; padding-block: 18px; }
+.timelodge-timeline li + li { border-top: 1px solid var(--line); }
+.timelodge-timeline li > span { padding-top: 2px; color: var(--accent); font: 400 22px/1.2 var(--serif); }
+.timelodge-timeline h3 { margin: 0; font-size: 15px; line-height: 1.5; font-weight: 600; }
+.timelodge-timeline p { margin: 6px 0 0; color: var(--muted); font-size: 13px; line-height: 1.7; }
 .hero-portrait { margin: 0; }
 .hero-portrait img { display: block; width: 100%; aspect-ratio: 4/5; object-fit: cover; object-position: center 32%; border-radius: 6px; }
 .hero-portrait figcaption { margin-top: 16px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; font-size: 12px; color: var(--muted); }
@@ -68,6 +87,8 @@
   .ventures-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 800px) {
+  .timelodge-feature-grid { grid-template-columns: 1fr; gap: 32px; padding: 32px; }
+  .timelodge-timeline { padding-left: 0; border-left: 0; border-top: 1px solid var(--line); }
   .home-hero { padding-block: 48px; }
   .hero-grid { grid-template-columns: 1.2fr 1fr; gap: 32px; }
   .hero-copy h1 { font-size: 60px; letter-spacing: -3px; }
@@ -94,6 +115,10 @@
   .contact-grid > div { max-width: 440px; }
 }
 @media (max-width: 600px) {
+  .timelodge-feature { padding-bottom: 40px; }
+  .timelodge-feature-grid { padding: 24px; gap: 24px; }
+  .timelodge-feature-label { font-size: 10px; letter-spacing: 1px; gap: 10px; }
+  .timelodge-timeline li { gap: 16px; }
   .hero-grid { grid-template-columns: 1fr; gap: 36px; }
   .hero-copy h1 { font-size: clamp(56px, 12vw, 72px); letter-spacing: -2.8px; }
   .hero-intro { font-size: 19px; }

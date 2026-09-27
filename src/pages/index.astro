@@ -7,12 +7,13 @@ import { BookOpen, Bot, Layers, Network, Package, Terminal, Workflow } from '@lu
 import '../styles/home.css';
 
 const posts = await getCollection('blog');
+const timeLodgePost = posts.find(post => post.slug === 'timelodge-relaunch' && post.data.featured);
 const featuredPosts = posts
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .sort((a, b) => Number(b.data.featured) - Number(a.data.featured) || b.data.date.getTime() - a.data.date.getTime())
   .slice(0, 3);
 
 const currentProjects = [
-  { name: 'TimeLodge', desc: 'Time tracking and invoicing for freelancers and small teams.', url: 'https://timelodge.com/', image: '/images/timelodge-logo.svg' },
+  { name: 'TimeLodge', desc: 'Relaunched in 2026. Affordable time tracking, expenses, and invoicing for freelancers and small businesses.', url: 'https://timelodge.com/', image: '/images/timelodge-logo.svg' },
   { name: 'Neil the Seal', desc: 'A playful 3D browser game about a mischievous elephant seal in suburban Tasmania.', url: 'https://neiltheseal.app/', image: '/images/neil-the-seal-logo.svg' },
 ];
 
@@ -47,6 +48,7 @@ const openSourceProjects = [
           <a href="#track-record" class="button">Explore my work <Arrow /></a>
           <a href="/posts" class="text-link">Read my writing</a>
         </div>
+        {timeLodgePost && <a class="hero-announcement" href={`/posts/${timeLodgePost.slug}`}><span>Relaunched in 2026</span> TimeLodge is back <Arrow /></a>}
       </div>
       <figure class="hero-portrait">
         <img src="/images/dale-hurley-casual.webp" alt="Dale Hurley" width="1122" height="1402" loading="eager" fetchpriority="high" />
@@ -54,6 +56,25 @@ const openSourceProjects = [
       </figure>
     </div>
   </section>
+
+  {timeLodgePost && <section id="timelodge" class="timelodge-feature" aria-labelledby="timelodge-title">
+    <div class="site-container timelodge-feature-grid">
+      <div class="timelodge-feature-copy">
+        <p class="section-label timelodge-feature-label"><img src="/images/timelodge-logo.svg" alt="" width="40" height="40" /> Featured / 2026 relaunch</p>
+        <h2 id="timelodge-title" class="section-title"><a href={`/posts/${timeLodgePost.slug}`}>TimeLodge is back.</a></h2>
+        <p class="section-description">Affordable time tracking, expenses, and invoicing for freelancers and small businesses. An idea I first built in 2008, with a fresh start in 2026.</p>
+        <div class="timelodge-feature-actions">
+          <a href={`/posts/${timeLodgePost.slug}`} class="button">Read the relaunch story <Arrow /></a>
+          <a href="https://timelodge.com/" class="text-link" target="_blank" rel="noopener noreferrer">Visit TimeLodge <Arrow direction="up-right" /></a>
+        </div>
+      </div>
+      <ol class="timelodge-timeline" aria-label="The TimeLodge story">
+        <li><span>2008</span><div><h3>The first tool</h3><p>I built a tool for time, expenses, and invoicing.</p></div></li>
+        <li><span>2011</span><div><h3>The original TimeLodge</h3><p>Launched as a side project, then set aside after I discovered Harvest.</p></div></li>
+        <li><span>2026</span><div><h3>A fresh start</h3><p>Relaunched with affordability at its heart.</p></div></li>
+      </ol>
+    </div>
+  </section>}
 
   <div class="site-container">
     <dl class="proof-strip" aria-label="Career in numbers">

@@ -29,6 +29,7 @@ const tagLabels: Record<string, string> = {
   seo: 'SEO',
   sql: 'SQL',
   typescript: 'TypeScript',
+  timelodge: 'TimeLodge',
   ui: 'UI',
   ux: 'UX',
 };
